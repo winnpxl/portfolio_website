@@ -6,16 +6,12 @@ import { useEffect, useId, useState } from "react";
 import type { NavItem } from "./navItems";
 import { cx } from "./ui";
 
-/** Gap between inline nav items, shared by the bar and the desktop group. */
-const inlineGap = "gap-[clamp(8px,2vw,22px)]";
-
 function Item({
   item,
   stacked,
   onNavigate,
 }: {
   item: NavItem;
-  /** Stacked items sit in the mobile panel and get larger tap targets. */
   stacked?: boolean;
   onNavigate?: () => void;
 }) {
@@ -24,9 +20,9 @@ function Item({
       <Link
         href={item.href}
         onClick={onNavigate}
-        className="font-display text-[17px] font-extrabold leading-none tracking-[-.01em]"
+        className="text-[15px] font-bold lowercase tracking-[-0.011em]"
       >
-        SW<span className="text-pink">⚡</span>
+        samuel winner
       </Link>
     );
   }
@@ -36,8 +32,8 @@ function Item({
       <span
         aria-current="page"
         className={cx(
-          "font-semibold opacity-60",
-          stacked ? "py-[10px] text-[16px]" : "text-[14px]",
+          "font-medium text-ash-gray",
+          stacked ? "py-[10px] text-[15px]" : "text-[14px]",
         )}
       >
         {item.label}
@@ -51,8 +47,8 @@ function Item({
         href={item.href}
         onClick={onNavigate}
         className={cx(
-          "rounded-full bg-maroon font-semibold text-cream hover:bg-maroon-deep hover:text-cream",
-          stacked ? "px-5 py-[10px] text-[16px]" : "px-4 py-[7px] text-[14px]",
+          "rounded-[12px] bg-ink-black font-semibold text-parchment-cream hover:bg-charcoal-stone",
+          stacked ? "px-5 py-[10px] text-[15px]" : "px-4 py-[8px] text-[14px]",
         )}
       >
         {item.label}
@@ -65,9 +61,9 @@ function Item({
       href={item.href}
       onClick={onNavigate}
       className={cx(
-        item.strong ? "font-bold" : "font-semibold",
-        // Stacked links carry vertical padding to reach a 44px touch target.
-        stacked ? "py-[10px] text-[16px]" : "text-[14px]",
+        "text-charcoal-stone hover:text-ink-black",
+        item.strong ? "font-semibold" : "font-normal",
+        stacked ? "py-[10px] text-[15px]" : "text-[14px]",
       )}
     >
       {item.label}
@@ -76,20 +72,14 @@ function Item({
 }
 
 /**
- * Sticky pill nav.
- *
- * Below md the bar keeps only the lead item (the monogram, or the back link
- * on inner pages) plus a Menu / Close toggle; everything else moves into a
- * panel underneath. Above md every item sits inline, as designed. The
- * prototype simply let seven items wrap, which stacked into four rows at
- * 375px.
+ * Floating top bar. Below md it keeps only the lead item plus a
+ * Menu / Close toggle; the rest move into a panel underneath.
  */
 export function Nav({ items }: { items: NavItem[] }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const [lead, ...rest] = items;
 
-  // Escape closes the panel, matching the button's own affordance.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -102,16 +92,13 @@ export function Nav({ items }: { items: NavItem[] }) {
   const close = () => setOpen(false);
 
   return (
-    <div className="sticky top-4 z-40 flex justify-center pt-4">
+    <div className="sticky top-3 z-40 flex justify-center px-[clamp(16px,4vw,32px)] pt-3">
       <nav
         className={cx(
-          "flex w-full max-w-full flex-wrap items-center border-2 border-maroon bg-cream px-[clamp(14px,2vw,22px)] py-[10px] shadow-hard-5 md:w-auto",
-          inlineGap,
-          // A tall pill would read as a lozenge, so the radius relaxes while open.
-          open ? "rounded-[28px] md:rounded-full" : "rounded-full",
+          "flex w-full max-w-[1120px] flex-wrap items-center gap-6 bg-paper-white/85 px-4 py-[10px] shadow-subtle backdrop-blur-md",
+          open ? "rounded-[16px]" : "rounded-[12px]",
         )}
       >
-        {/* Bar: lead item + toggle on mobile; both flatten into the row at md. */}
         <div className="flex w-full items-center justify-between gap-3 md:contents">
           <Item item={lead} onNavigate={close} />
           <button
@@ -119,24 +106,23 @@ export function Nav({ items }: { items: NavItem[] }) {
             aria-expanded={open}
             aria-controls={panelId}
             onClick={() => setOpen((o) => !o)}
-            className="rounded-full border-2 border-maroon bg-cream px-[18px] py-[6px] text-[14px] font-bold shadow-hard-4 hover:bg-butter md:hidden"
+            className="rounded-[12px] border border-sand-gray bg-paper-white px-4 py-[6px] text-[14px] font-medium hover:bg-linen-beige md:hidden"
           >
             {open ? "Close" : "Menu"}
           </button>
         </div>
 
-        {/* Inline items, md and up. */}
-        <div className={cx("hidden items-center md:flex", inlineGap)}>
+        {/* Inline items, md and up. The CTA pushes to the right. */}
+        <div className="hidden items-center gap-6 md:ml-auto md:flex">
           {rest.map((item, i) => (
             <Item key={i} item={item} />
           ))}
         </div>
 
-        {/* Panel, below md. */}
         {open && (
           <div
             id={panelId}
-            className="mt-3 flex w-full flex-col items-start gap-1 border-t-2 border-maroon pt-3 md:hidden"
+            className="mt-2 flex w-full flex-col items-start gap-1 border-t border-sand-gray pt-3 md:hidden"
           >
             {rest.map((item, i) => (
               <Item key={i} item={item} stacked onNavigate={close} />

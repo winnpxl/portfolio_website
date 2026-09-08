@@ -25,14 +25,14 @@ export const profile = {
 
 export const hero = {
   pills: [
-    { label: "Samuel Winner, Design Engineer", tone: "butter" },
-    { label: "Lagos, Nigeria · remote", tone: "cream", rotate: "-2deg" },
+    { label: "Samuel Winner, Design Engineer" },
+    { label: "Lagos, Nigeria · remote" },
   ],
   headline: "Seven years turning unformed briefs into shipped products.",
   capabilities: [
-    { label: "0 → 1 product design", tone: "rose" },
-    { label: "Design systems", tone: "cream", rotate: "1.5deg" },
-    { label: "React & Next.js front end", tone: "butter" },
+    { label: "0 → 1 product design" },
+    { label: "Design systems" },
+    { label: "React & Next.js front end" },
   ],
   lead: "I design complex, trust-dependent products across marketplaces, fintech and consumer mobile, and I build the front end that ships them. Onboarding, identity verification, matching, escrow, messaging, trust and safety. Mobile-first, specified so engineers never have to guess.",
 } as const;
@@ -44,7 +44,6 @@ export const stats = [
   {
     value: "0→1",
     label: "founding designer on three early-stage products",
-    tone: "butter" as const,
   },
 ];
 
@@ -53,8 +52,8 @@ export const featuredWork = {
   href: "/work/runbeta",
   title: "RunBeta",
   pills: [
-    { label: "Featured case study", tone: "pink" as const },
-    { label: "Founding Product Designer · 2026", tone: "butter" as const },
+    { label: "Featured case study" },
+    { label: "Founding Product Designer · 2026" },
   ],
   summary:
     "An on-demand services marketplace for Lagos. Two apps, escrow-held payments, and a PIN handshake that confirms who turned up and that the job is done before money moves.",
@@ -154,7 +153,6 @@ export const process = {
       number: "03",
       title: "Design the system",
       body: "Mobile-first flows on a documented component library, not one-off screens.",
-      tone: "butter" as const,
     },
     {
       number: "04",

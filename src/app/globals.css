@@ -1,82 +1,132 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------
-   Design tokens. Mirrors the token table in design-reference/README.md.
-   Every border in this system is 2px maroon; every shadow is a hard
-   offset with no blur. Those two rules carry most of the style.
+   Passionfroot style system: twilight cloud library on warm parchment.
+   See design-reference/DESIGN.md for the full reference.
+
+   Two rules carry most of this system, and they are the inverse of the
+   one it replaced: borders are 1px warm hairlines, never 2px ink, and
+   shadows are layered warm-tinted oklch, never hard offsets.
    --------------------------------------------------------------- */
 @theme {
-  --color-pink: #f0456f;
-  --color-maroon: #6b0f2c;
-  --color-maroon-deep: #4e0a20;
-  --color-cream: #fff6ee;
-  --color-butter: #f7e5a0;
-  --color-rose: #f6a8c4;
+  /* Neutrals */
+  --color-ink-black: #1d1d1c;
+  --color-parchment-cream: #f8f7f2;
+  --color-sand-gray: #d8d6ce;
+  --color-linen-beige: #edeae4;
+  --color-paper-white: #ffffff;
+  --color-charcoal-stone: #43423e;
+  --color-ash-gray: #99978f;
+  --color-slate-warm: #7a7974;
 
-  --font-display: var(--font-baloo), cursive;
-  --font-sans: var(--font-work-sans), system-ui, sans-serif;
+  /* Violet spine */
+  --color-electric-violet: #b26bf5;
+  --color-twilight-indigo: #190922;
+  --color-lavender-glow: #b977f8;
+  --color-pale-violet: #dab2ff;
+  --color-lilac-mist: #f3e8ff;
+  --color-deep-violet: #8200db;
 
-  /* Hard offset shadows, maroon. */
-  --shadow-hard-4: 4px 4px 0 var(--color-maroon);
-  --shadow-hard-5: 5px 5px 0 var(--color-maroon);
-  --shadow-hard-6: 6px 6px 0 var(--color-maroon);
-  --shadow-hard-7: 7px 7px 0 var(--color-maroon);
-  --shadow-hard-8: 8px 8px 0 var(--color-maroon);
+  /* Rainbow accent set, used as card fills in rotation */
+  --color-bubblegum-pink: #f788d2;
+  --color-tangerine: #ff9147;
+  --color-aqua-teal: #4ad5e8;
+  --color-sky-blue: #51b1fb;
+  --color-sunshine-yellow: #ffe747;
+  --color-coral-red: #ee5968;
+  --color-mint-green: #58df8c;
+  --color-forest-green: #00a63e;
+  --color-burnt-orange: #eb6928;
+  --color-deep-teal: #2c91af;
+  --color-magenta-bloom: #b036a4;
 
-  /* Deep variants, used under maroon surfaces. */
-  --shadow-deep-5: 5px 5px 0 var(--color-maroon-deep);
-  --shadow-deep-7: 7px 7px 0 var(--color-maroon-deep);
-  --shadow-deep-8: 8px 8px 0 var(--color-maroon-deep);
+  /* PP Palma for display, PP Mori for UI and body. Display weight stays
+     light on purpose: size and tracking carry the emphasis, not weight. */
+  --font-display: var(--font-palma), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-mori), ui-sans-serif, system-ui, sans-serif;
+
+  /* Shape vocabulary is exactly four values. */
+  --radius-card: 12px;
+  --radius-panel: 16px;
+  --radius-special: 24px;
+
+  /* Warm layered elevation. Never gray, never hard. */
+  --shadow-subtle: rgb(237, 234, 228) 0px 0px 0px 1px,
+    oklch(0.23 0.002 98 / 0.04) 0px 1px 1px -0.5px,
+    oklch(0.23 0.002 98 / 0.04) 0px 3px 3px -1.5px,
+    oklch(0.23 0.002 98 / 0.04) 0px 6px 6px -3px,
+    oklch(0.23 0.002 98 / 0.02) 0px 12px 12px -6px;
+  --shadow-card: oklch(0.958 0.007 98) 0px 0px 0px 1px,
+    oklch(0.23 0.002 98 / 0.02) 0px 1px 1px -0.5px,
+    oklch(0.23 0.002 98 / 0.02) 0px 3px 3px -1.5px,
+    oklch(0.23 0.002 98 / 0.02) 0px 6px 6px -3px,
+    oklch(0.23 0.002 98 / 0.01) 0px 12px 12px -6px;
+  --shadow-raised: oklch(0.876 0.011 98) 0px 0px 0px 1px,
+    oklch(0.23 0.002 98 / 0.04) 0px 1px 1px -0.5px,
+    oklch(0.23 0.002 98 / 0.04) 0px 3px 3px -1.5px,
+    oklch(0.23 0.002 98 / 0.04) 0px 6px 6px -3px,
+    oklch(0.23 0.002 98 / 0.02) 0px 12px 12px -6px,
+    oklch(0.23 0.002 98 / 0.02) 0px 24px 24px -12px;
 }
 
 @layer base {
+  /* Set on the root too, so nothing inherits the UA's pure black. */
+  html {
+    color: var(--color-ink-black);
+  }
+
   body {
     margin: 0;
-    background: var(--color-pink);
-    color: var(--color-maroon);
+    background: var(--color-parchment-cream);
+    color: var(--color-ink-black);
     font-family: var(--font-sans);
+    font-feature-settings: "kern" on, "liga" on;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .font-display {
+    font-feature-settings: "kern" on, "liga" on;
   }
 
   a {
-    color: var(--color-maroon);
+    color: inherit;
     text-decoration: none;
   }
 
-  a:hover {
-    color: var(--color-maroon-deep);
-  }
-
   ::selection {
-    background: var(--color-butter);
-    color: var(--color-maroon);
+    background: var(--color-lilac-mist);
+    color: var(--color-ink-black);
   }
 
-  /* The prototype defines no focus styling; the README asks for it.
-     Maroon on light surfaces, butter inside maroon panels. */
   :focus-visible {
-    outline: 3px solid var(--color-maroon);
+    outline: 2px solid var(--color-deep-violet);
     outline-offset: 2px;
+    border-radius: 4px;
   }
 
-  .on-maroon :focus-visible {
-    outline-color: var(--color-butter);
+  /* Inside twilight sections the violet ring disappears, so switch it. */
+  .on-twilight :focus-visible {
+    outline-color: var(--color-pale-violet);
   }
 }
 
 @layer utilities {
-  /* Pink ground with the 120px ruled grid on both axes. */
-  .page-grid {
-    background-color: var(--color-pink);
+  /* The signature atmospheric device: indigo bleeding up into coral. */
+  .twilight-sky {
+    background-color: var(--color-twilight-indigo);
     background-image:
-      repeating-linear-gradient(
-        90deg,
-        transparent 0 118px,
-        rgba(107, 15, 44, 0.1) 118px 120px
+      radial-gradient(
+        120% 90% at 50% 108%,
+        #ff9147 0%,
+        #f788d2 22%,
+        #b26bf5 42%,
+        #6b1f9e 62%,
+        transparent 82%
       ),
-      repeating-linear-gradient(
-        0deg,
-        transparent 0 118px,
-        rgba(107, 15, 44, 0.1) 118px 120px
+      radial-gradient(
+        90% 70% at 12% 8%,
+        rgba(178, 107, 245, 0.28) 0%,
+        transparent 60%
       );
   }
 
