@@ -1,24 +1,41 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, Nunito_Sans } from "next/font/google";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
 /**
- * new-kansas is licensed; DESIGN.md names DM Serif Display as the
- * substitute. It ships a single 400 weight, which suits a system whose
- * display face is deliberately never bolded.
+ * PP Palma — display face. Weights are declared as ranges so the utility
+ * classes map onto the three cuts we ship: font-normal and font-medium
+ * both resolve to Medium, which is the editorial weight this system
+ * wants, and nothing accidentally lands on Heavy.
  */
-const dmSerif = DM_Serif_Display({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-dm-serif",
+const palma = localFont({
+  src: [
+    { path: "../fonts/PPPalma-Light.woff2", weight: "300", style: "normal" },
+    { path: "../fonts/PPPalma-Medium.woff2", weight: "400 500", style: "normal" },
+    { path: "../fonts/PPPalma-Heavy.woff2", weight: "600 900", style: "normal" },
+  ],
+  variable: "--font-palma",
   display: "swap",
 });
 
-const nunito = Nunito_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-nunito",
+/**
+ * PP Mori — UI and body face. Semibold covers 600 and 700 so that
+ * font-bold does not fall through to a heavier cut than intended;
+ * font-medium (500) resolves down to Regular.
+ */
+const mori = localFont({
+  src: [
+    { path: "../fonts/PPMori-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/PPMori-Italic.woff2", weight: "400", style: "italic" },
+    { path: "../fonts/PPMori-Semibold.woff2", weight: "600 700", style: "normal" },
+    {
+      path: "../fonts/PPMori-SemiboldItalic.woff2",
+      weight: "600 700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-mori",
   display: "swap",
 });
 
@@ -32,7 +49,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${dmSerif.variable} ${nunito.variable}`}>
+    <html lang="en" className={`${palma.variable} ${mori.variable}`}>
       <body>{children}</body>
     </html>
   );

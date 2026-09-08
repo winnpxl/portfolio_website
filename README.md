@@ -71,10 +71,15 @@ oklch warm tints** with no hard offsets. The shape vocabulary is exactly four
 values — 12px (cards, buttons, inputs), 16px (large panels), 24px (special
 panels), and 9999px (pills and chips only).
 
-Type is DM Serif Display for anything 28px and up, and Nunito Sans for
-everything below; the two never mix at body sizes. The display face stays at
-**weight 400** on purpose — size and tight letter-spacing do the work, not
-weight. Both are self-hosted at build time via `next/font`.
+Type is **PP Palma** for display (28px and up) and **PP Mori** for UI and body;
+the two never mix at body sizes. The display face stays at its lighter cut on
+purpose — size and tight letter-spacing do the work, not weight.
+
+Both are self-hosted from `src/fonts` as woff2 via `next/font/local` (249KB
+for seven faces, down from 542KB of OTF). Weights are declared as ranges so
+the Tailwind utilities land on the right cut: `font-normal` and `font-medium`
+both resolve to Palma Medium, and `font-bold` resolves to Mori Semibold rather
+than falling through to a heavier weight than intended.
 
 The rainbow accent set (violet, pink, tangerine, aqua, sky, yellow, mint) is
 punctuation, used as card fills in rotation — see `accentRotation` in

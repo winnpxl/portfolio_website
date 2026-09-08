@@ -40,10 +40,10 @@
   --color-deep-teal: #2c91af;
   --color-magenta-bloom: #b036a4;
 
-  /* new-kansas is a licensed face; DESIGN.md names DM Serif Display as
-     the substitute. Display weight stays 400 on purpose. */
-  --font-display: var(--font-dm-serif), ui-serif, Georgia, serif;
-  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  /* PP Palma for display, PP Mori for UI and body. Display weight stays
+     light on purpose: size and tracking carry the emphasis, not weight. */
+  --font-display: var(--font-palma), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-mori), ui-sans-serif, system-ui, sans-serif;
 
   /* Shape vocabulary is exactly four values. */
   --radius-card: 12px;
@@ -84,9 +84,8 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* The serif carries the editorial voice and its ligatures. */
   .font-display {
-    font-feature-settings: "calt" on, "kern" on, "liga" on;
+    font-feature-settings: "kern" on, "liga" on;
   }
 
   a {
