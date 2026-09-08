@@ -237,11 +237,17 @@ export const contact = {
   availabilityNote:
     "Open to senior and staff product design or design engineering roles, full-time or contract. Fastest reply by email; I usually answer within a day.",
   tiles: [
-    // TODO: real address before launch.
-    { label: "Email", value: "Add your address", href: "mailto:hello@example.com" },
+    {
+      label: "Email",
+      value: "samwinner08@gmail.com",
+      href: "mailto:samwinner08@gmail.com",
+    },
     { label: "Phone", value: "+234 814 795 6593", href: "tel:+2348147956593" },
     { label: "GitHub", value: "winnpxl", href: "https://github.com/winnpxl" },
-    // TODO: real handle before launch.
-    { label: "LinkedIn", value: "Add your handle", href: "https://linkedin.com" },
+    {
+      label: "LinkedIn",
+      value: "samwinner",
+      href: "https://www.linkedin.com/in/samwinner/",
+    },
   ],
 };

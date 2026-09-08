@@ -29,6 +29,23 @@ import {
   writing,
 } from "@/content/site";
 
+/**
+ * Lets a long email break after the "@" rather than mid-domain, which is
+ * where the browser would otherwise land when the contact tiles are at
+ * their narrowest (roughly 1010px to 1190px).
+ */
+function TileValue({ value }: { value: string }) {
+  const at = value.indexOf("@");
+  if (at === -1) return <>{value}</>;
+  return (
+    <>
+      {value.slice(0, at + 1)}
+      <wbr />
+      {value.slice(at + 1)}
+    </>
+  );
+}
+
 /** Every section but the last shares this bottom padding. */
 const sectionPad = "pb-[clamp(40px,6vw,72px)]";
 
@@ -378,8 +395,8 @@ export default function HomePage() {
                 <div className="mb-1.5 text-[12px] font-bold uppercase tracking-[.16em]">
                   {tile.label}
                 </div>
-                <div className="font-display text-[19px] font-bold leading-[1.1]">
-                  {tile.value}
+                <div className="font-display text-[19px] font-bold leading-[1.1] break-words">
+                  <TileValue value={tile.value} />
                 </div>
               </a>
             ))}
