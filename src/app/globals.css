@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Design tokens. Mirrors the token table in design-reference/README.md.
+   Every border in this system is 2px maroon; every shadow is a hard
+   offset with no blur. Those two rules carry most of the style.
+   --------------------------------------------------------------- */
+@theme {
+  --color-pink: #f0456f;
+  --color-maroon: #6b0f2c;
+  --color-maroon-deep: #4e0a20;
+  --color-cream: #fff6ee;
+  --color-butter: #f7e5a0;
+  --color-rose: #f6a8c4;
+
+  --font-display: var(--font-baloo), cursive;
+  --font-sans: var(--font-work-sans), system-ui, sans-serif;
+
+  /* Hard offset shadows, maroon. */
+  --shadow-hard-4: 4px 4px 0 var(--color-maroon);
+  --shadow-hard-5: 5px 5px 0 var(--color-maroon);
+  --shadow-hard-6: 6px 6px 0 var(--color-maroon);
+  --shadow-hard-7: 7px 7px 0 var(--color-maroon);
+  --shadow-hard-8: 8px 8px 0 var(--color-maroon);
+
+  /* Deep variants, used under maroon surfaces. */
+  --shadow-deep-5: 5px 5px 0 var(--color-maroon-deep);
+  --shadow-deep-7: 7px 7px 0 var(--color-maroon-deep);
+  --shadow-deep-8: 8px 8px 0 var(--color-maroon-deep);
+}
+
+@layer base {
+  body {
+    margin: 0;
+    background: var(--color-pink);
+    color: var(--color-maroon);
+    font-family: var(--font-sans);
+  }
+
+  a {
+    color: var(--color-maroon);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-maroon-deep);
+  }
+
+  ::selection {
+    background: var(--color-butter);
+    color: var(--color-maroon);
+  }
+
+  /* The prototype defines no focus styling; the README asks for it.
+     Maroon on light surfaces, butter inside maroon panels. */
+  :focus-visible {
+    outline: 3px solid var(--color-maroon);
+    outline-offset: 2px;
+  }
+
+  .on-maroon :focus-visible {
+    outline-color: var(--color-butter);
+  }
+}
+
+@layer utilities {
+  /* Pink ground with the 120px ruled grid on both axes. */
+  .page-grid {
+    background-color: var(--color-pink);
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        transparent 0 118px,
+        rgba(107, 15, 44, 0.1) 118px 120px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 118px,
+        rgba(107, 15, 44, 0.1) 118px 120px
+      );
+  }
+
+  .text-pretty-wrap {
+    text-wrap: pretty;
+  }
+}

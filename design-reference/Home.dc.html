@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Samuel Winner, Design Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+<script src="./image-slot.js"></script>
+<style>
+  body { margin: 0; background: #F0456F; }
+  a { color: #6B0F2C; text-decoration: none; }
+  a:hover { color: #4E0A20; }
+  ::selection { background: #F7E5A0; color: #6B0F2C; }
+</style>
+</helmet>
+
+<div style="font-family:'Work Sans',system-ui,sans-serif;color:#6B0F2C;background-color:#F0456F;background-image:repeating-linear-gradient(90deg,transparent 0 118px,rgba(107,15,44,.10) 118px 120px),repeating-linear-gradient(0deg,transparent 0 118px,rgba(107,15,44,.10) 118px 120px);min-height:100vh;padding:0 clamp(16px,4vw,48px) 0">
+
+  <div style="position:sticky;top:16px;z-index:40;display:flex;justify-content:center;padding-top:16px">
+    <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(8px,2vw,22px);background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:5px 5px 0 #6B0F2C;padding:10px clamp(14px,2vw,22px);max-width:100%">
+      <a href="#top" style="font-family:'Baloo 2',cursive;font-weight:800;font-size:17px;line-height:1;letter-spacing:-.01em">SW<span style="color:#F0456F">⚡</span></a>
+      <a href="#work" style="font-size:14px;font-weight:600">Work</a>
+      <a href="#process" style="font-size:14px;font-weight:600">Process</a>
+      <a href="#about" style="font-size:14px;font-weight:600">About</a>
+      <a href="#side" style="font-size:14px;font-weight:600">Side projects</a>
+      <a href="Gallery.dc.html" style="font-size:14px;font-weight:600">Gallery</a>
+      <a href="#contact" style="background:#6B0F2C;color:#FFF6EE;border-radius:999px;padding:7px 16px;font-size:14px;font-weight:600" style-hover="background:#4E0A20;color:#FFF6EE">Get in touch</a>
+    </nav>
+  </div>
+
+  <section id="top" data-screen-label="Hero" style="max-width:1180px;margin:0 auto;padding:clamp(40px,8vw,86px) 0 clamp(28px,5vw,52px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:clamp(22px,3vw,34px)">
+      <span style="display:inline-block;background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;box-shadow:4px 4px 0 #6B0F2C;padding:8px 18px;font-weight:700;font-size:15px">Samuel Winner, Design Engineer</span>
+      <span style="display:inline-block;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:4px 4px 0 #6B0F2C;padding:8px 18px;font-weight:600;font-size:15px;transform:rotate(-2deg)">Lagos, Nigeria · remote</span>
+    </div>
+
+    <h1 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(42px,8.2vw,104px);line-height:.95;letter-spacing:-.02em;margin:0;max-width:16ch;text-wrap:pretty">Seven years turning unformed briefs into shipped products.</h1>
+
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin:clamp(24px,4vw,38px) 0 0">
+      <span style="display:inline-block;background:#F6A8C4;border:2px solid #6B0F2C;border-radius:999px;box-shadow:4px 4px 0 #6B0F2C;padding:8px 18px;font-weight:700;font-size:clamp(14px,1.6vw,18px)">0 → 1 product design</span>
+      <span style="display:inline-block;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:4px 4px 0 #6B0F2C;padding:8px 18px;font-weight:700;font-size:clamp(14px,1.6vw,18px);transform:rotate(1.5deg)">Design systems</span>
+      <span style="display:inline-block;background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;box-shadow:4px 4px 0 #6B0F2C;padding:8px 18px;font-weight:700;font-size:clamp(14px,1.6vw,18px)">React &amp; Next.js front end</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(18px,3vw,32px);align-items:start;margin-top:clamp(30px,5vw,52px)">
+      <p style="font-size:clamp(17px,1.9vw,21px);line-height:1.5;margin:0;max-width:52ch;text-wrap:pretty">I design complex, trust-dependent products across marketplaces, fintech and consumer mobile, and I build the front end that ships them. Onboarding, identity verification, matching, escrow, messaging, trust and safety. Mobile-first, specified so engineers never have to guess.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <a href="#work" style="background:#6B0F2C;color:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:5px 5px 0 #4E0A20;padding:14px 26px;font-weight:700;font-size:16px" style-hover="background:#4E0A20;color:#FFF6EE">See the work</a>
+        <a href="#contact" style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:5px 5px 0 #6B0F2C;padding:14px 26px;font-weight:700;font-size:16px" style-hover="background:#F7E5A0">Hire me</a>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Stats" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(40px,6vw,72px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:16px">
+      <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:20px;box-shadow:6px 6px 0 #6B0F2C;padding:22px">
+        <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:44px;line-height:1">7+</div>
+        <div style="font-size:14px;font-weight:600;line-height:1.35;margin-top:6px">years across UI/UX, product strategy and front end</div>
+      </div>
+      <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:20px;box-shadow:6px 6px 0 #6B0F2C;padding:22px">
+        <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:44px;line-height:1">3</div>
+        <div style="font-size:14px;font-weight:600;line-height:1.35;margin-top:6px">design teams led and mentored</div>
+      </div>
+      <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:20px;box-shadow:6px 6px 0 #6B0F2C;padding:22px">
+        <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:44px;line-height:1">4</div>
+        <div style="font-size:14px;font-weight:600;line-height:1.35;margin-top:6px">countries of distributed teams: NG, UK, PT, US</div>
+      </div>
+      <div style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:20px;box-shadow:6px 6px 0 #6B0F2C;padding:22px">
+        <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:44px;line-height:1">0→1</div>
+        <div style="font-size:14px;font-weight:600;line-height:1.35;margin-top:6px">founding designer on three early-stage products</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" data-screen-label="Selected work" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(40px,6vw,72px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:clamp(20px,3vw,30px)">
+      <h2 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(30px,4.6vw,58px);line-height:1;margin:0">Selected work</h2>
+      <span style="font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Five projects, 2023 – 2026</span>
+    </div>
+
+    <article style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:26px;box-shadow:8px 8px 0 #6B0F2C;padding:clamp(20px,3vw,34px);margin-bottom:22px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(20px,3vw,36px);align-items:center">
+        <div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+            <span style="background:#F0456F;color:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700">Featured case study</span>
+            <span style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700">Founding Product Designer · 2026</span>
+          </div>
+          <h3 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(28px,3.6vw,46px);line-height:1.02;margin:0 0 12px">RunBeta</h3>
+          <p style="font-size:clamp(16px,1.7vw,19px);line-height:1.5;margin:0 0 18px;max-width:50ch">An on-demand services marketplace for Lagos. Two apps, escrow-held payments, and a PIN handshake that confirms who turned up and that the job is done before money moves.</p>
+          <ul style="list-style:none;margin:0 0 22px;padding:0;display:grid;gap:10px">
+            <li style="display:flex;gap:10px;font-size:15px;line-height:1.45"><span style="color:#F0456F;font-weight:800">●</span><span>Provider home restructured from 17 undifferentiated rows into 9 grouped entries with live state</span></li>
+            <li style="display:flex;gap:10px;font-size:15px;line-height:1.45"><span style="color:#F0456F;font-weight:800">●</span><span>Found a 0&nbsp;km default service radius silently blocking every booking</span></li>
+            <li style="display:flex;gap:10px;font-size:15px;line-height:1.45"><span style="color:#F0456F;font-weight:800">●</span><span>Dark-mode mobile design system and a navigable multi-screen prototype</span></li>
+          </ul>
+          <a href="RunBeta%20Case%20Study.dc.html" style="display:inline-block;background:#6B0F2C;color:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:5px 5px 0 #4E0A20;padding:13px 24px;font-weight:700;font-size:16px" style-hover="background:#4E0A20;color:#FFF6EE">Read the case study →</a>
+        </div>
+        <div style="position:relative;aspect-ratio:4/3;border:2px solid #6B0F2C;border-radius:18px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="work-runbeta" shape="rect" placeholder="Drop a RunBeta screen or hero shot"></image-slot>
+        </div>
+      </div>
+    </article>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:22px">
+      <article style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:14px">
+        <div style="position:relative;aspect-ratio:16/10;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="work-visio" shape="rect" placeholder="Drop a Visio screen"></image-slot>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700">Lead Product Designer · 2026</span>
+        </div>
+        <h3 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:26px;line-height:1.05;margin:0">Visio</h3>
+        <p style="font-size:15px;line-height:1.5;margin:0">A managed talent marketplace connecting vetted Nigerian professionals with clients in Nigeria, the UK and the US. Brief to full design specification.</p>
+        <ul style="list-style:none;margin:0;padding:0;display:grid;gap:8px">
+          <li style="display:flex;gap:9px;font-size:14px;line-height:1.4"><span style="color:#F0456F;font-weight:800">●</span><span>Owned the brand and design language: colour, three-tier type, 8pt grid, motion, voice</span></li>
+          <li style="display:flex;gap:9px;font-size:14px;line-height:1.4"><span style="color:#F0456F;font-weight:800">●</span><span>Four surfaces mapped: public site, talent portal, client portal, admin</span></li>
+        </ul>
+        <span style="margin-top:auto;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.65">Case study in progress</span>
+      </article>
+
+      <article style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:14px">
+        <div style="position:relative;aspect-ratio:16/10;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="work-gclout" shape="rect" placeholder="Drop a GClout screen"></image-slot>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700">Founding Product Designer · 2025</span>
+        </div>
+        <h3 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:26px;line-height:1.05;margin:0">Governance Clout</h3>
+        <p style="font-size:15px;line-height:1.5;margin:0">A governance platform connecting citizens with their elected representatives, on mobile and web. Unformed brief to shipped product.</p>
+        <ul style="list-style:none;margin:0;padding:0;display:grid;gap:8px">
+          <li style="display:flex;gap:9px;font-size:14px;line-height:1.4"><span style="color:#F0456F;font-weight:800">●</span><span>Led a team of 3 designers; set the pattern library and delivery plan</span></li>
+          <li style="display:flex;gap:9px;font-size:14px;line-height:1.4"><span style="color:#F0456F;font-weight:800">●</span><span>Original research from raw public data in a category with no design precedent</span></li>
+        </ul>
+        <span style="margin-top:auto;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.65">Case study in progress</span>
+      </article>
+
+      <article style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:14px">
+        <div style="position:relative;aspect-ratio:16/10;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="work-penaid" shape="rect" placeholder="Drop a Penaid screen"></image-slot>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700">UI/UX Designer · 2024</span>
+        </div>
+        <h3 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:26px;line-height:1.05;margin:0">Penaid SLA &amp; PLA</h3>
+        <p style="font-size:15px;line-height:1.5;margin:0">Loan disbursement and collection for underserved borrowers, including student and pensioner loan products.</p>
+        <ul style="list-style:none;margin:0;padding:0;display:grid;gap:8px">
+          <li style="display:flex;gap:9px;font-size:14px;line-height:1.4"><span style="color:#F0456F;font-weight:800">●</span><span>Desktop-first screens converted to mobile-first without losing parity</span></li>
+          <li style="display:flex;gap:9px;font-size:14px;line-height:1.4"><span style="color:#F0456F;font-weight:800">●</span><span>Usability testing with users of low digital-financial literacy</span></li>
+        </ul>
+        <span style="margin-top:auto;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.65">Case study in progress</span>
+      </article>
+
+      <article style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:14px">
+        <div style="position:relative;aspect-ratio:16/10;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="work-payingfriends" shape="rect" placeholder="Drop a Paying Friends screen"></image-slot>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700">UI/UX Designer · 2023</span>
+        </div>
+        <h3 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:26px;line-height:1.05;margin:0">Paying Friends</h3>
+        <p style="font-size:15px;line-height:1.5;margin:0">A full revamp of a European peer-to-peer product rental marketplace, modernising an outdated platform from Lisbon.</p>
+        <ul style="list-style:none;margin:0;padding:0;display:grid;gap:8px">
+          <li style="display:flex;gap:9px;font-size:14px;line-height:1.4"><span style="color:#F0456F;font-weight:800">●</span><span>Directed the design team through the rebuild</span></li>
+          <li style="display:flex;gap:9px;font-size:14px;line-height:1.4"><span style="color:#F0456F;font-weight:800">●</span><span>Wrote and tested UX copy that lifted conversion and engagement</span></li>
+        </ul>
+        <span style="margin-top:auto;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.65">Case study in progress</span>
+      </article>
+    </div>
+  </section>
+
+  <section id="process" data-screen-label="Process" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(40px,6vw,72px)">
+    <div style="background:#6B0F2C;border:2px solid #6B0F2C;border-radius:26px;box-shadow:8px 8px 0 #4E0A20;padding:clamp(22px,3.4vw,42px)">
+      <h2 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(28px,4.2vw,52px);line-height:1;margin:0 0 8px;color:#FFF6EE">How I work</h2>
+      <p style="color:#F6A8C4;font-size:16px;font-weight:500;margin:0 0 clamp(20px,3vw,32px);max-width:56ch">Five moves, in order. Most of my projects start before there is a PRD, so step one is usually the whole job.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px">
+        <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:18px;padding:20px">
+          <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:15px;letter-spacing:.14em;margin-bottom:8px">01</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px;line-height:1.1;margin-bottom:8px">Frame the brief</div>
+          <p style="font-size:14px;line-height:1.45;margin:0">Client calls and stakeholder sessions turned into scope, constraints and a delivery plan.</p>
+        </div>
+        <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:18px;padding:20px">
+          <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:15px;letter-spacing:.14em;margin-bottom:8px">02</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px;line-height:1.1;margin-bottom:8px">Research and map</div>
+          <p style="font-size:14px;line-height:1.45;margin:0">Interviews, public data, competitor teardowns; then information architecture and journeys per user type.</p>
+        </div>
+        <div style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:18px;padding:20px">
+          <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:15px;letter-spacing:.14em;margin-bottom:8px">03</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px;line-height:1.1;margin-bottom:8px">Design the system</div>
+          <p style="font-size:14px;line-height:1.45;margin:0">Mobile-first flows on a documented component library, not one-off screens.</p>
+        </div>
+        <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:18px;padding:20px">
+          <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:15px;letter-spacing:.14em;margin-bottom:8px">04</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px;line-height:1.1;margin-bottom:8px">Specify for engineering</div>
+          <p style="font-size:14px;line-height:1.45;margin:0">States, permission matrices, notification triggers, per-screen data needs, edge cases.</p>
+        </div>
+        <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:18px;padding:20px">
+          <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:15px;letter-spacing:.14em;margin-bottom:8px">05</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px;line-height:1.1;margin-bottom:8px">QA the build</div>
+          <p style="font-size:14px;line-height:1.45;margin:0">Implementation review, user tests during build, changes driven back into the PRD.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" data-screen-label="About" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(40px,6vw,72px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:22px;align-items:start">
+      <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:26px;box-shadow:8px 8px 0 #6B0F2C;padding:clamp(20px,3vw,34px)">
+        <h2 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(28px,4.2vw,52px);line-height:1;margin:0 0 18px">About</h2>
+        <p style="font-size:clamp(16px,1.7vw,18px);line-height:1.55;margin:0 0 14px">I am a product designer and design engineer with seven years across UI/UX, product strategy and front-end development, specialising in taking early-stage products from 0 to 1.</p>
+        <p style="font-size:clamp(16px,1.7vw,18px);line-height:1.55;margin:0 0 14px">I have led design on two-sided marketplaces, fintech platforms and consumer mobile apps, owning research, information architecture, user journeys, interaction design and the design systems that hold them together. The work I like most sits in complex, trust-dependent workflows: verification, matching, escrow, messaging, trust and safety.</p>
+        <p style="font-size:clamp(16px,1.7vw,18px);line-height:1.55;margin:0">I build front end in React and Next.js, which means my handoffs are written in terms engineers can implement without guesswork. Mathematics degree from the University of Ilorin. Based in Lagos, working with distributed teams across Nigeria, the UK, Portugal and the US.</p>
+      </div>
+      <div style="display:grid;gap:22px">
+        <div style="position:relative;aspect-ratio:1/1;border:2px solid #6B0F2C;border-radius:26px;box-shadow:8px 8px 0 #6B0F2C;overflow:hidden;background:#F6A8C4">
+          <image-slot id="about-portrait" shape="rect" placeholder="Drop a portrait"></image-slot>
+        </div>
+        <div style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:26px;box-shadow:8px 8px 0 #6B0F2C;padding:clamp(18px,2.4vw,26px)">
+          <div style="font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px">Toolkit</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Figma</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">FigJam</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">React</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Next.js</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">React Native</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Framer</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Webflow</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Bubble.io</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Maze</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Miro</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Whimsical</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Jira</span>
+            <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="side" data-screen-label="Side projects" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(40px,6vw,72px)">
+    <h2 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(28px,4.2vw,52px);line-height:1;margin:0 0 clamp(18px,3vw,28px)">Side projects</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px">
+      <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:clamp(18px,2.4vw,26px)">
+        <div style="display:inline-block;background:#F6A8C4;border:2px solid #6B0F2C;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;margin-bottom:14px">No-code components · 2025</div>
+        <h3 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:23px;line-height:1.08;margin:0 0 10px">Framer Marketplace</h3>
+        <p style="font-size:15px;line-height:1.5;margin:0">PuzzleFX and Mahjong Preloader: distributed components published for other designers to drop into Framer sites.</p>
+      </div>
+      <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:clamp(18px,2.4vw,26px)">
+        <div style="display:inline-block;background:#F6A8C4;border:2px solid #6B0F2C;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;margin-bottom:14px">Open source</div>
+        <h3 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:23px;line-height:1.08;margin:0 0 10px">Stellar / Soroban</h3>
+        <p style="font-size:15px;line-height:1.5;margin:0 0 12px">Contributor through the Stellar Wave Program: Talenttrust contracts and backend, StellarSplit, mobile-money, ancore. Feature branches, CI fixes, code review.</p>
+        <a href="https://github.com/winnpxl" style="font-size:14px;font-weight:700;border-bottom:2px solid #F0456F">github.com/winnpxl</a>
+      </div>
+      <div style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:clamp(18px,2.4vw,26px)">
+        <div style="display:inline-block;background:#F6A8C4;border:2px solid #6B0F2C;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;margin-bottom:14px">Earlier explorations</div>
+        <h3 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:23px;line-height:1.08;margin:0 0 10px">Banking studies</h3>
+        <p style="font-size:15px;line-height:1.5;margin:0">Excellent Bank mobile app and a UBA remodel. Self-directed UX problem-solving on financial accessibility for underserved users.</p>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Gallery link" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(40px,6vw,72px)">
+    <a href="Gallery.dc.html" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;background:#F7E5A0;border:2px solid #6B0F2C;border-radius:26px;box-shadow:8px 8px 0 #6B0F2C;padding:clamp(20px,3vw,36px)" style-hover="background:#FFF6EE">
+      <div>
+        <div style="font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px">Gallery</div>
+        <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(26px,4vw,46px);line-height:1.02;max-width:22ch">Screens, components and visual studies</div>
+      </div>
+      <span style="background:#6B0F2C;color:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:5px 5px 0 #4E0A20;padding:14px 26px;font-weight:700;font-size:16px;white-space:nowrap">Open the gallery →</span>
+    </a>
+  </section>
+
+  <sc-if value="{{ showWriting }}" hint-placeholder-val="{{ true }}">
+  <section id="writing" data-screen-label="Writing" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(40px,6vw,72px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:clamp(16px,2.4vw,24px)">
+      <h2 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(28px,4.2vw,52px);line-height:1;margin:0">Writing</h2>
+      <span style="font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Three slots, send me the posts</span>
+    </div>
+    <div style="display:grid;gap:14px">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,246,238,.35);border:2px dashed #6B0F2C;border-radius:18px;padding:20px 24px">
+        <span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px">Post title goes here</span>
+        <span style="font-size:14px;font-weight:600">Empty slot · add title, one line, link</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,246,238,.35);border:2px dashed #6B0F2C;border-radius:18px;padding:20px 24px">
+        <span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px">Post title goes here</span>
+        <span style="font-size:14px;font-weight:600">Empty slot · add title, one line, link</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,246,238,.35);border:2px dashed #6B0F2C;border-radius:18px;padding:20px 24px">
+        <span style="font-family:'Baloo 2',cursive;font-weight:700;font-size:20px">Post title goes here</span>
+        <span style="font-size:14px;font-weight:600">Empty slot · add title, one line, link</span>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ showTestimonials }}" hint-placeholder-val="{{ true }}">
+  <section id="testimonials" data-screen-label="Testimonials" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(40px,6vw,72px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:clamp(16px,2.4vw,24px)">
+      <h2 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(28px,4.2vw,52px);line-height:1;margin:0">What people say</h2>
+      <span style="font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Two slots, send me the quotes</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+      <blockquote style="background:rgba(255,246,238,.35);border:2px dashed #6B0F2C;border-radius:24px;padding:clamp(20px,2.6vw,30px);margin:0">
+        <p style="font-family:'Baloo 2',cursive;font-weight:700;font-size:clamp(19px,2.2vw,25px);line-height:1.25;margin:0 0 16px">Quote from a founder or engineering lead you worked with.</p>
+        <footer style="font-size:14px;font-weight:600">Name, role, company</footer>
+      </blockquote>
+      <blockquote style="background:rgba(255,246,238,.35);border:2px dashed #6B0F2C;border-radius:24px;padding:clamp(20px,2.6vw,30px);margin:0">
+        <p style="font-family:'Baloo 2',cursive;font-weight:700;font-size:clamp(19px,2.2vw,25px);line-height:1.25;margin:0 0 16px">Quote from a designer you led or mentored.</p>
+        <footer style="font-size:14px;font-weight:600">Name, role, company</footer>
+      </blockquote>
+    </div>
+  </section>
+  </sc-if>
+
+  <section id="contact" data-screen-label="Contact" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(48px,7vw,90px)">
+    <div style="background:#6B0F2C;border:2px solid #6B0F2C;border-radius:28px;box-shadow:8px 8px 0 #4E0A20;padding:clamp(24px,3.6vw,48px)">
+      <div style="display:inline-flex;align-items:center;gap:10px;background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px">
+        <span style="width:9px;height:9px;border-radius:50%;background:#F0456F;display:inline-block"></span>Available now
+      </div>
+      <h2 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(32px,6vw,74px);line-height:.98;margin:0 0 16px;color:#FFF6EE;max-width:20ch">Let's build the version that actually ships.</h2>
+      <p style="color:#F6A8C4;font-size:clamp(16px,1.8vw,20px);line-height:1.5;margin:0 0 clamp(24px,3vw,36px);max-width:52ch">{{ availabilityNote }}</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+        <a href="mailto:hello@example.com" style="background:#FFF6EE;border:2px solid #FFF6EE;border-radius:18px;padding:20px" style-hover="background:#F7E5A0;border:2px solid #F7E5A0">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px">Email</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:19px;line-height:1.1">Add your address</div>
+        </a>
+        <a href="tel:+2348147956593" style="background:#FFF6EE;border:2px solid #FFF6EE;border-radius:18px;padding:20px" style-hover="background:#F7E5A0;border:2px solid #F7E5A0">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px">Phone</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:19px;line-height:1.1">+234 814 795 6593</div>
+        </a>
+        <a href="https://github.com/winnpxl" style="background:#FFF6EE;border:2px solid #FFF6EE;border-radius:18px;padding:20px" style-hover="background:#F7E5A0;border:2px solid #F7E5A0">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px">GitHub</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:19px;line-height:1.1">winnpxl</div>
+        </a>
+        <a href="https://linkedin.com" style="background:#FFF6EE;border:2px solid #FFF6EE;border-radius:18px;padding:20px" style-hover="background:#F7E5A0;border:2px solid #F7E5A0">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px">LinkedIn</div>
+          <div style="font-family:'Baloo 2',cursive;font-weight:700;font-size:19px;line-height:1.1">Add your handle</div>
+        </a>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:26px 6px 0">
+      <span style="font-size:14px;font-weight:600">Samuel Winner · Product designer &amp; design engineer · Lagos, Nigeria</span>
+      <span style="font-size:14px;font-weight:600">© 2026</span>
+    </div>
+  </section>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showWriting&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;showTestimonials&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;availabilityNote&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Open to senior and staff product design or design engineering roles, full-time or contract. Fastest reply by email; I usually answer within a day.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props || {};
+    return {
+      showWriting: p.showWriting ?? true,
+      showTestimonials: p.showTestimonials ?? true,
+      availabilityNote: p.availabilityNote ?? "Open to senior and staff product design or design engineering roles, full-time or contract. Fastest reply by email; I usually answer within a day."
+    };
+  }
+}
+</script>
+</body>
+</html>

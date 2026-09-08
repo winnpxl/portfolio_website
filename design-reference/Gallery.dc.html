@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gallery, Samuel Winner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+<script src="./image-slot.js"></script>
+<style>
+  body { margin: 0; background: #F0456F; }
+  a { color: #6B0F2C; text-decoration: none; }
+  a:hover { color: #4E0A20; }
+  ::selection { background: #F7E5A0; color: #6B0F2C; }
+</style>
+</helmet>
+
+<div style="font-family:'Work Sans',system-ui,sans-serif;color:#6B0F2C;background-color:#F0456F;background-image:repeating-linear-gradient(90deg,transparent 0 118px,rgba(107,15,44,.10) 118px 120px),repeating-linear-gradient(0deg,transparent 0 118px,rgba(107,15,44,.10) 118px 120px);min-height:100vh;padding:0 clamp(16px,4vw,48px)">
+
+  <div style="position:sticky;top:16px;z-index:40;display:flex;justify-content:center;padding-top:16px">
+    <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(8px,2vw,20px);background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:5px 5px 0 #6B0F2C;padding:10px clamp(14px,2vw,22px);max-width:100%">
+      <a href="Home.dc.html" style="font-size:14px;font-weight:700">← Home</a>
+      <span style="font-size:14px;font-weight:600;opacity:.6">Gallery</span>
+      <a href="Home.dc.html#work" style="font-size:14px;font-weight:600">Work</a>
+      <a href="Home.dc.html#contact" style="background:#6B0F2C;color:#FFF6EE;border-radius:999px;padding:7px 16px;font-size:14px;font-weight:600" style-hover="background:#4E0A20;color:#FFF6EE">Get in touch</a>
+    </nav>
+  </div>
+
+  <section data-screen-label="Gallery header" style="max-width:1180px;margin:0 auto;padding:clamp(36px,7vw,80px) 0 clamp(22px,4vw,40px)">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px">
+      <span style="background:#F7E5A0;border:2px solid #6B0F2C;border-radius:999px;box-shadow:4px 4px 0 #6B0F2C;padding:7px 16px;font-weight:700;font-size:14px">Shots &amp; studies</span>
+      <span style="background:#FFF6EE;border:2px solid #6B0F2C;border-radius:999px;box-shadow:4px 4px 0 #6B0F2C;padding:7px 16px;font-weight:700;font-size:14px;transform:rotate(-1.5deg)">Updated as I ship</span>
+    </div>
+    <h1 style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(40px,8vw,96px);line-height:.96;letter-spacing:-.02em;margin:0 0 18px;max-width:16ch">Gallery</h1>
+    <p style="font-size:clamp(17px,2vw,21px);line-height:1.5;margin:0;max-width:56ch;text-wrap:pretty">Screens, components and visual studies from client work and side projects. Drop an image onto any tile to fill it; add a caption underneath.</p>
+  </section>
+
+  <section data-screen-label="Gallery grid" style="max-width:1180px;margin:0 auto;padding-bottom:clamp(48px,7vw,90px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:22px">
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px;grid-column:span 2">
+        <div style="position:relative;aspect-ratio:16/9;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-01" shape="rect" placeholder="Drop a wide shot"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:3/4;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-02" shape="rect" placeholder="Drop a mobile screen"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#F7E5A0;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:1/1;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-03" shape="rect" placeholder="Drop a square shot"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:3/4;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-04" shape="rect" placeholder="Drop a mobile screen"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:4/3;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-05" shape="rect" placeholder="Drop a component sheet"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px;grid-column:span 2">
+        <div style="position:relative;aspect-ratio:16/9;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-06" shape="rect" placeholder="Drop a wide shot"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:1/1;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-07" shape="rect" placeholder="Drop a square shot"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#F6A8C4;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:3/4;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#FFF6EE">
+          <image-slot id="gal-08" shape="rect" placeholder="Drop a mobile screen"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:4/3;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-09" shape="rect" placeholder="Drop a shot"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:1/1;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-10" shape="rect" placeholder="Drop a square shot"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:3/4;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-11" shape="rect" placeholder="Drop a mobile screen"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+      <figure style="margin:0;background:#FFF6EE;border:2px solid #6B0F2C;border-radius:24px;box-shadow:7px 7px 0 #6B0F2C;padding:14px">
+        <div style="position:relative;aspect-ratio:4/3;border:2px solid #6B0F2C;border-radius:14px;overflow:hidden;background:#F6A8C4">
+          <image-slot id="gal-12" shape="rect" placeholder="Drop a shot"></image-slot>
+        </div>
+        <figcaption style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px 6px 4px;font-size:14px;font-weight:600">
+          <span>Caption goes here</span><span style="opacity:.6">Project, year</span>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:#6B0F2C;border:2px solid #6B0F2C;border-radius:26px;box-shadow:8px 8px 0 #4E0A20;padding:clamp(20px,3vw,34px);margin-top:26px">
+      <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(22px,3vw,34px);line-height:1.05;color:#FFF6EE;max-width:26ch">Want the thinking behind any of these?</div>
+      <a href="Home.dc.html#work" style="background:#F7E5A0;border:2px solid #F7E5A0;border-radius:999px;box-shadow:5px 5px 0 #4E0A20;padding:14px 26px;font-weight:700;font-size:16px" style-hover="background:#FFF6EE;border:2px solid #FFF6EE">Read the case studies →</a>
+    </div>
+  </section>
+</div>
+
+</x-dc>
+</body>
+</html>
