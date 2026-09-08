@@ -4,16 +4,50 @@ import type { ReactNode } from "react";
 
 import type { ImageSlot } from "@/content/site";
 
-/** Surface fills used across pills, cards and panels. */
-export type Tone = "cream" | "butter" | "rose" | "pink" | "maroon";
+/**
+ * Surface fills. The neutrals carry structure; the rainbow set is
+ * punctuation, used as card fills in rotation, never as a single
+ * dominant brand colour.
+ */
+export type Tone =
+  | "paper"
+  | "linen"
+  | "parchment"
+  | "twilight"
+  | "violet"
+  | "pink"
+  | "tangerine"
+  | "aqua"
+  | "sky"
+  | "yellow"
+  | "mint"
+  | "lilac";
 
 const toneFill: Record<Tone, string> = {
-  cream: "bg-cream",
-  butter: "bg-butter",
-  rose: "bg-rose",
-  pink: "bg-pink text-cream",
-  maroon: "bg-maroon text-cream",
+  paper: "bg-paper-white",
+  linen: "bg-linen-beige",
+  parchment: "bg-parchment-cream",
+  twilight: "bg-twilight-indigo text-parchment-cream on-twilight",
+  violet: "bg-electric-violet",
+  pink: "bg-bubblegum-pink",
+  tangerine: "bg-tangerine",
+  aqua: "bg-aqua-teal",
+  sky: "bg-sky-blue",
+  yellow: "bg-sunshine-yellow",
+  mint: "bg-mint-green",
+  lilac: "bg-lilac-mist",
 };
+
+/** Accent rotation for feature grids, in the order DESIGN.md lists. */
+export const accentRotation: Tone[] = [
+  "violet",
+  "pink",
+  "tangerine",
+  "aqua",
+  "sky",
+  "yellow",
+  "mint",
+];
 
 export function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -21,29 +55,26 @@ export function cx(...parts: Array<string | false | null | undefined>) {
 
 /* --------------------------------------------------------------- Pill */
 
+/** Full pill, reserved for tags and chips. Never for buttons. */
 export function Pill({
   children,
-  tone = "cream",
-  rotate,
+  tone = "paper",
   className,
-  shadow = true,
+  bordered = true,
 }: {
   children: ReactNode;
   tone?: Tone;
-  /** Only selected pills are rotated; cards never are. */
-  rotate?: string;
   className?: string;
-  shadow?: boolean;
+  bordered?: boolean;
 }) {
   return (
     <span
       className={cx(
-        "inline-block rounded-full border-2 border-maroon",
-        shadow && "shadow-hard-4",
+        "inline-block rounded-full px-[10px] py-[4px] text-[12px] font-medium",
+        bordered && "border border-sand-gray",
         toneFill[tone],
         className,
       )}
-      style={rotate ? { transform: `rotate(${rotate})` } : undefined}
     >
       {children}
     </span>
@@ -53,27 +84,35 @@ export function Pill({
 /* ------------------------------------------------------------- Button */
 
 const buttonBase =
-  "inline-block rounded-full border-2 font-bold text-[16px] px-[26px] py-[14px]";
+  "inline-block rounded-[12px] px-5 py-[10px] text-[14px] font-semibold tracking-[-0.011em]";
 
+/**
+ * DESIGN.md is explicit that primary actions stay neutral: filled white
+ * or ink, with chromatic colour reserved for decoration. So there is no
+ * solid-violet CTA here on purpose.
+ */
 export function ButtonLink({
   href,
   children,
-  tone = "maroon",
+  tone = "ink",
   className,
 }: {
   href: string;
   children: ReactNode;
-  tone?: "maroon" | "cream" | "butter";
+  tone?: "ink" | "paper" | "ghost" | "outlined";
   className?: string;
 }) {
   const tones = {
-    maroon:
-      "bg-maroon text-cream border-maroon shadow-deep-5 hover:bg-maroon-deep hover:text-cream",
-    cream: "bg-cream border-maroon shadow-hard-5 hover:bg-butter",
-    butter: "bg-butter border-butter shadow-deep-5 hover:bg-cream hover:border-cream",
+    ink: "bg-ink-black text-parchment-cream hover:bg-charcoal-stone",
+    paper: "bg-paper-white text-ink-black shadow-raised hover:bg-linen-beige",
+    ghost:
+      "bg-transparent text-parchment-cream border border-parchment-cream/30 hover:bg-parchment-cream/10",
+    outlined:
+      "bg-lilac-mist text-ink-black border border-pale-violet hover:bg-pale-violet/30",
   } as const;
 
-  const external = href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:");
+  const external =
+    href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:");
   const cls = cx(buttonBase, tones[tone], className);
 
   if (external) {
@@ -92,23 +131,25 @@ export function ButtonLink({
 
 /* --------------------------------------------------------------- Card */
 
+/** Standard content card: 12px radius, hairline ring, warm layered shadow. */
 export function Card({
   children,
-  tone = "cream",
+  tone = "paper",
   className,
   as: Tag = "div",
 }: {
   children: ReactNode;
   tone?: Tone;
   className?: string;
-  /** The design marks work and case-study cards up as <article>. */
   as?: "div" | "article";
 }) {
+  const chromatic = !["paper", "linen", "parchment", "twilight"].includes(tone);
   return (
     <Tag
       className={cx(
-        "rounded-[24px] border-2 border-maroon p-[clamp(18px,2.4vw,26px)]",
-        tone === "maroon" ? "shadow-deep-7" : "shadow-hard-7",
+        "rounded-[12px] p-5",
+        // Accent fills carry their own colour and need no ring.
+        chromatic ? "" : "shadow-card",
         toneFill[tone],
         className,
       )}
@@ -118,21 +159,22 @@ export function Card({
   );
 }
 
-/** Large panel: 26px radius, 8px shadow. */
+/** Large panel: 16px radius. */
 export function Panel({
   children,
-  tone = "cream",
+  tone = "paper",
   className,
 }: {
   children: ReactNode;
   tone?: Tone;
   className?: string;
 }) {
+  const chromatic = !["paper", "linen", "parchment", "twilight"].includes(tone);
   return (
     <div
       className={cx(
-        "rounded-[26px] border-2 border-maroon p-[clamp(22px,3.4vw,42px)]",
-        tone === "maroon" ? "shadow-deep-8 on-maroon" : "shadow-hard-8",
+        "rounded-[16px] p-6 sm:p-8",
+        chromatic || tone === "twilight" ? "" : "shadow-card",
         toneFill[tone],
         className,
       )}
@@ -142,8 +184,9 @@ export function Panel({
   );
 }
 
-/* -------------------------------------------------------------- Type */
+/* --------------------------------------------------------------- Type */
 
+/** Small uppercase label. Sans only; the serif never comes below 28px. */
 export function Eyebrow({
   children,
   className,
@@ -154,7 +197,7 @@ export function Eyebrow({
   return (
     <div
       className={cx(
-        "text-[13px] font-bold uppercase tracking-[.18em]",
+        "text-[12px] font-semibold uppercase tracking-[.12em] text-ash-gray",
         className,
       )}
     >
@@ -163,6 +206,10 @@ export function Eyebrow({
   );
 }
 
+/**
+ * Section heading. Serif at weight 400 is the signature of this system,
+ * so it is never bolded.
+ */
 export function SectionHeading({
   children,
   className,
@@ -173,7 +220,7 @@ export function SectionHeading({
   return (
     <h2
       className={cx(
-        "font-display font-extrabold text-[clamp(28px,4.2vw,52px)] leading-none m-0",
+        "m-0 font-display text-[clamp(32px,5vw,48px)] font-normal leading-[1.2] tracking-[-0.013em]",
         className,
       )}
     >
@@ -182,28 +229,30 @@ export function SectionHeading({
   );
 }
 
-/** Pink bullet list, used on work cards and the case study. */
+/** Bullet list with a small violet marker. */
 export function BulletList({
   items,
   size = "md",
+  markerClass = "bg-electric-violet",
 }: {
   items: readonly string[];
   size?: "sm" | "md" | "lg";
+  markerClass?: string;
 }) {
   const sizes = {
-    sm: "text-[14px] leading-[1.4] gap-[9px]",
-    md: "text-[15px] leading-[1.45] gap-[10px]",
-    lg: "text-[16px] leading-[1.45] gap-[10px]",
+    sm: "text-[14px] leading-[1.43]",
+    md: "text-[15px] leading-[1.47]",
+    lg: "text-[16px] leading-[1.5]",
   } as const;
-  const gaps = { sm: "gap-2", md: "gap-[10px]", lg: "gap-3" } as const;
 
   return (
-    <ul className={cx("m-0 grid list-none p-0", gaps[size])}>
+    <ul className="m-0 grid list-none gap-2 p-0">
       {items.map((item) => (
-        <li key={item} className={cx("flex", sizes[size])}>
-          <span aria-hidden className="font-extrabold text-pink">
-            ●
-          </span>
+        <li key={item} className={cx("flex gap-3", sizes[size])}>
+          <span
+            aria-hidden
+            className={cx("mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full", markerClass)}
+          />
           <span>{item}</span>
         </li>
       ))}
@@ -224,33 +273,29 @@ const ratioClass = {
 export type Ratio = keyof typeof ratioClass;
 
 /**
- * Bordered image frame. Renders a real image once `slot.src` is set,
- * and until then shows the frame with its placeholder note, so an
- * unfilled portfolio still lays out exactly like the design.
+ * Bordered image frame. Renders a real image once `slot.src` is set, and
+ * until then shows the frame with its placeholder note, so an unfilled
+ * portfolio still lays out exactly like the design.
  */
 export function ImageFrame({
   slot,
   ratio,
-  radius = "14px",
-  shadow,
-  backing = "bg-rose",
+  radius = "12px",
+  backing = "bg-linen-beige",
   className,
 }: {
   slot: ImageSlot;
   ratio: Ratio;
   radius?: string;
-  shadow?: "hard-7" | "hard-8";
   backing?: string;
   className?: string;
 }) {
   return (
     <div
       className={cx(
-        "relative overflow-hidden border-2 border-maroon",
+        "relative overflow-hidden ring-1 ring-sand-gray",
         ratioClass[ratio],
         backing,
-        shadow === "hard-8" && "shadow-hard-8",
-        shadow === "hard-7" && "shadow-hard-7",
         className,
       )}
       style={{ borderRadius: radius }}
@@ -264,7 +309,7 @@ export function ImageFrame({
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       ) : (
-        <span className="absolute inset-0 grid place-items-center p-4 text-center text-[13px] font-semibold opacity-70">
+        <span className="absolute inset-0 grid place-items-center p-4 text-center text-[12px] font-medium text-ash-gray">
           {slot.placeholder}
         </span>
       )}

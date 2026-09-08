@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
-import { Baloo_2, Work_Sans } from "next/font/google";
+import { DM_Serif_Display, Nunito_Sans } from "next/font/google";
 
 import "./globals.css";
 
-// Self-hosted at build time by next/font, as the README asks for.
-const baloo = Baloo_2({
+/**
+ * new-kansas is licensed; DESIGN.md names DM Serif Display as the
+ * substitute. It ships a single 400 weight, which suits a system whose
+ * display face is deliberately never bolded.
+ */
+const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  variable: "--font-baloo",
+  weight: ["400"],
+  variable: "--font-dm-serif",
   display: "swap",
 });
 
-const workSans = Work_Sans({
+const nunito = Nunito_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-work-sans",
+  variable: "--font-nunito",
   display: "swap",
 });
 
@@ -29,7 +32,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${baloo.variable} ${workSans.variable}`}>
+    <html lang="en" className={`${dmSerif.variable} ${nunito.variable}`}>
       <body>{children}</body>
     </html>
   );

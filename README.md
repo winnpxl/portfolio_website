@@ -51,24 +51,38 @@ array, not JSX.
 ## Design system
 
 Tokens are defined once in `src/app/globals.css` under `@theme`, so they are
-available as Tailwind utilities (`bg-maroon`, `shadow-hard-7`, `font-display`).
+available as Tailwind utilities (`bg-parchment-cream`, `shadow-card`,
+`font-display`). The full reference lives in `design-reference/DESIGN.md`.
 
 | Token | Hex | Use |
 |---|---|---|
-| `pink` | `#F0456F` | page ground, accent bullets |
-| `maroon` | `#6B0F2C` | all text, every border, every shadow |
-| `maroon-deep` | `#4E0A20` | shadow under maroon panels, hover |
-| `cream` | `#FFF6EE` | card surfaces, nav, text on maroon |
-| `butter` | `#F7E5A0` | highlight cards, secondary pills |
-| `rose` | `#F6A8C4` | image backing, muted text on maroon |
+| `ink-black` | `#1d1d1c` | primary text and structural ink, never pure black |
+| `parchment-cream` | `#f8f7f2` | page canvas, never pure white |
+| `paper-white` | `#ffffff` | elevated cards, inputs, button fills |
+| `linen-beige` | `#edeae4` | secondary surface, one step above canvas |
+| `sand-gray` | `#d8d6ce` | hairline borders and dividers |
+| `ash-gray` / `slate-warm` | `#99978f` / `#7a7974` | muted and secondary text |
+| `twilight-indigo` | `#190922` | dark section base, the hero and contact bands |
+| `electric-violet` | `#b26bf5` | primary chromatic accent |
 
-Two rules carry most of the style: every border is `2px solid maroon`, and every
-shadow is a hard offset with no blur (`shadow-hard-4` through `shadow-hard-8`,
-plus `shadow-deep-*` under maroon surfaces).
+Two rules carry most of the style, and both are the inverse of a hard-edged
+system: borders are **1px warm hairlines**, and shadows are **layered
+oklch warm tints** with no hard offsets. The shape vocabulary is exactly four
+values — 12px (cards, buttons, inputs), 16px (large panels), 24px (special
+panels), and 9999px (pills and chips only).
 
-Type is Baloo 2 (display) and Work Sans (text), self-hosted at build time via
-`next/font`. Layout is responsive without media queries: `clamp()` type ramps and
-`auto-fit` / `auto-fill` grids.
+Type is DM Serif Display for anything 28px and up, and Nunito Sans for
+everything below; the two never mix at body sizes. The display face stays at
+**weight 400** on purpose — size and tight letter-spacing do the work, not
+weight. Both are self-hosted at build time via `next/font`.
+
+The rainbow accent set (violet, pink, tangerine, aqua, sky, yellow, mint) is
+punctuation, used as card fills in rotation — see `accentRotation` in
+`src/components/ui.tsx`, which drives the process cards. Primary actions stay
+neutral (ink or white); there is deliberately no solid-violet CTA.
+
+Layout is responsive without media queries beyond the nav breakpoint:
+`clamp()` type ramps and `auto-fit` / `auto-fill` grids.
 
 ## Filling in the placeholders
 
@@ -95,6 +109,6 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
   two columns. The prototype's unconditional `grid-column: span 2` forces an
   implicit second column at narrow widths and scrolls the page sideways
   (415px of content in a 360px viewport). This is the one intentional deviation.
-- Focus rings were added, as the handoff requested: maroon on light surfaces,
-  butter inside maroon panels.
+- Focus rings use deep violet on light surfaces and pale violet inside the
+  twilight bands.
 - Prose is unchanged from the reviewed copy in `design-reference/README.md`.

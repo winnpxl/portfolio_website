@@ -2,41 +2,53 @@ import type { ReactNode } from "react";
 
 import { cx } from "./ui";
 
-/** Pink ruled ground + page gutter, shared by all three routes. */
+/** Parchment canvas. The warm tint replaces pure white on purpose. */
 export function PageShell({ children }: { children: ReactNode }) {
-  return (
-    <div className="page-grid min-h-screen px-[clamp(16px,4vw,48px)]">
-      {children}
-    </div>
-  );
+  return <div className="min-h-screen bg-parchment-cream">{children}</div>;
 }
 
 /**
- * Centred content column. 1180px on home and gallery, 1040px on the
- * case study.
+ * Centred content column at the 1200px page max-width, with the page
+ * gutter. Sections that need a full-bleed background render their own
+ * wrapper and nest this inside it.
  */
 export function Section({
   children,
   id,
-  width = 1180,
+  width = 1200,
   className,
 }: {
   children: ReactNode;
   id?: string;
-  width?: 1180 | 1040;
+  width?: 1200 | 900;
   className?: string;
 }) {
   return (
     <section
       id={id}
       className={cx(
-        "mx-auto",
-        width === 1180 ? "max-w-[1180px]" : "max-w-[1040px]",
+        "mx-auto px-[clamp(16px,4vw,32px)]",
+        width === 1200 ? "max-w-[1200px]" : "max-w-[900px]",
         className,
       )}
-      style={{ scrollMarginTop: "88px" }}
+      style={{ scrollMarginTop: "96px" }}
     >
       {children}
     </section>
+  );
+}
+
+/** Full-bleed twilight band. Used by the hero and the contact close. */
+export function TwilightBand({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cx("twilight-sky on-twilight text-parchment-cream", className)}>
+      {children}
+    </div>
   );
 }

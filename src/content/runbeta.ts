@@ -7,9 +7,9 @@ export const runbeta = {
 
   hero: {
     pills: [
-      { label: "Founding Product Designer", tone: "butter" as const },
-      { label: "2026 to present", tone: "cream" as const, rotate: "-1.5deg" },
-      { label: "Two-sided marketplace", tone: "rose" as const },
+      { label: "Founding Product Designer" },
+      { label: "2026 to present" },
+      { label: "Two-sided marketplace" },
     ],
     headline: "RunBeta: making strangers safe to transact with",
     lead: "An on-demand services marketplace connecting Lagos customers with vetted local providers, across two distinct apps. I lead design end to end: the booking journey, escrow payments, provider verification, and the mobile design system underneath it.",
@@ -33,7 +33,7 @@ export const runbeta = {
     {
       label: "The hard part",
       body: "Neither side has a reason to trust the other, and money moves between them.",
-      tone: "butter" as const,
+      highlight: true,
     },
   ],
 
