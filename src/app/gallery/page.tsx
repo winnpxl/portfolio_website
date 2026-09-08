@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { Nav, galleryNav } from "@/components/Nav";
+import { Nav } from "@/components/Nav";
+import { galleryNav } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
 import { ButtonLink, ImageFrame, Pill, cx } from "@/components/ui";
 import { galleryCta, galleryHeader, tiles } from "@/content/gallery";

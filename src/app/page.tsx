@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { Nav, homeNav } from "@/components/Nav";
+import { Nav } from "@/components/Nav";
+import { homeNav } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
 import {
   BulletList,

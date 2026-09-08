@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { Nav, caseStudyNav } from "@/components/Nav";
+import { Nav } from "@/components/Nav";
+import { caseStudyNav } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
 import {
   BulletList,
