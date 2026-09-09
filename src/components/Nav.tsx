@@ -106,10 +106,13 @@ export function Nav({ items, socials = [] }: { items: NavItem[]; socials?: Socia
           </button>
         </div>
 
+        {/* Desktop row omits the mobileOnly deep links. */}
         <div className="hidden items-center gap-7 md:flex">
-          {rest.map((item, i) => (
-            <Item key={i} item={item} />
-          ))}
+          {rest
+            .filter((item) => !(item.kind === "link" && item.mobileOnly))
+            .map((item, i) => (
+              <Item key={i} item={item} />
+            ))}
         </div>
 
         <div className="ml-auto hidden items-center gap-5 md:flex">

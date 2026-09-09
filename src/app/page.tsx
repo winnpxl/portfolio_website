@@ -5,6 +5,7 @@ import { LocalTime } from "@/components/LocalTime";
 import { Nav } from "@/components/Nav";
 import { homeNav, type Social } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
+import { Ticker } from "@/components/Ticker";
 import {
   BulletList,
   ButtonLink,
@@ -18,6 +19,7 @@ import {
   cx,
   tileRotation,
 } from "@/components/ui";
+import { tiles } from "@/content/gallery";
 import {
   about,
   contact,
@@ -219,6 +221,11 @@ export default function HomePage() {
         </div>
       </Section>
 
+      {/* ----------------------------------------------------- Ticker */}
+      <div className="py-[clamp(8px,2vw,24px)]">
+        <Ticker tiles={tiles} />
+      </div>
+
       {/* ---------------------------------------------------- Process */}
       <Section id="process" className={sectionPad}>
         <div className="mb-8 grid gap-4 md:grid-cols-[minmax(0,12rem)_1fr]">
@@ -241,39 +248,6 @@ export default function HomePage() {
             </li>
           ))}
         </ol>
-      </Section>
-
-      {/* ------------------------------------------------------ About */}
-      <Section id="about" className={sectionPad}>
-        <div className="grid items-start gap-8 md:grid-cols-[minmax(240px,360px)_1fr] md:gap-14">
-          <ImageFrame
-            slot={about.portrait}
-            ratio="1/1"
-            fill="surface"
-            ring
-            sizes="(max-width: 768px) 100vw, 360px"
-          />
-          <div>
-            <SectionHeading className="mb-6">{about.heading}</SectionHeading>
-            {about.paragraphs.map((para, i) => (
-              <p
-                key={i}
-                className={cx(
-                  "m-0 max-w-[62ch] text-[clamp(16px,1.3vw,18px)] leading-[1.6] tracking-[-0.01em] text-ink-soft",
-                  i < about.paragraphs.length - 1 && "mb-4",
-                )}
-              >
-                {para}
-              </p>
-            ))}
-            <Eyebrow className="mt-8 mb-3">Toolkit</Eyebrow>
-            <div className="flex flex-wrap gap-2">
-              {about.toolkit.map((tool) => (
-                <Pill key={tool}>{tool}</Pill>
-              ))}
-            </div>
-          </div>
-        </div>
       </Section>
 
       {/* ---------------------------------------------- Side projects */}
