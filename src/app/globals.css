@@ -1,91 +1,47 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------
-   Passionfroot style system: twilight cloud library on warm parchment.
-   See design-reference/DESIGN.md for the full reference.
-
-   Two rules carry most of this system, and they are the inverse of the
-   one it replaced: borders are 1px warm hairlines, never 2px ink, and
-   shadows are layered warm-tinted oklch, never hard offsets.
+   Neutral, type-led system in the vein of abatisamuel.pro and
+   ajanwachuku.work: a soft grey canvas, one ink, muted secondary
+   text, hairline rows for information, and big rounded image tiles
+   where the work itself is the card. No gradients, no accent colour.
    --------------------------------------------------------------- */
 @theme {
-  /* Neutrals */
-  --color-ink-black: #1d1d1c;
-  --color-parchment-cream: #f8f7f2;
-  --color-sand-gray: #d8d6ce;
-  --color-linen-beige: #edeae4;
-  --color-paper-white: #ffffff;
-  --color-charcoal-stone: #43423e;
-  --color-ash-gray: #99978f;
-  --color-slate-warm: #7a7974;
+  --color-canvas: #f5f5f3;
+  --color-surface: #ffffff;
+  --color-tile: #ebebe8;
+  --color-tile-deep: #e1e1dd;
+  --color-tile-dark: #141413;
+  --color-ink: #111110;
+  --color-ink-soft: #3d3d3a;
+  --color-muted: #6f6f6a;
+  --color-faint: #a6a6a1;
+  --color-line: #e3e3df;
+  --color-live: #22c55e;
 
-  /* Violet spine */
-  --color-electric-violet: #b26bf5;
-  --color-twilight-indigo: #190922;
-  --color-lavender-glow: #b977f8;
-  --color-pale-violet: #dab2ff;
-  --color-lilac-mist: #f3e8ff;
-  --color-deep-violet: #8200db;
-
-  /* Rainbow accent set, used as card fills in rotation */
-  --color-bubblegum-pink: #f788d2;
-  --color-tangerine: #ff9147;
-  --color-aqua-teal: #4ad5e8;
-  --color-sky-blue: #51b1fb;
-  --color-sunshine-yellow: #ffe747;
-  --color-coral-red: #ee5968;
-  --color-mint-green: #58df8c;
-  --color-forest-green: #00a63e;
-  --color-burnt-orange: #eb6928;
-  --color-deep-teal: #2c91af;
-  --color-magenta-bloom: #b036a4;
-
-  /* PP Palma for display, PP Mori for UI and body. Display weight stays
-     light on purpose: size and tracking carry the emphasis, not weight. */
+  /* PP Palma for the name and headings, PP Mori for everything else. */
   --font-display: var(--font-palma), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-mori), ui-sans-serif, system-ui, sans-serif;
 
-  /* Shape vocabulary is exactly four values. */
-  --radius-card: 12px;
-  --radius-panel: 16px;
-  --radius-special: 24px;
-
-  /* Warm layered elevation. Never gray, never hard. */
-  --shadow-subtle: rgb(237, 234, 228) 0px 0px 0px 1px,
-    oklch(0.23 0.002 98 / 0.04) 0px 1px 1px -0.5px,
-    oklch(0.23 0.002 98 / 0.04) 0px 3px 3px -1.5px,
-    oklch(0.23 0.002 98 / 0.04) 0px 6px 6px -3px,
-    oklch(0.23 0.002 98 / 0.02) 0px 12px 12px -6px;
-  --shadow-card: oklch(0.958 0.007 98) 0px 0px 0px 1px,
-    oklch(0.23 0.002 98 / 0.02) 0px 1px 1px -0.5px,
-    oklch(0.23 0.002 98 / 0.02) 0px 3px 3px -1.5px,
-    oklch(0.23 0.002 98 / 0.02) 0px 6px 6px -3px,
-    oklch(0.23 0.002 98 / 0.01) 0px 12px 12px -6px;
-  --shadow-raised: oklch(0.876 0.011 98) 0px 0px 0px 1px,
-    oklch(0.23 0.002 98 / 0.04) 0px 1px 1px -0.5px,
-    oklch(0.23 0.002 98 / 0.04) 0px 3px 3px -1.5px,
-    oklch(0.23 0.002 98 / 0.04) 0px 6px 6px -3px,
-    oklch(0.23 0.002 98 / 0.02) 0px 12px 12px -6px,
-    oklch(0.23 0.002 98 / 0.02) 0px 24px 24px -12px;
+  /* Elevation is a whisper: a hairline ring and a short soft lift. */
+  --shadow-tile: 0 0 0 1px rgb(17 17 16 / 0.04), 0 1px 2px rgb(17 17 16 / 0.04);
+  --shadow-lift: 0 0 0 1px rgb(17 17 16 / 0.05),
+    0 12px 32px -16px rgb(17 17 16 / 0.22);
 }
 
 @layer base {
-  /* Set on the root too, so nothing inherits the UA's pure black. */
   html {
-    color: var(--color-ink-black);
+    color: var(--color-ink);
   }
 
   body {
     margin: 0;
-    background: var(--color-parchment-cream);
-    color: var(--color-ink-black);
+    background: var(--color-canvas);
+    color: var(--color-ink);
     font-family: var(--font-sans);
     font-feature-settings: "kern" on, "liga" on;
     -webkit-font-smoothing: antialiased;
-  }
-
-  .font-display {
-    font-feature-settings: "kern" on, "liga" on;
+    text-rendering: optimizeLegibility;
   }
 
   a {
@@ -94,42 +50,23 @@
   }
 
   ::selection {
-    background: var(--color-lilac-mist);
-    color: var(--color-ink-black);
+    background: var(--color-ink);
+    color: var(--color-canvas);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-deep-violet);
-    outline-offset: 2px;
-    border-radius: 4px;
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 6px;
   }
 
-  /* Inside twilight sections the violet ring disappears, so switch it. */
-  .on-twilight :focus-visible {
-    outline-color: var(--color-pale-violet);
+  /* Inside dark tiles the ink ring vanishes, so invert it. */
+  .on-dark :focus-visible {
+    outline-color: var(--color-canvas);
   }
 }
 
 @layer utilities {
-  /* The signature atmospheric device: indigo bleeding up into coral. */
-  .twilight-sky {
-    background-color: var(--color-twilight-indigo);
-    background-image:
-      radial-gradient(
-        120% 90% at 50% 108%,
-        #ff9147 0%,
-        #f788d2 22%,
-        #b26bf5 42%,
-        #6b1f9e 62%,
-        transparent 82%
-      ),
-      radial-gradient(
-        90% 70% at 12% 8%,
-        rgba(178, 107, 245, 0.28) 0%,
-        transparent 60%
-      );
-  }
-
   .text-pretty-wrap {
     text-wrap: pretty;
   }

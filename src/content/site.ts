@@ -19,6 +19,7 @@ export const profile = {
   title: "Design Engineer",
   role: "Product designer & design engineer",
   location: "Lagos, Nigeria",
+  timeZone: "Africa/Lagos",
   footer: "Samuel Winner · Product designer & design engineer · Lagos, Nigeria",
   copyright: "© 2026",
 } as const;
@@ -174,7 +175,11 @@ export const about = {
     "I have led design on two-sided marketplaces, fintech platforms and consumer mobile apps, owning research, information architecture, user journeys, interaction design and the design systems that hold them together. The work I like most sits in complex, trust-dependent workflows: verification, matching, escrow, messaging, trust and safety.",
     "I build front end in React and Next.js, which means my handoffs are written in terms engineers can implement without guesswork. Mathematics degree from the University of Ilorin. Based in Lagos, working with distributed teams across Nigeria, the UK, Portugal and the US.",
   ],
-  portrait: { alt: "Samuel Winner", placeholder: "Drop a portrait" } satisfies ImageSlot,
+  portrait: {
+    src: "/images/my-portrait.jpg",
+    alt: "Samuel Winner",
+    placeholder: "Drop a portrait",
+  } satisfies ImageSlot,
   toolkit: [
     "Figma",
     "FigJam",

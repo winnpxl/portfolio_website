@@ -50,44 +50,36 @@ array, not JSX.
 
 ## Design system
 
-Tokens are defined once in `src/app/globals.css` under `@theme`, so they are
-available as Tailwind utilities (`bg-parchment-cream`, `shadow-card`,
-`font-display`). The full reference lives in `design-reference/DESIGN.md`.
+A neutral, type-led system in the vein of abatisamuel.pro and
+ajanwachuku.work. Tokens live once in `src/app/globals.css` under `@theme`
+and surface as Tailwind utilities (`bg-canvas`, `text-muted`, `shadow-tile`).
 
 | Token | Hex | Use |
 |---|---|---|
-| `ink-black` | `#1d1d1c` | primary text and structural ink, never pure black |
-| `parchment-cream` | `#f8f7f2` | page canvas, never pure white |
-| `paper-white` | `#ffffff` | elevated cards, inputs, button fills |
-| `linen-beige` | `#edeae4` | secondary surface, one step above canvas |
-| `sand-gray` | `#d8d6ce` | hairline borders and dividers |
-| `ash-gray` / `slate-warm` | `#99978f` / `#7a7974` | muted and secondary text |
-| `twilight-indigo` | `#190922` | dark section base, the hero and contact bands |
-| `electric-violet` | `#b26bf5` | primary chromatic accent |
+| `canvas` | `#f5f5f3` | page background |
+| `surface` | `#ffffff` | white cards and tiles |
+| `tile` / `tile-deep` | `#ebebe8` / `#e1e1dd` | neutral fills behind product shots |
+| `tile-dark` | `#141413` | the dark tile, used sparingly |
+| `ink` / `ink-soft` | `#111110` / `#3d3d3a` | headings / body |
+| `muted` / `faint` | `#6f6f6a` / `#a6a6a1` | secondary text / placeholders |
+| `line` | `#e3e3df` | hairline rows and pill borders |
+| `live` | `#22c55e` | the one accent: the "available" dot |
 
-Two rules carry most of the style, and both are the inverse of a hard-edged
-system: borders are **1px warm hairlines**, and shadows are **layered
-oklch warm tints** with no hard offsets. The shape vocabulary is exactly four
-values — 12px (cards, buttons, inputs), 16px (large panels), 24px (special
-panels), and 9999px (pills and chips only).
+Two rules carry the style. **The image is the card**: work and gallery
+tiles are edge-to-edge product shots on a neutral fill with a 24px radius
+and a caption beneath, never a bordered box with text inside. **Everything
+else is a hairline row**: stats, process steps, side projects and contact
+details sit on `border-line` rows with a muted label on the left.
 
-Type is **PP Palma** for display (28px and up) and **PP Mori** for UI and body;
-the two never mix at body sizes. The display face stays at its lighter cut on
-purpose — size and tight letter-spacing do the work, not weight.
+Type is PP Mori for nearly everything, including the big hero statement at
+regular weight and tight tracking. PP Palma is reserved for the name lockup
+and section headings. Both are self-hosted from `src/fonts`.
 
-Both are self-hosted from `src/fonts` as woff2 via `next/font/local` (249KB
-for seven faces, down from 542KB of OTF). Weights are declared as ranges so
-the Tailwind utilities land on the right cut: `font-normal` and `font-medium`
-both resolve to Palma Medium, and `font-bold` resolves to Mori Semibold rather
-than falling through to a heavier weight than intended.
+Layout is responsive through `clamp()` type ramps and `auto-fit` grids, with
+`sm`/`md` breakpoints only where a row genuinely stacks.
 
-The rainbow accent set (violet, pink, tangerine, aqua, sky, yellow, mint) is
-punctuation, used as card fills in rotation — see `accentRotation` in
-`src/components/ui.tsx`, which drives the process cards. Primary actions stay
-neutral (ink or white); there is deliberately no solid-violet CTA.
-
-Layout is responsive without media queries beyond the nav breakpoint:
-`clamp()` type ramps and `auto-fit` / `auto-fill` grids.
+The earlier Passionfroot reference is kept at `design-reference/DESIGN.md`
+for the record; it is no longer what the site follows.
 
 ## Filling in the placeholders
 
