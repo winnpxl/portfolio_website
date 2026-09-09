@@ -1,19 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
 
+import { LocalTime } from "@/components/LocalTime";
 import { Nav } from "@/components/Nav";
-import { homeNav } from "@/components/navItems";
-import { PageShell, Section, TwilightBand } from "@/components/Page";
+import { homeNav, type Social } from "@/components/navItems";
+import { PageShell, Section } from "@/components/Page";
 import {
   BulletList,
   ButtonLink,
-  Card,
   Eyebrow,
   ImageFrame,
-  Panel,
+  LiveDot,
   Pill,
+  Row,
+  SectionHeader,
   SectionHeading,
-  accentRotation,
   cx,
+  tileRotation,
 } from "@/components/ui";
 import {
   about,
@@ -30,9 +33,22 @@ import {
   writing,
 } from "@/content/site";
 
-/**
- * Lets a long email break after the "@" rather than mid-domain.
- */
+const email = contact.tiles.find((t) => t.label === "Email");
+const socials: Social[] = [
+  ...contact.tiles
+    .filter((t) => t.label === "GitHub" || t.label === "LinkedIn")
+    .map((t) => ({
+      label: t.label,
+      href: t.href,
+      icon: t.label.toLowerCase() as Social["icon"],
+    })),
+  ...(email ? [{ label: "Email", href: email.href, icon: "mail" as const }] : []),
+];
+
+/** The names of everything on the work grid, for the hero's projects line. */
+const projectNames = [featuredWork.title, ...work.map((w) => w.title)];
+
+/** Lets a long email break after the "@" rather than mid-domain. */
 function TileValue({ value }: { value: string }) {
   const at = value.indexOf("@");
   if (at === -1) return <>{value}</>;
@@ -45,212 +61,241 @@ function TileValue({ value }: { value: string }) {
   );
 }
 
-/** DESIGN.md sets the section rhythm at 64px. */
-const sectionPad = "py-[clamp(48px,7vw,80px)]";
+const sectionPad = "py-[clamp(48px,7vw,96px)]";
 
 export default function HomePage() {
   return (
     <PageShell>
-      {/* ------------------------------------------- Hero, twilight band */}
-      <TwilightBand className="pb-[clamp(56px,8vw,96px)]">
-        <Nav items={homeNav} />
+      <Nav items={homeNav} socials={socials} />
 
-        <Section className="pt-[clamp(48px,8vw,88px)]">
-          <div className="mb-6 flex flex-wrap items-center gap-2">
-            {hero.pills.map((pill) => (
+      {/* ------------------------------------------------------- Hero */}
+      <Section className="pt-[clamp(56px,9vw,120px)] pb-[clamp(40px,6vw,72px)]">
+        <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-6">
+          {/* Name lockup: portrait, name in PP Palma, role beneath. */}
+          <div className="flex items-center gap-4">
+            <div className="relative shrink-0">
+              {about.portrait.src ? (
+                <Image
+                  src={about.portrait.src}
+                  alt={about.portrait.alt}
+                  width={60}
+                  height={60}
+                  priority
+                  className="h-[60px] w-[60px] rounded-[16px] object-cover"
+                />
+              ) : (
+                <div className="h-[60px] w-[60px] rounded-[16px] bg-tile" />
+              )}
               <span
-                key={pill.label}
-                className="rounded-full border border-parchment-cream/25 bg-parchment-cream/10 px-[12px] py-[5px] text-[12px] font-medium text-parchment-cream"
+                aria-hidden
+                className="absolute -bottom-[3px] -right-[3px] h-[13px] w-[13px] rounded-full border-[3px] border-canvas bg-live"
+              />
+            </div>
+            <div>
+              <div className="font-display text-[24px] font-medium leading-none tracking-[-0.015em]">
+                {profile.name}
+              </div>
+              <div className="mt-[6px] text-[14px] text-muted">{profile.role}</div>
+            </div>
+          </div>
+
+          {/* Right column: where and when, and the fastest way in. */}
+          <div className="text-[15px] leading-[1.6] sm:text-right">
+            <div className="text-muted">{hero.pills[1].label}</div>
+            <div>
+              <LocalTime timeZone={profile.timeZone} />
+            </div>
+            {email && (
+              <a
+                href={email.href}
+                className="inline-flex items-center gap-1.5 text-ink underline decoration-line underline-offset-[5px] transition-colors hover:decoration-ink"
               >
-                {pill.label}
-              </span>
-            ))}
+                {email.value}
+                <span aria-hidden className="text-muted">
+                  ↗
+                </span>
+              </a>
+            )}
           </div>
+        </div>
 
-          <h1 className="text-pretty-wrap m-0 max-w-[18ch] font-display text-[clamp(40px,7vw,64px)] font-normal leading-[1.08] tracking-[-0.023em] text-paper-white">
-            {hero.headline}
-          </h1>
+        <h1 className="text-pretty-wrap m-0 mt-[clamp(40px,6vw,72px)] max-w-[24ch] text-[clamp(32px,4.6vw,58px)] font-normal leading-[1.12] tracking-[-0.025em]">
+          {hero.headline}
+        </h1>
 
-          <p className="text-pretty-wrap mt-6 max-w-[56ch] text-[clamp(16px,1.7vw,18px)] leading-[1.56] tracking-[-0.012em] text-parchment-cream/80">
-            {hero.lead}
-          </p>
+        <p className="text-pretty-wrap m-0 mt-6 max-w-[62ch] text-[clamp(17px,1.5vw,21px)] leading-[1.55] tracking-[-0.012em] text-muted">
+          {hero.lead}
+        </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href="#work" tone="paper">
-              See the work
-            </ButtonLink>
-            <ButtonLink href="#contact" tone="ghost">
-              Hire me
-            </ButtonLink>
-          </div>
+        <p className="m-0 mt-6 max-w-[62ch] text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.01em]">
+          <span className="text-ink">Selected projects: </span>
+          <span className="text-muted">{projectNames.join(", ")}.</span>
+        </p>
 
-          {/* Capability chips read as the product-peek row in this system. */}
-          <div className="mt-10 flex flex-wrap gap-2">
-            {hero.capabilities.map((cap) => (
-              <span
-                key={cap.label}
-                className="rounded-full bg-parchment-cream/12 px-[14px] py-[6px] text-[13px] font-medium text-parchment-cream/90 ring-1 ring-parchment-cream/20"
-              >
-                {cap.label}
-              </span>
-            ))}
-          </div>
-        </Section>
-      </TwilightBand>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <ButtonLink href="#contact">
+            Get in touch
+            <LiveDot />
+          </ButtonLink>
+          <ButtonLink href="#work" tone="ghost">
+            See the work
+          </ButtonLink>
+        </div>
+
+      </Section>
 
       {/* ------------------------------------------------------ Stats */}
-      <Section className={sectionPad}>
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))]">
+      <Section className="pb-[clamp(40px,6vw,72px)]">
+        <div className="grid border-t border-line [grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))]">
           {stats.map((stat) => (
-            <Card key={stat.value}>
-              <div className="font-display text-[clamp(32px,4vw,44px)] font-normal leading-[1.1] tracking-[-0.013em]">
+            <div key={stat.value} className="border-b border-line py-6 pr-6">
+              <div className="font-display text-[clamp(30px,3.2vw,40px)] font-medium leading-none tracking-[-0.02em]">
                 {stat.value}
               </div>
-              <div className="mt-2 text-[14px] leading-[1.43] tracking-[-0.011em] text-slate-warm">
+              <div className="mt-3 max-w-[22ch] text-[14px] leading-[1.45] text-muted">
                 {stat.label}
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </Section>
 
       {/* ---------------------------------------------- Selected work */}
       <Section id="work" className={sectionPad}>
-        <div className="mb-8 flex flex-wrap items-baseline justify-between gap-3">
-          <SectionHeading>Selected work</SectionHeading>
-          <Eyebrow>Five projects, 2023 – 2026</Eyebrow>
-        </div>
+        <SectionHeader title="Selected work" aside="Five projects, 2023 – 2026" />
 
-        {/* Featured */}
-        <Panel className="mb-5">
-          <div className="grid items-center gap-8 [grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))]">
-            <div>
-              <div className="mb-4 flex flex-wrap gap-2">
-                <Pill tone="lilac" className="border-pale-violet text-deep-violet">
-                  {featuredWork.pills[0].label}
-                </Pill>
-                <Pill>{featuredWork.pills[1].label}</Pill>
-              </div>
-              <h3 className="m-0 mb-3 font-display text-[clamp(28px,3.4vw,40px)] font-normal leading-[1.2] tracking-[-0.013em]">
-                {featuredWork.title}
-              </h3>
-              <p className="m-0 mb-5 max-w-[52ch] text-[16px] leading-[1.5] tracking-[-0.011em] text-charcoal-stone">
-                {featuredWork.summary}
-              </p>
-              <div className="mb-6">
-                <BulletList items={featuredWork.bullets} />
-              </div>
+        {/* Featured: the one project with a case study gets the full width. */}
+        <article className="grid gap-6 rounded-[28px] bg-surface p-3 shadow-tile md:grid-cols-[1.15fr_1fr] md:gap-8">
+          <ImageFrame
+            slot={featuredWork.image}
+            ratio="4/3"
+            fill="dark"
+            radius={20}
+            sizes="(max-width: 768px) 100vw, 55vw"
+          />
+          <div className="flex flex-col justify-center px-3 pb-4 md:py-6 md:pr-8">
+            <div className="flex flex-wrap gap-2">
+              <Pill tone="solid">{featuredWork.pills[0].label}</Pill>
+              <Pill>{featuredWork.pills[1].label}</Pill>
+            </div>
+            <h3 className="m-0 mt-5 font-display text-[clamp(28px,3vw,36px)] font-medium leading-[1.1] tracking-[-0.015em]">
+              {featuredWork.title}
+            </h3>
+            <p className="m-0 mt-3 max-w-[48ch] text-[15px] leading-[1.55] text-ink-soft">
+              {featuredWork.summary}
+            </p>
+            <BulletList items={featuredWork.bullets} size="sm" className="mt-5" />
+            <div className="mt-7">
               <ButtonLink href={featuredWork.href}>{featuredWork.cta}</ButtonLink>
             </div>
-            <ImageFrame slot={featuredWork.image} ratio="4/3" />
           </div>
-        </Panel>
+        </article>
 
-        <div className="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))]">
-          {work.map((project) => (
-            <Card as="article" key={project.slug} className="flex flex-col gap-4">
-              <ImageFrame slot={project.image} ratio="16/10" />
-              <Pill className="self-start">{project.pill}</Pill>
-              <h3 className="m-0 font-display text-[28px] font-normal leading-[1.35] tracking-[-0.01em]">
-                {project.title}
-              </h3>
-              <p className="m-0 text-[14px] leading-[1.43] tracking-[-0.011em] text-charcoal-stone">
+        {/* The rest: the image is the card, caption beneath. */}
+        <div className="mt-6 grid gap-x-6 gap-y-10 [grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))]">
+          {work.map((project, i) => (
+            <article key={project.slug} className="flex flex-col">
+              <ImageFrame
+                slot={project.image}
+                ratio="4/5"
+                fill={tileRotation[i % tileRotation.length]}
+                ring={tileRotation[i % tileRotation.length] === "surface"}
+              />
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+                <h3 className="m-0 text-[19px] font-medium leading-none tracking-[-0.015em]">
+                  {project.title}
+                </h3>
+                <Pill>{project.pill}</Pill>
+              </div>
+              <p className="m-0 mt-3 max-w-[52ch] text-[15px] leading-[1.55] text-muted">
                 {project.summary}
               </p>
-              <BulletList items={project.bullets} size="sm" />
-              <span className="mt-auto text-[12px] font-medium uppercase tracking-[.12em] text-ash-gray">
-                {project.status}
-              </span>
-            </Card>
+              <BulletList items={project.bullets} size="sm" className="mt-4" />
+              <Eyebrow className="mt-4 text-faint">{project.status}</Eyebrow>
+            </article>
           ))}
         </div>
       </Section>
 
       {/* ---------------------------------------------------- Process */}
       <Section id="process" className={sectionPad}>
-        <div className="mb-8 max-w-[60ch]">
+        <div className="mb-8 grid gap-4 md:grid-cols-[minmax(0,12rem)_1fr]">
           <SectionHeading>{process.heading}</SectionHeading>
-          <p className="mt-4 text-[16px] leading-[1.5] tracking-[-0.011em] text-slate-warm">
+          <p className="m-0 max-w-[56ch] text-[16px] leading-[1.55] text-muted md:pt-2">
             {process.lead}
           </p>
         </div>
-        {/* The rainbow set as card rotation, which is what it is for. */}
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))]">
-          {process.steps.map((step, i) => (
-            <Card key={step.number} tone={accentRotation[i % accentRotation.length]}>
-              <div className="text-[12px] font-bold tracking-[.12em] text-ink-black/70">
-                {step.number}
-              </div>
-              <div className="mt-3 text-[16px] font-semibold leading-[1.4] tracking-[-0.011em] text-ink-black">
-                {step.title}
-              </div>
-              <p className="mt-2 text-[14px] leading-[1.43] tracking-[-0.011em] text-ink-black/85">
+        <ol className="m-0 list-none p-0">
+          {process.steps.map((step) => (
+            <li
+              key={step.number}
+              className="grid gap-x-8 gap-y-2 border-t border-line py-6 last:border-b sm:grid-cols-[3rem_minmax(0,12rem)_1fr]"
+            >
+              <span className="font-display text-[15px] text-muted">{step.number}</span>
+              <span className="text-[17px] font-medium tracking-[-0.01em]">{step.title}</span>
+              <p className="m-0 max-w-[56ch] text-[15px] leading-[1.55] text-muted">
                 {step.body}
               </p>
-            </Card>
+            </li>
           ))}
-        </div>
+        </ol>
       </Section>
 
       {/* ------------------------------------------------------ About */}
       <Section id="about" className={sectionPad}>
-        <div className="grid items-start gap-5 [grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))]">
-          <Panel>
-            <SectionHeading className="mb-5">{about.heading}</SectionHeading>
+        <div className="grid items-start gap-8 md:grid-cols-[minmax(240px,360px)_1fr] md:gap-14">
+          <ImageFrame
+            slot={about.portrait}
+            ratio="1/1"
+            fill="surface"
+            ring
+            sizes="(max-width: 768px) 100vw, 360px"
+          />
+          <div>
+            <SectionHeading className="mb-6">{about.heading}</SectionHeading>
             {about.paragraphs.map((para, i) => (
               <p
                 key={i}
                 className={cx(
-                  "m-0 text-[16px] leading-[1.5] tracking-[-0.011em] text-charcoal-stone",
+                  "m-0 max-w-[62ch] text-[clamp(16px,1.3vw,18px)] leading-[1.6] tracking-[-0.01em] text-ink-soft",
                   i < about.paragraphs.length - 1 && "mb-4",
                 )}
               >
                 {para}
               </p>
             ))}
-          </Panel>
-
-          <div className="grid gap-5">
-            <ImageFrame slot={about.portrait} ratio="1/1" radius="16px" />
-            <Panel tone="linen">
-              <Eyebrow className="mb-4">Toolkit</Eyebrow>
-              <div className="flex flex-wrap gap-2">
-                {about.toolkit.map((tool) => (
-                  <Pill key={tool}>{tool}</Pill>
-                ))}
-              </div>
-            </Panel>
+            <Eyebrow className="mt-8 mb-3">Toolkit</Eyebrow>
+            <div className="flex flex-wrap gap-2">
+              {about.toolkit.map((tool) => (
+                <Pill key={tool}>{tool}</Pill>
+              ))}
+            </div>
           </div>
         </div>
       </Section>
 
       {/* ---------------------------------------------- Side projects */}
       <Section id="side" className={sectionPad}>
-        <SectionHeading className="mb-8">Side projects</SectionHeading>
-        <div className="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))]">
-          {sideProjects.map((item) => (
-            <Card key={item.title}>
-              <Pill className="mb-4">{item.pill}</Pill>
-              <h3 className="m-0 mb-2 text-[20px] font-semibold leading-[1.4] tracking-[-0.012em]">
-                {item.title}
-              </h3>
-              <p
-                className={cx(
-                  "m-0 text-[14px] leading-[1.43] tracking-[-0.011em] text-charcoal-stone",
-                  item.link && "mb-3",
-                )}
-              >
+        <SectionHeader title="Side projects" aside="Three, ongoing" />
+        <div>
+          {sideProjects.map((item, i) => (
+            <Row key={item.title} label={item.pill} first={i === 0} className="last:border-b">
+              <div className="text-[18px] font-medium tracking-[-0.012em]">{item.title}</div>
+              <p className="m-0 mt-2 max-w-[60ch] text-[15px] leading-[1.55] text-muted">
                 {item.body}
               </p>
               {item.link && (
                 <a
                   href={item.link.href}
-                  className="text-[14px] font-semibold text-deep-violet hover:underline"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[14px] font-medium underline decoration-line underline-offset-[5px] hover:decoration-ink"
                 >
                   {item.link.label}
+                  <span aria-hidden className="text-muted">
+                    ↗
+                  </span>
                 </a>
               )}
-            </Card>
+            </Row>
           ))}
         </div>
       </Section>
@@ -259,17 +304,15 @@ export default function HomePage() {
       <Section className={sectionPad}>
         <Link
           href="/gallery"
-          className="flex flex-wrap items-center justify-between gap-5 rounded-[24px] bg-electric-violet p-6 sm:p-10"
+          className="on-dark group flex flex-wrap items-end justify-between gap-6 rounded-[28px] bg-tile-dark p-8 text-canvas sm:p-12"
         >
           <div>
-            <div className="text-[12px] font-semibold uppercase tracking-[.12em] text-ink-black/70">
-              {galleryBanner.eyebrow}
-            </div>
-            <div className="mt-3 max-w-[22ch] font-display text-[clamp(28px,3.6vw,40px)] font-normal leading-[1.2] tracking-[-0.013em] text-ink-black">
+            <Eyebrow className="text-canvas/50">{galleryBanner.eyebrow}</Eyebrow>
+            <div className="mt-4 max-w-[20ch] font-display text-[clamp(28px,3.6vw,44px)] font-medium leading-[1.08] tracking-[-0.02em]">
               {galleryBanner.title}
             </div>
           </div>
-          <span className="rounded-[12px] bg-ink-black px-5 py-[10px] text-[14px] font-semibold text-parchment-cream">
+          <span className="inline-flex items-center rounded-full bg-canvas px-[22px] py-[13px] text-[15px] font-medium leading-none text-ink transition-colors group-hover:bg-surface">
             {galleryBanner.cta}
           </span>
         </Link>
@@ -278,18 +321,19 @@ export default function HomePage() {
       {/* ---------------------------------------------------- Writing */}
       {writing.length > 0 && (
         <Section id="writing" className={sectionPad}>
-          <SectionHeading className="mb-8">Writing</SectionHeading>
-          <div className="grid gap-3">
-            {writing.map((post) => (
+          <SectionHeader title="Writing" />
+          <div>
+            {writing.map((post, i) => (
               <a
                 key={post.href}
                 href={post.href}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-[12px] bg-paper-white px-5 py-4 shadow-card hover:bg-linen-beige"
+                className={cx(
+                  "flex flex-wrap items-baseline justify-between gap-3 border-t border-line py-5 hover:text-ink-soft",
+                  i === writing.length - 1 && "border-b",
+                )}
               >
-                <span className="text-[16px] font-semibold tracking-[-0.011em]">
-                  {post.title}
-                </span>
-                <span className="text-[14px] text-slate-warm">{post.blurb}</span>
+                <span className="text-[17px] font-medium">{post.title}</span>
+                <span className="text-[14px] text-muted">{post.blurb}</span>
               </a>
             ))}
           </div>
@@ -299,63 +343,65 @@ export default function HomePage() {
       {/* ----------------------------------------------- Testimonials */}
       {testimonials.length > 0 && (
         <Section id="testimonials" className={sectionPad}>
-          <SectionHeading className="mb-8">What people say</SectionHeading>
-          <div className="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))]">
+          <SectionHeader title="What people say" />
+          <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))]">
             {testimonials.map((quote) => (
               <blockquote
                 key={quote.attribution}
-                className="m-0 rounded-[16px] bg-paper-white p-6 shadow-card"
+                className="m-0 rounded-[24px] bg-surface p-7 shadow-tile"
               >
-                <p className="m-0 mb-5 font-display text-[clamp(22px,2.4vw,28px)] font-normal leading-[1.35] tracking-[-0.01em]">
+                <p className="m-0 font-display text-[clamp(20px,2vw,26px)] font-medium leading-[1.3] tracking-[-0.01em]">
                   {quote.quote}
                 </p>
-                <footer className="text-[14px] font-medium text-slate-warm">
-                  {quote.attribution}
-                </footer>
+                <footer className="mt-5 text-[14px] text-muted">{quote.attribution}</footer>
               </blockquote>
             ))}
           </div>
         </Section>
       )}
 
-      {/* ------------------------------------------ Contact, twilight */}
-      <TwilightBand className="mt-[clamp(32px,5vw,56px)]">
-        <Section id="contact" className="py-[clamp(56px,8vw,96px)]">
-          <span className="inline-flex items-center gap-2 rounded-full border border-parchment-cream/25 bg-parchment-cream/10 px-[12px] py-[5px] text-[12px] font-medium uppercase tracking-[.12em]">
-            <span aria-hidden className="h-[7px] w-[7px] rounded-full bg-mint-green" />
-            {contact.badge}
-          </span>
+      {/* ---------------------------------------------------- Contact */}
+      <Section id="contact" className="pt-[clamp(48px,7vw,96px)] pb-[clamp(32px,4vw,48px)]">
+        <Pill tone="line">
+          <LiveDot />
+          {contact.badge}
+        </Pill>
+        <h2 className="text-pretty-wrap m-0 mt-6 max-w-[18ch] font-display text-[clamp(34px,5vw,64px)] font-medium leading-[1.05] tracking-[-0.025em]">
+          {contact.headline}
+        </h2>
+        <p className="m-0 mt-5 max-w-[56ch] text-[clamp(16px,1.4vw,19px)] leading-[1.55] text-muted">
+          {contact.availabilityNote}
+        </p>
 
-          <h2 className="m-0 mt-6 max-w-[20ch] font-display text-[clamp(32px,5.6vw,64px)] font-normal leading-[1.1] tracking-[-0.023em] text-paper-white">
-            {contact.headline}
-          </h2>
-          <p className="m-0 mt-5 max-w-[52ch] text-[clamp(16px,1.7vw,18px)] leading-[1.56] tracking-[-0.012em] text-parchment-cream/75">
-            {contact.availabilityNote}
-          </p>
-
-          <div className="mt-9 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))]">
-            {contact.tiles.map((tile) => (
-              <a
-                key={tile.label}
-                href={tile.href}
-                className="rounded-[12px] bg-parchment-cream/10 p-4 ring-1 ring-parchment-cream/20 hover:bg-parchment-cream/18"
+        <div className="mt-10">
+          {contact.tiles.map((tile, i) => (
+            <a
+              key={tile.label}
+              href={tile.href}
+              className={cx(
+                "group grid items-baseline gap-x-8 gap-y-1 border-t border-line py-5 sm:grid-cols-[minmax(0,12rem)_1fr_auto]",
+                i === contact.tiles.length - 1 && "border-b",
+              )}
+            >
+              <span className="text-[13px] font-medium text-muted">{tile.label}</span>
+              <span className="text-[clamp(17px,1.6vw,22px)] tracking-[-0.015em] break-words">
+                <TileValue value={tile.value} />
+              </span>
+              <span
+                aria-hidden
+                className="hidden text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:inline"
               >
-                <div className="text-[12px] font-medium uppercase tracking-[.12em] text-parchment-cream/60">
-                  {tile.label}
-                </div>
-                <div className="mt-2 text-[16px] font-semibold tracking-[-0.011em] break-words">
-                  <TileValue value={tile.value} />
-                </div>
-              </a>
-            ))}
-          </div>
+                ↗
+              </span>
+            </a>
+          ))}
+        </div>
 
-          <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-parchment-cream/15 pt-6 text-[14px] text-parchment-cream/60">
-            <span>{profile.footer}</span>
-            <span>{profile.copyright}</span>
-          </div>
-        </Section>
-      </TwilightBand>
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-3 text-[13px] text-muted">
+          <span>{profile.footer}</span>
+          <span>{profile.copyright}</span>
+        </div>
+      </Section>
     </PageShell>
   );
 }

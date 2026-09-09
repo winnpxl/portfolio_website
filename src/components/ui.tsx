@@ -4,75 +4,32 @@ import type { ReactNode } from "react";
 
 import type { ImageSlot } from "@/content/site";
 
-/**
- * Surface fills. The neutrals carry structure; the rainbow set is
- * punctuation, used as card fills in rotation, never as a single
- * dominant brand colour.
- */
-export type Tone =
-  | "paper"
-  | "linen"
-  | "parchment"
-  | "twilight"
-  | "violet"
-  | "pink"
-  | "tangerine"
-  | "aqua"
-  | "sky"
-  | "yellow"
-  | "mint"
-  | "lilac";
-
-const toneFill: Record<Tone, string> = {
-  paper: "bg-paper-white",
-  linen: "bg-linen-beige",
-  parchment: "bg-parchment-cream",
-  twilight: "bg-twilight-indigo text-parchment-cream on-twilight",
-  violet: "bg-electric-violet",
-  pink: "bg-bubblegum-pink",
-  tangerine: "bg-tangerine",
-  aqua: "bg-aqua-teal",
-  sky: "bg-sky-blue",
-  yellow: "bg-sunshine-yellow",
-  mint: "bg-mint-green",
-  lilac: "bg-lilac-mist",
-};
-
-/** Accent rotation for feature grids, in the order DESIGN.md lists. */
-export const accentRotation: Tone[] = [
-  "violet",
-  "pink",
-  "tangerine",
-  "aqua",
-  "sky",
-  "yellow",
-  "mint",
-];
-
 export function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
 /* --------------------------------------------------------------- Pill */
 
-/** Full pill, reserved for tags and chips. Never for buttons. */
+/** Small bordered chip for roles, years and tags. */
 export function Pill({
   children,
-  tone = "paper",
   className,
-  bordered = true,
+  tone = "line",
 }: {
   children: ReactNode;
-  tone?: Tone;
   className?: string;
-  bordered?: boolean;
+  tone?: "line" | "solid" | "ghost";
 }) {
+  const tones = {
+    line: "border border-line bg-surface text-ink-soft",
+    solid: "bg-ink text-canvas",
+    ghost: "bg-ink/5 text-ink-soft",
+  } as const;
   return (
     <span
       className={cx(
-        "inline-block rounded-full px-[10px] py-[4px] text-[12px] font-medium",
-        bordered && "border border-sand-gray",
-        toneFill[tone],
+        "inline-flex items-center gap-1.5 rounded-full px-[11px] py-[5px] text-[12px] font-medium leading-none tracking-[-0.005em]",
+        tones[tone],
         className,
       )}
     >
@@ -81,34 +38,37 @@ export function Pill({
   );
 }
 
+/** The green "available" dot, used in the hero button and the contact badge. */
+export function LiveDot({ className }: { className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={cx("inline-block h-[7px] w-[7px] rounded-full bg-live", className)}
+    />
+  );
+}
+
 /* ------------------------------------------------------------- Button */
 
 const buttonBase =
-  "inline-block rounded-[12px] px-5 py-[10px] text-[14px] font-semibold tracking-[-0.011em]";
+  "inline-flex items-center gap-2 rounded-full px-[22px] py-[13px] text-[15px] font-medium leading-none tracking-[-0.01em] transition-colors";
 
-/**
- * DESIGN.md is explicit that primary actions stay neutral: filled white
- * or ink, with chromatic colour reserved for decoration. So there is no
- * solid-violet CTA here on purpose.
- */
+/** Primary is the black pill from the references; ghost is its quiet sibling. */
 export function ButtonLink({
   href,
   children,
-  tone = "ink",
+  tone = "solid",
   className,
 }: {
   href: string;
   children: ReactNode;
-  tone?: "ink" | "paper" | "ghost" | "outlined";
+  tone?: "solid" | "ghost" | "light";
   className?: string;
 }) {
   const tones = {
-    ink: "bg-ink-black text-parchment-cream hover:bg-charcoal-stone",
-    paper: "bg-paper-white text-ink-black shadow-raised hover:bg-linen-beige",
-    ghost:
-      "bg-transparent text-parchment-cream border border-parchment-cream/30 hover:bg-parchment-cream/10",
-    outlined:
-      "bg-lilac-mist text-ink-black border border-pale-violet hover:bg-pale-violet/30",
+    solid: "bg-ink text-canvas hover:bg-ink-soft",
+    ghost: "border border-line bg-transparent text-ink hover:bg-ink/5",
+    light: "bg-canvas text-ink hover:bg-surface",
   } as const;
 
   const external =
@@ -129,64 +89,9 @@ export function ButtonLink({
   );
 }
 
-/* --------------------------------------------------------------- Card */
-
-/** Standard content card: 12px radius, hairline ring, warm layered shadow. */
-export function Card({
-  children,
-  tone = "paper",
-  className,
-  as: Tag = "div",
-}: {
-  children: ReactNode;
-  tone?: Tone;
-  className?: string;
-  as?: "div" | "article";
-}) {
-  const chromatic = !["paper", "linen", "parchment", "twilight"].includes(tone);
-  return (
-    <Tag
-      className={cx(
-        "rounded-[12px] p-5",
-        // Accent fills carry their own colour and need no ring.
-        chromatic ? "" : "shadow-card",
-        toneFill[tone],
-        className,
-      )}
-    >
-      {children}
-    </Tag>
-  );
-}
-
-/** Large panel: 16px radius. */
-export function Panel({
-  children,
-  tone = "paper",
-  className,
-}: {
-  children: ReactNode;
-  tone?: Tone;
-  className?: string;
-}) {
-  const chromatic = !["paper", "linen", "parchment", "twilight"].includes(tone);
-  return (
-    <div
-      className={cx(
-        "rounded-[16px] p-6 sm:p-8",
-        chromatic || tone === "twilight" ? "" : "shadow-card",
-        toneFill[tone],
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
 /* --------------------------------------------------------------- Type */
 
-/** Small uppercase label. Sans only; the serif never comes below 28px. */
+/** Small muted label: section counts, row labels, eyebrows. */
 export function Eyebrow({
   children,
   className,
@@ -195,21 +100,13 @@ export function Eyebrow({
   className?: string;
 }) {
   return (
-    <div
-      className={cx(
-        "text-[12px] font-semibold uppercase tracking-[.12em] text-ash-gray",
-        className,
-      )}
-    >
+    <div className={cx("text-[13px] font-medium tracking-[-0.005em] text-muted", className)}>
       {children}
     </div>
   );
 }
 
-/**
- * Section heading. Serif at weight 400 is the signature of this system,
- * so it is never bolded.
- */
+/** Section heading in PP Palma. Quiet by design; the tiles do the talking. */
 export function SectionHeading({
   children,
   className,
@@ -220,7 +117,7 @@ export function SectionHeading({
   return (
     <h2
       className={cx(
-        "m-0 font-display text-[clamp(32px,5vw,48px)] font-normal leading-[1.2] tracking-[-0.013em]",
+        "m-0 font-display text-[clamp(26px,3.2vw,36px)] font-medium leading-[1.15] tracking-[-0.015em]",
         className,
       )}
     >
@@ -229,34 +126,78 @@ export function SectionHeading({
   );
 }
 
-/** Bullet list with a small violet marker. */
+/** Section header row: heading left, muted count or note right. */
+export function SectionHeader({
+  title,
+  aside,
+  className,
+}: {
+  title: ReactNode;
+  aside?: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cx("mb-8 flex flex-wrap items-baseline justify-between gap-3", className)}>
+      <SectionHeading>{title}</SectionHeading>
+      {aside && <Eyebrow>{aside}</Eyebrow>}
+    </div>
+  );
+}
+
+/** Compact bullet list with a small ink marker. */
 export function BulletList({
   items,
   size = "md",
-  markerClass = "bg-electric-violet",
+  className,
 }: {
   items: readonly string[];
-  size?: "sm" | "md" | "lg";
-  markerClass?: string;
+  size?: "sm" | "md";
+  className?: string;
 }) {
   const sizes = {
-    sm: "text-[14px] leading-[1.43]",
-    md: "text-[15px] leading-[1.47]",
-    lg: "text-[16px] leading-[1.5]",
+    sm: "text-[14px] leading-[1.5]",
+    md: "text-[15px] leading-[1.55]",
   } as const;
-
   return (
-    <ul className="m-0 grid list-none gap-2 p-0">
+    <ul className={cx("m-0 grid list-none gap-2 p-0 text-ink-soft", className)}>
       {items.map((item) => (
         <li key={item} className={cx("flex gap-3", sizes[size])}>
-          <span
-            aria-hidden
-            className={cx("mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full", markerClass)}
-          />
+          <span aria-hidden className="mt-[9px] h-[5px] w-[5px] shrink-0 rounded-full bg-ink" />
           <span>{item}</span>
         </li>
       ))}
     </ul>
+  );
+}
+
+/* ---------------------------------------------------------------- Row */
+
+/**
+ * Hairline information row. Label left, content right; stacks below sm.
+ * This is how everything that is not an image is laid out here.
+ */
+export function Row({
+  label,
+  children,
+  className,
+  first,
+}: {
+  label: ReactNode;
+  children: ReactNode;
+  className?: string;
+  first?: boolean;
+}) {
+  return (
+    <div
+      className={cx(
+        "grid gap-x-8 gap-y-2 border-line py-6 sm:grid-cols-[minmax(0,12rem)_1fr]",
+        first ? "border-t" : "border-t",
+        className,
+      )}
+    >
+      <div className="text-[13px] font-medium text-muted">{label}</div>
+      <div>{children}</div>
+    </div>
   );
 }
 
@@ -266,36 +207,57 @@ const ratioClass = {
   "16/9": "aspect-[16/9]",
   "16/10": "aspect-[16/10]",
   "4/3": "aspect-[4/3]",
+  "4/5": "aspect-[4/5]",
   "3/4": "aspect-[3/4]",
   "1/1": "aspect-square",
 } as const;
 
 export type Ratio = keyof typeof ratioClass;
 
+export type Fill = "tile" | "deep" | "dark" | "surface";
+
+const fillClass: Record<Fill, string> = {
+  tile: "bg-tile",
+  deep: "bg-tile-deep",
+  dark: "bg-tile-dark on-dark",
+  surface: "bg-surface",
+};
+
+/** Rotation for a grid of tiles, so neighbours never share a fill. */
+export const tileRotation: Fill[] = ["tile", "surface", "deep", "tile"];
+
 /**
- * Bordered image frame. Renders a real image once `slot.src` is set, and
- * until then shows the frame with its placeholder note, so an unfilled
- * portfolio still lays out exactly like the design.
+ * Image tile. The image is the card: no inner border, no padding, a
+ * neutral fill behind it. Renders the real image once `slot.src` is set;
+ * until then the fill and a faint note hold the exact space.
  */
 export function ImageFrame({
   slot,
   ratio,
-  radius = "12px",
-  backing = "bg-linen-beige",
+  fill = "tile",
+  radius = 24,
+  ring = false,
+  priority,
+  sizes = "(max-width: 768px) 100vw, 50vw",
   className,
 }: {
   slot: ImageSlot;
   ratio: Ratio;
-  radius?: string;
-  backing?: string;
+  fill?: Fill;
+  radius?: number;
+  ring?: boolean;
+  priority?: boolean;
+  sizes?: string;
   className?: string;
 }) {
+  const dark = fill === "dark";
   return (
     <div
       className={cx(
-        "relative overflow-hidden ring-1 ring-sand-gray",
+        "relative overflow-hidden",
         ratioClass[ratio],
-        backing,
+        fillClass[fill],
+        ring && "shadow-tile",
         className,
       )}
       style={{ borderRadius: radius }}
@@ -305,11 +267,17 @@ export function ImageFrame({
           src={slot.src}
           alt={slot.alt}
           fill
+          priority={priority}
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes={sizes}
         />
       ) : (
-        <span className="absolute inset-0 grid place-items-center p-4 text-center text-[12px] font-medium text-ash-gray">
+        <span
+          className={cx(
+            "absolute inset-0 grid place-items-center p-6 text-center text-[13px] font-medium",
+            dark ? "text-canvas/40" : "text-faint",
+          )}
+        >
           {slot.placeholder}
         </span>
       )}

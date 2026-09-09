@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 
 import { Nav } from "@/components/Nav";
 import { caseStudyNav } from "@/components/navItems";
-import { PageShell, Section, TwilightBand } from "@/components/Page";
+import { PageShell, Section } from "@/components/Page";
 import {
   BulletList,
   ButtonLink,
-  Card,
   Eyebrow,
   ImageFrame,
-  Panel,
   Pill,
+  Row,
+  SectionHeading,
   cx,
 } from "@/components/ui";
 import { runbeta } from "@/content/runbeta";
@@ -20,224 +20,191 @@ export const metadata: Metadata = {
   description: runbeta.hero.lead,
 };
 
-const pad = "py-[clamp(40px,6vw,72px)]";
+const pad = "py-[clamp(40px,6vw,80px)]";
+
+function DecisionHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <h3 className="m-0 mt-4 max-w-[28ch] text-[clamp(22px,2.6vw,30px)] font-medium leading-[1.2] tracking-[-0.02em]">
+      {children}
+    </h3>
+  );
+}
 
 export default function RunBetaCaseStudy() {
   return (
     <PageShell>
-      {/* ------------------------------------------- Hero, twilight band */}
-      <TwilightBand className="pb-[clamp(48px,7vw,80px)]">
-        <Nav items={caseStudyNav(runbeta.navLabel)} />
+      <Nav items={caseStudyNav(runbeta.navLabel)} />
 
-        <Section width={900} className="pt-[clamp(44px,7vw,80px)]">
-          <div className="mb-6 flex flex-wrap gap-2">
-            {runbeta.hero.pills.map((pill) => (
-              <span
-                key={pill.label}
-                className="rounded-full border border-parchment-cream/25 bg-parchment-cream/10 px-[12px] py-[5px] text-[12px] font-medium"
-              >
-                {pill.label}
-              </span>
-            ))}
-          </div>
-          <h1 className="text-pretty-wrap m-0 max-w-[20ch] font-display text-[clamp(36px,6.4vw,64px)] font-normal leading-[1.1] tracking-[-0.023em] text-paper-white">
-            {runbeta.hero.headline}
-          </h1>
-          <p className="text-pretty-wrap m-0 mt-6 max-w-[58ch] text-[clamp(16px,1.7vw,18px)] leading-[1.56] tracking-[-0.012em] text-parchment-cream/80">
-            {runbeta.hero.lead}
-          </p>
-        </Section>
-      </TwilightBand>
+      {/* ------------------------------------------------------- Hero */}
+      <Section width={880} className="pt-[clamp(48px,8vw,104px)]">
+        <div className="flex flex-wrap gap-2">
+          {runbeta.hero.pills.map((pill) => (
+            <Pill key={pill.label}>{pill.label}</Pill>
+          ))}
+        </div>
+        <h1 className="text-pretty-wrap m-0 mt-8 max-w-[22ch] text-[clamp(32px,4.6vw,56px)] font-normal leading-[1.1] tracking-[-0.025em]">
+          {runbeta.hero.headline}
+        </h1>
+        <p className="text-pretty-wrap m-0 mt-6 max-w-[60ch] text-[clamp(17px,1.5vw,20px)] leading-[1.55] tracking-[-0.01em] text-muted">
+          {runbeta.hero.lead}
+        </p>
+      </Section>
 
       {/* ------------------------------------------------------ Cover */}
-      <Section width={900} className="pt-[clamp(32px,5vw,56px)]">
-        <ImageFrame slot={runbeta.cover} ratio="16/9" radius="16px" />
+      <Section className="pt-[clamp(40px,6vw,72px)]">
+        <ImageFrame slot={runbeta.cover} ratio="16/9" fill="dark" radius={28} sizes="100vw" priority />
       </Section>
 
       {/* ------------------------------------------------------ Facts */}
-      <Section width={900} className={pad}>
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))]">
+      <Section width={880} className={pad}>
+        <div className="grid border-t border-line [grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))]">
           {runbeta.facts.map((fact) => {
             const highlight = "highlight" in fact && fact.highlight;
             return (
-            <Card key={fact.label} tone={highlight ? "lilac" : "paper"}>
-              <Eyebrow className={highlight ? "text-deep-violet" : undefined}>
-                {fact.label}
-              </Eyebrow>
-              <p className="m-0 mt-3 text-[14px] leading-[1.43] tracking-[-0.011em] text-charcoal-stone">
-                {fact.body}
-              </p>
-            </Card>
+              <div key={fact.label} className="border-b border-line py-6 pr-6">
+                <Eyebrow className={cx(highlight && "text-ink")}>{fact.label}</Eyebrow>
+                <p className="m-0 mt-3 text-[15px] leading-[1.55] text-ink-soft">{fact.body}</p>
+              </div>
             );
           })}
         </div>
       </Section>
 
       {/* ---------------------------------------------------- Problem */}
-      <Section width={900} className={pad}>
-        <Panel>
-          <Eyebrow className="mb-4">{runbeta.problem.eyebrow}</Eyebrow>
-          <h2 className="m-0 mb-5 max-w-[26ch] font-display text-[clamp(28px,4vw,44px)] font-normal leading-[1.2] tracking-[-0.013em]">
-            {runbeta.problem.heading}
-          </h2>
+      <Section width={880} className={pad}>
+        <Eyebrow>{runbeta.problem.eyebrow}</Eyebrow>
+        <SectionHeading className="mt-4 max-w-[24ch] text-[clamp(28px,3.6vw,44px)]">
+          {runbeta.problem.heading}
+        </SectionHeading>
+        <div className="mt-6 max-w-[62ch]">
           {runbeta.problem.paragraphs.map((para, i) => (
             <p
               key={i}
               className={cx(
-                "m-0 max-w-[62ch] text-[16px] leading-[1.5] tracking-[-0.011em] text-charcoal-stone",
+                "m-0 text-[clamp(16px,1.3vw,18px)] leading-[1.6] tracking-[-0.01em] text-ink-soft",
                 i < runbeta.problem.paragraphs.length - 1 && "mb-4",
               )}
             >
               {para}
             </p>
           ))}
-        </Panel>
+        </div>
       </Section>
 
       {/* -------------------------------------------------- Decisions */}
-      <Section width={900} className={pad}>
-        <h2 className="m-0 mb-8 font-display text-[clamp(32px,5vw,48px)] font-normal leading-[1.2] tracking-[-0.013em]">
-          {runbeta.decisionsHeading}
-        </h2>
+      <Section width={880} className={pad}>
+        <SectionHeading className="mb-4">{runbeta.decisionsHeading}</SectionHeading>
 
-        <div className="grid gap-5">
-          {/* 01 */}
-          <Panel>
-            <div className="grid items-center gap-8 [grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))]">
-              <div>
-                <Pill tone="lilac" className="mb-4 border-pale-violet text-deep-violet">
-                  {runbeta.decisionOne.pill}
-                </Pill>
-                <h3 className="m-0 mb-4 font-display text-[clamp(22px,2.8vw,28px)] font-normal leading-[1.35] tracking-[-0.01em]">
-                  {runbeta.decisionOne.heading}
-                </h3>
-                {runbeta.decisionOne.paragraphs.map((para, i) => (
-                  <p
-                    key={i}
-                    className={cx(
-                      "m-0 text-[15px] leading-[1.47] tracking-[-0.011em] text-charcoal-stone",
-                      i < runbeta.decisionOne.paragraphs.length - 1 && "mb-3",
-                    )}
-                  >
-                    {para}
-                  </p>
-                ))}
-              </div>
-              <ImageFrame slot={runbeta.decisionOne.image} ratio="4/3" />
-            </div>
-          </Panel>
-
-          {/* 02 — before / after */}
-          <Panel>
-            <Pill className="mb-4">{runbeta.decisionTwo.pill}</Pill>
-            <h3 className="m-0 mb-6 max-w-[30ch] font-display text-[clamp(22px,2.8vw,28px)] font-normal leading-[1.35] tracking-[-0.01em]">
-              {runbeta.decisionTwo.heading}
-            </h3>
-            <div className="mb-5 grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))]">
-              <Card tone="tangerine">
-                <div className="text-[12px] font-semibold uppercase tracking-[.12em] text-ink-black/70">
-                  {runbeta.decisionTwo.before.label}
-                </div>
-                <div className="mt-2 font-display text-[40px] font-normal leading-[1.1] tracking-[-0.013em] text-ink-black">
-                  {runbeta.decisionTwo.before.value}
-                </div>
-                <p className="mt-2 text-[14px] leading-[1.43] text-ink-black/85">
-                  {runbeta.decisionTwo.before.body}
-                </p>
-              </Card>
-              <Card tone="mint">
-                <div className="text-[12px] font-semibold uppercase tracking-[.12em] text-ink-black/70">
-                  {runbeta.decisionTwo.after.label}
-                </div>
-                <div className="mt-2 font-display text-[40px] font-normal leading-[1.1] tracking-[-0.013em] text-ink-black">
-                  {runbeta.decisionTwo.after.value}
-                </div>
-                <p className="mt-2 text-[14px] leading-[1.43] text-ink-black/85">
-                  {runbeta.decisionTwo.after.body}
-                </p>
-              </Card>
-            </div>
-            <p className="m-0 max-w-[62ch] text-[15px] leading-[1.47] tracking-[-0.011em] text-charcoal-stone">
-              {runbeta.decisionTwo.closing}
-            </p>
-          </Panel>
-
-          {/* 03 */}
-          <Panel>
-            <Pill className="mb-4">{runbeta.decisionThree.pill}</Pill>
-            <h3 className="m-0 mb-4 max-w-[32ch] font-display text-[clamp(22px,2.8vw,28px)] font-normal leading-[1.35] tracking-[-0.01em]">
-              {runbeta.decisionThree.heading}
-            </h3>
-            <p className="m-0 mb-6 max-w-[62ch] text-[15px] leading-[1.47] tracking-[-0.011em] text-charcoal-stone">
-              {runbeta.decisionThree.body}
-            </p>
-            <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))]">
-              {runbeta.decisionThree.cards.map((card) => (
-                <div
-                  key={card.title}
-                  className="rounded-[12px] bg-lilac-mist p-4 ring-1 ring-pale-violet"
+        {/* 01 */}
+        <div className="border-t border-line py-10">
+          <Pill>{runbeta.decisionOne.pill}</Pill>
+          <DecisionHeading>{runbeta.decisionOne.heading}</DecisionHeading>
+          <div className="mt-6 grid items-center gap-8 md:grid-cols-[1fr_1fr]">
+            <div className="max-w-[52ch]">
+              {runbeta.decisionOne.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  className={cx(
+                    "m-0 text-[16px] leading-[1.6] text-ink-soft",
+                    i < runbeta.decisionOne.paragraphs.length - 1 && "mb-4",
+                  )}
                 >
-                  <div className="text-[15px] font-semibold tracking-[-0.011em]">
-                    {card.title}
-                  </div>
-                  <p className="m-0 mt-2 text-[13px] leading-[1.43] text-charcoal-stone">
-                    {card.body}
-                  </p>
-                </div>
+                  {para}
+                </p>
               ))}
             </div>
-          </Panel>
-
-          {/* 04 — the dark one */}
-          <div className="on-twilight rounded-[16px] bg-twilight-indigo p-6 text-parchment-cream sm:p-8">
-            <span className="mb-4 inline-block rounded-full bg-parchment-cream/12 px-[10px] py-[4px] text-[12px] font-medium ring-1 ring-parchment-cream/20">
-              {runbeta.decisionFour.pill}
-            </span>
-            <h3 className="m-0 mb-4 max-w-[32ch] font-display text-[clamp(22px,2.8vw,28px)] font-normal leading-[1.35] tracking-[-0.01em] text-paper-white">
-              {runbeta.decisionFour.heading}
-            </h3>
-            <p className="m-0 max-w-[62ch] text-[15px] leading-[1.5] tracking-[-0.011em] text-parchment-cream/80">
-              {runbeta.decisionFour.body}
-            </p>
+            <ImageFrame slot={runbeta.decisionOne.image} ratio="4/3" fill="tile" />
           </div>
+        </div>
+
+        {/* 02 — before / after */}
+        <div className="border-t border-line py-10">
+          <Pill>{runbeta.decisionTwo.pill}</Pill>
+          <DecisionHeading>{runbeta.decisionTwo.heading}</DecisionHeading>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div className="on-dark rounded-[24px] bg-tile-dark p-7 text-canvas">
+              <Eyebrow className="text-canvas/50">{runbeta.decisionTwo.before.label}</Eyebrow>
+              <div className="mt-6 font-display text-[64px] font-medium leading-none tracking-[-0.03em]">
+                {runbeta.decisionTwo.before.value}
+              </div>
+              <p className="m-0 mt-4 text-[15px] leading-[1.55] text-canvas/70">
+                {runbeta.decisionTwo.before.body}
+              </p>
+            </div>
+            <div className="rounded-[24px] bg-surface p-7 shadow-tile">
+              <Eyebrow>{runbeta.decisionTwo.after.label}</Eyebrow>
+              <div className="mt-6 font-display text-[64px] font-medium leading-none tracking-[-0.03em]">
+                {runbeta.decisionTwo.after.value}
+              </div>
+              <p className="m-0 mt-4 text-[15px] leading-[1.55] text-muted">
+                {runbeta.decisionTwo.after.body}
+              </p>
+            </div>
+          </div>
+          <p className="m-0 mt-6 max-w-[60ch] text-[16px] leading-[1.6] text-ink-soft">
+            {runbeta.decisionTwo.closing}
+          </p>
+        </div>
+
+        {/* 03 */}
+        <div className="border-t border-line py-10">
+          <Pill>{runbeta.decisionThree.pill}</Pill>
+          <DecisionHeading>{runbeta.decisionThree.heading}</DecisionHeading>
+          <p className="m-0 mt-5 max-w-[60ch] text-[16px] leading-[1.6] text-ink-soft">
+            {runbeta.decisionThree.body}
+          </p>
+          <div className="mt-6 grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))]">
+            {runbeta.decisionThree.cards.map((card) => (
+              <div key={card.title} className="rounded-[20px] bg-surface p-5 shadow-tile">
+                <div className="text-[15px] font-medium tracking-[-0.01em]">{card.title}</div>
+                <p className="m-0 mt-2 text-[14px] leading-[1.5] text-muted">{card.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 04 */}
+        <div className="border-t border-b border-line py-10">
+          <Pill tone="solid">{runbeta.decisionFour.pill}</Pill>
+          <DecisionHeading>{runbeta.decisionFour.heading}</DecisionHeading>
+          <p className="m-0 mt-5 max-w-[60ch] text-[16px] leading-[1.6] text-ink-soft">
+            {runbeta.decisionFour.body}
+          </p>
         </div>
       </Section>
 
       {/* ----------------------------------------- System & prototype */}
-      <Section width={900} className={pad}>
-        <div className="grid items-start gap-5 [grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))]">
-          <Panel>
-            <Eyebrow className="mb-4">{runbeta.system.eyebrow}</Eyebrow>
-            <h2 className="m-0 mb-5 font-display text-[clamp(24px,3.2vw,36px)] font-normal leading-[1.25] tracking-[-0.013em]">
-              {runbeta.system.heading}
-            </h2>
-            <BulletList items={runbeta.system.bullets} size="md" />
-          </Panel>
-          <ImageFrame slot={runbeta.system.image} ratio="3/4" radius="16px" />
+      <Section width={880} className={pad}>
+        <div className="grid items-start gap-8 md:grid-cols-[1fr_minmax(240px,320px)] md:gap-14">
+          <div>
+            <Eyebrow>{runbeta.system.eyebrow}</Eyebrow>
+            <SectionHeading className="mt-4 mb-6">{runbeta.system.heading}</SectionHeading>
+            <BulletList items={runbeta.system.bullets} />
+          </div>
+          <ImageFrame slot={runbeta.system.image} ratio="3/4" fill="tile" sizes="(max-width: 768px) 100vw, 320px" />
         </div>
       </Section>
 
       {/* ------------------------------------------------- Reflection */}
-      <Section width={900} className={pad}>
-        <Panel tone="linen">
-          <Eyebrow className="mb-4">{runbeta.reflection.eyebrow}</Eyebrow>
-          <p className="text-pretty-wrap m-0 max-w-[60ch] font-display text-[clamp(20px,2.4vw,28px)] font-normal leading-[1.35] tracking-[-0.01em]">
+      <Section width={880} className={pad}>
+        <Row label={runbeta.reflection.eyebrow} first className="border-b">
+          <p className="text-pretty-wrap m-0 max-w-[40ch] font-display text-[clamp(22px,2.6vw,32px)] font-medium leading-[1.25] tracking-[-0.015em]">
             {runbeta.reflection.body}
           </p>
-        </Panel>
+        </Row>
       </Section>
 
       {/* ------------------------------------------------------- Next */}
-      <Section width={900} className="pb-[clamp(56px,8vw,96px)] pt-[clamp(16px,3vw,32px)]">
-        <Panel className="flex flex-wrap items-center justify-between gap-4">
+      <Section width={880} className="pb-[clamp(56px,8vw,112px)] pt-[clamp(16px,3vw,32px)]">
+        <div className="flex flex-wrap items-center justify-between gap-6 rounded-[28px] bg-surface p-8 shadow-tile">
           <div>
-            <Eyebrow className="mb-2">{runbeta.next.eyebrow}</Eyebrow>
-            <div className="font-display text-[clamp(22px,2.8vw,28px)] font-normal leading-[1.35] tracking-[-0.01em]">
+            <Eyebrow>{runbeta.next.eyebrow}</Eyebrow>
+            <div className="mt-3 font-display text-[clamp(22px,2.6vw,30px)] font-medium leading-[1.15] tracking-[-0.015em]">
               {runbeta.next.title}
             </div>
           </div>
           <ButtonLink href={runbeta.next.href}>{runbeta.next.cta}</ButtonLink>
-        </Panel>
+        </div>
       </Section>
     </PageShell>
   );
