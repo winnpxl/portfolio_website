@@ -1,28 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
+import { SoundProvider } from "@/components/sound";
+
 import "./globals.css";
 
 /**
- * PP Palma — display face. Weights are declared as ranges so the utility
- * classes map onto the three cuts we ship: font-normal and font-medium
- * both resolve to Medium, which is the editorial weight this system
- * wants, and nothing accidentally lands on Heavy.
- */
-const palma = localFont({
-  src: [
-    { path: "../fonts/PPPalma-Light.woff2", weight: "300", style: "normal" },
-    { path: "../fonts/PPPalma-Medium.woff2", weight: "400 500", style: "normal" },
-    { path: "../fonts/PPPalma-Heavy.woff2", weight: "600 900", style: "normal" },
-  ],
-  variable: "--font-palma",
-  display: "swap",
-});
-
-/**
- * PP Mori — UI and body face. Semibold covers 600 and 700 so that
- * font-bold does not fall through to a heavier cut than intended;
- * font-medium (500) resolves down to Regular.
+ * PP Mori — the only face. Semibold covers 600 and 700 so that font-bold
+ * does not fall through to a heavier cut than intended; font-medium (500)
+ * resolves down to Regular, so headings ask for 600 explicitly.
  */
 const mori = localFont({
   src: [
@@ -49,8 +35,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${palma.variable} ${mori.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={mori.variable}>
+      <body>
+        <SoundProvider>{children}</SoundProvider>
+      </body>
     </html>
   );
 }

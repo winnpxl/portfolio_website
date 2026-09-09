@@ -71,9 +71,11 @@ and a caption beneath, never a bordered box with text inside. **Everything
 else is a hairline row**: stats, process steps, side projects and contact
 details sit on `border-line` rows with a muted label on the left.
 
-Type is PP Mori for nearly everything, including the big hero statement at
-regular weight and tight tracking. PP Palma is reserved for the name lockup
-and section headings. Both are self-hosted from `src/fonts`.
+Type is PP Mori throughout, self-hosted from `src/fonts`. With one face,
+hierarchy comes from size and weight: display-scale text (the hero
+statement, the contact headline) sits at regular, because at that size
+weight adds nothing, while mid-size headings take semibold to hold their
+place. There is no second display face.
 
 Layout is responsive through `clamp()` type ramps and `auto-fit` grids, with
 `sm`/`md` breakpoints only where a row genuinely stacks.

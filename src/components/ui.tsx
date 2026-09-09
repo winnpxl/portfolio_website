@@ -77,13 +77,13 @@ export function ButtonLink({
 
   if (external) {
     return (
-      <a href={href} className={cls}>
+      <a href={href} className={cls} data-sound>
         {children}
       </a>
     );
   }
   return (
-    <Link href={href} className={cls}>
+    <Link href={href} className={cls} data-sound>
       {children}
     </Link>
   );
@@ -106,7 +106,7 @@ export function Eyebrow({
   );
 }
 
-/** Section heading in PP Palma. Quiet by design; the tiles do the talking. */
+/** Section heading. Quiet by design; the tiles do the talking. */
 export function SectionHeading({
   children,
   className,
@@ -117,7 +117,7 @@ export function SectionHeading({
   return (
     <h2
       className={cx(
-        "m-0 font-display text-[clamp(26px,3.2vw,36px)] font-medium leading-[1.15] tracking-[-0.015em]",
+        "m-0 text-[clamp(26px,3.2vw,36px)] font-semibold leading-[1.15] tracking-[-0.015em]",
         className,
       )}
     >
@@ -237,6 +237,7 @@ export function ImageFrame({
   fill = "tile",
   radius = 24,
   ring = false,
+  sound = false,
   priority,
   sizes = "(max-width: 768px) 100vw, 50vw",
   className,
@@ -246,6 +247,8 @@ export function ImageFrame({
   fill?: Fill;
   radius?: number;
   ring?: boolean;
+  /** Opt in to the hover sound. Work and gallery tiles do; the portrait does not. */
+  sound?: boolean;
   priority?: boolean;
   sizes?: string;
   className?: string;
@@ -253,6 +256,7 @@ export function ImageFrame({
   const dark = fill === "dark";
   return (
     <div
+      data-sound={sound || undefined}
       className={cx(
         "relative overflow-hidden",
         ratioClass[ratio],

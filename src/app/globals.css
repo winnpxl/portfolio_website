@@ -19,8 +19,8 @@
   --color-line: #e3e3df;
   --color-live: #22c55e;
 
-  /* PP Palma for the name and headings, PP Mori for everything else. */
-  --font-display: var(--font-palma), ui-sans-serif, system-ui, sans-serif;
+  /* PP Mori throughout. Hierarchy comes from size and weight, not from
+     a second face. */
   --font-sans: var(--font-mori), ui-sans-serif, system-ui, sans-serif;
 
   /* Elevation is a whisper: a hairline ring and a short soft lift. */
@@ -69,5 +69,56 @@
 @layer utilities {
   .text-pretty-wrap {
     text-wrap: pretty;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Image ticker. The track holds two identical copies of the row, so
+   shifting it by half its width lands exactly on the seam and the loop
+   is invisible. Travelling from -50% to 0 carries the images to the
+   right; swap the two values to reverse it.
+   --------------------------------------------------------------- */
+@keyframes ticker-drift {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.ticker {
+  overflow: hidden;
+  /* Fade the ends so images enter and leave rather than being cut. */
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 4%,
+    #000 96%,
+    transparent 100%
+  );
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-drift var(--ticker-duration, 70s) linear infinite;
+  will-change: transform;
+}
+
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+    /* Without the animation the track sits at 0, showing the first copy;
+       the row then simply scrolls by hand. */
+  }
+
+  .ticker {
+    overflow-x: auto;
   }
 }
