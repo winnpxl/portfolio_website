@@ -142,13 +142,6 @@ export default function HomePage() {
           </ButtonLink>
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-2">
-          {hero.capabilities.map((cap) => (
-            <Pill key={cap.label} tone="ghost">
-              {cap.label}
-            </Pill>
-          ))}
-        </div>
       </Section>
 
       {/* ------------------------------------------------------ Stats */}
