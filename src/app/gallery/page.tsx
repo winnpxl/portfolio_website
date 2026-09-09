@@ -44,6 +44,7 @@ export default function GalleryPage() {
                   ratio={tile.ratio}
                   fill={fill}
                   ring={fill === "surface"}
+                  sound
                   sizes={tile.wide ? "(max-width: 640px) 100vw, 66vw" : "(max-width: 640px) 100vw, 33vw"}
                 />
                 <figcaption className="mt-3 flex flex-wrap justify-between gap-2 px-1 text-[14px]">
@@ -58,7 +59,7 @@ export default function GalleryPage() {
         <div className="on-dark mt-12 flex flex-wrap items-end justify-between gap-6 rounded-[28px] bg-tile-dark p-8 text-canvas sm:p-12">
           <div>
             <Eyebrow className="text-canvas/50">Case studies</Eyebrow>
-            <div className="mt-4 max-w-[22ch] font-display text-[clamp(26px,3.2vw,40px)] font-medium leading-[1.1] tracking-[-0.02em]">
+            <div className="mt-4 max-w-[22ch] text-[clamp(26px,3.2vw,40px)] font-semibold leading-[1.1] tracking-[-0.02em]">
               {galleryCta.title}
             </div>
           </div>

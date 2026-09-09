@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 
+import { SoundToggle } from "./sound";
 import type { NavItem, Social } from "./navItems";
 import { cx } from "./ui";
 
@@ -111,20 +112,19 @@ export function Nav({ items, socials = [] }: { items: NavItem[]; socials?: Socia
           ))}
         </div>
 
-        {socials.length > 0 && (
-          <div className="ml-auto hidden items-center gap-5 md:flex">
-            {socials.map((s) => (
-              <a
-                key={s.href}
-                href={s.href}
-                aria-label={s.label}
-                className="text-ink-soft transition-colors hover:text-ink"
-              >
-                <Icon name={s.icon} />
-              </a>
-            ))}
-          </div>
-        )}
+        <div className="ml-auto hidden items-center gap-5 md:flex">
+          {socials.map((s) => (
+            <a
+              key={s.href}
+              href={s.href}
+              aria-label={s.label}
+              className="text-ink-soft transition-colors hover:text-ink"
+            >
+              <Icon name={s.icon} />
+            </a>
+          ))}
+          <SoundToggle />
+        </div>
 
         {open && (
           <div
@@ -134,15 +134,14 @@ export function Nav({ items, socials = [] }: { items: NavItem[]; socials?: Socia
             {rest.map((item, i) => (
               <Item key={i} item={item} stacked onNavigate={close} />
             ))}
-            {socials.length > 0 && (
-              <div className="mt-3 flex items-center gap-5 text-ink-soft">
-                {socials.map((s) => (
-                  <a key={s.href} href={s.href} aria-label={s.label}>
-                    <Icon name={s.icon} />
-                  </a>
-                ))}
-              </div>
-            )}
+            <div className="mt-3 flex items-center gap-5 text-ink-soft">
+              {socials.map((s) => (
+                <a key={s.href} href={s.href} aria-label={s.label}>
+                  <Icon name={s.icon} />
+                </a>
+              ))}
+              <SoundToggle />
+            </div>
           </div>
         )}
       </nav>

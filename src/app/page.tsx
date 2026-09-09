@@ -71,7 +71,7 @@ export default function HomePage() {
       {/* ------------------------------------------------------- Hero */}
       <Section className="pt-[clamp(56px,9vw,120px)] pb-[clamp(40px,6vw,72px)]">
         <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-6">
-          {/* Name lockup: portrait, name in PP Palma, role beneath. */}
+          {/* Name lockup: portrait, name, role beneath. */}
           <div className="flex items-center gap-4">
             <div className="relative shrink-0">
               {about.portrait.src ? (
@@ -92,7 +92,7 @@ export default function HomePage() {
               />
             </div>
             <div>
-              <div className="font-display text-[24px] font-medium leading-none tracking-[-0.015em]">
+              <div className="text-[24px] font-semibold leading-none tracking-[-0.015em]">
                 {profile.name}
               </div>
               <div className="mt-[6px] text-[14px] text-muted">{profile.role}</div>
@@ -149,7 +149,7 @@ export default function HomePage() {
         <div className="grid border-t border-line [grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))]">
           {stats.map((stat) => (
             <div key={stat.value} className="border-b border-line py-6 pr-6">
-              <div className="font-display text-[clamp(30px,3.2vw,40px)] font-medium leading-none tracking-[-0.02em]">
+              <div className="text-[clamp(30px,3.2vw,40px)] font-semibold leading-none tracking-[-0.02em]">
                 {stat.value}
               </div>
               <div className="mt-3 max-w-[22ch] text-[14px] leading-[1.45] text-muted">
@@ -171,6 +171,7 @@ export default function HomePage() {
             ratio="4/3"
             fill="dark"
             radius={20}
+            sound
             sizes="(max-width: 768px) 100vw, 55vw"
           />
           <div className="flex flex-col justify-center px-3 pb-4 md:py-6 md:pr-8">
@@ -178,7 +179,7 @@ export default function HomePage() {
               <Pill tone="solid">{featuredWork.pills[0].label}</Pill>
               <Pill>{featuredWork.pills[1].label}</Pill>
             </div>
-            <h3 className="m-0 mt-5 font-display text-[clamp(28px,3vw,36px)] font-medium leading-[1.1] tracking-[-0.015em]">
+            <h3 className="m-0 mt-5 text-[clamp(28px,3vw,36px)] font-semibold leading-[1.1] tracking-[-0.015em]">
               {featuredWork.title}
             </h3>
             <p className="m-0 mt-3 max-w-[48ch] text-[15px] leading-[1.55] text-ink-soft">
@@ -200,6 +201,7 @@ export default function HomePage() {
                 ratio="4/5"
                 fill={tileRotation[i % tileRotation.length]}
                 ring={tileRotation[i % tileRotation.length] === "surface"}
+                sound
               />
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
                 <h3 className="m-0 text-[19px] font-medium leading-none tracking-[-0.015em]">
@@ -231,7 +233,7 @@ export default function HomePage() {
               key={step.number}
               className="grid gap-x-8 gap-y-2 border-t border-line py-6 last:border-b sm:grid-cols-[3rem_minmax(0,12rem)_1fr]"
             >
-              <span className="font-display text-[15px] text-muted">{step.number}</span>
+              <span className="text-[15px] text-muted">{step.number}</span>
               <span className="text-[17px] font-medium tracking-[-0.01em]">{step.title}</span>
               <p className="m-0 max-w-[56ch] text-[15px] leading-[1.55] text-muted">
                 {step.body}
@@ -304,11 +306,12 @@ export default function HomePage() {
       <Section className={sectionPad}>
         <Link
           href="/gallery"
+          data-sound
           className="on-dark group flex flex-wrap items-end justify-between gap-6 rounded-[28px] bg-tile-dark p-8 text-canvas sm:p-12"
         >
           <div>
             <Eyebrow className="text-canvas/50">{galleryBanner.eyebrow}</Eyebrow>
-            <div className="mt-4 max-w-[20ch] font-display text-[clamp(28px,3.6vw,44px)] font-medium leading-[1.08] tracking-[-0.02em]">
+            <div className="mt-4 max-w-[20ch] text-[clamp(28px,3.6vw,44px)] font-semibold leading-[1.08] tracking-[-0.02em]">
               {galleryBanner.title}
             </div>
           </div>
@@ -350,7 +353,7 @@ export default function HomePage() {
                 key={quote.attribution}
                 className="m-0 rounded-[24px] bg-surface p-7 shadow-tile"
               >
-                <p className="m-0 font-display text-[clamp(20px,2vw,26px)] font-medium leading-[1.3] tracking-[-0.01em]">
+                <p className="m-0 text-[clamp(20px,2vw,26px)] font-normal leading-[1.3] tracking-[-0.01em]">
                   {quote.quote}
                 </p>
                 <footer className="mt-5 text-[14px] text-muted">{quote.attribution}</footer>
@@ -366,7 +369,7 @@ export default function HomePage() {
           <LiveDot />
           {contact.badge}
         </Pill>
-        <h2 className="text-pretty-wrap m-0 mt-6 max-w-[18ch] font-display text-[clamp(34px,5vw,64px)] font-medium leading-[1.05] tracking-[-0.025em]">
+        <h2 className="text-pretty-wrap m-0 mt-6 max-w-[18ch] text-[clamp(34px,5vw,64px)] font-normal leading-[1.05] tracking-[-0.025em]">
           {contact.headline}
         </h2>
         <p className="m-0 mt-5 max-w-[56ch] text-[clamp(16px,1.4vw,19px)] leading-[1.55] text-muted">
@@ -378,6 +381,7 @@ export default function HomePage() {
             <a
               key={tile.label}
               href={tile.href}
+              data-sound
               className={cx(
                 "group grid items-baseline gap-x-8 gap-y-1 border-t border-line py-5 sm:grid-cols-[minmax(0,12rem)_1fr_auto]",
                 i === contact.tiles.length - 1 && "border-b",

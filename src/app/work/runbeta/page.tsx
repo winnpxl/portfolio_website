@@ -124,7 +124,7 @@ export default function RunBetaCaseStudy() {
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <div className="on-dark rounded-[24px] bg-tile-dark p-7 text-canvas">
               <Eyebrow className="text-canvas/50">{runbeta.decisionTwo.before.label}</Eyebrow>
-              <div className="mt-6 font-display text-[64px] font-medium leading-none tracking-[-0.03em]">
+              <div className="mt-6 text-[64px] font-semibold leading-none tracking-[-0.03em]">
                 {runbeta.decisionTwo.before.value}
               </div>
               <p className="m-0 mt-4 text-[15px] leading-[1.55] text-canvas/70">
@@ -133,7 +133,7 @@ export default function RunBetaCaseStudy() {
             </div>
             <div className="rounded-[24px] bg-surface p-7 shadow-tile">
               <Eyebrow>{runbeta.decisionTwo.after.label}</Eyebrow>
-              <div className="mt-6 font-display text-[64px] font-medium leading-none tracking-[-0.03em]">
+              <div className="mt-6 text-[64px] font-semibold leading-none tracking-[-0.03em]">
                 {runbeta.decisionTwo.after.value}
               </div>
               <p className="m-0 mt-4 text-[15px] leading-[1.55] text-muted">
@@ -188,7 +188,7 @@ export default function RunBetaCaseStudy() {
       {/* ------------------------------------------------- Reflection */}
       <Section width={880} className={pad}>
         <Row label={runbeta.reflection.eyebrow} first className="border-b">
-          <p className="text-pretty-wrap m-0 max-w-[40ch] font-display text-[clamp(22px,2.6vw,32px)] font-medium leading-[1.25] tracking-[-0.015em]">
+          <p className="text-pretty-wrap m-0 max-w-[40ch] text-[clamp(22px,2.6vw,32px)] font-normal leading-[1.25] tracking-[-0.015em]">
             {runbeta.reflection.body}
           </p>
         </Row>
@@ -199,7 +199,7 @@ export default function RunBetaCaseStudy() {
         <div className="flex flex-wrap items-center justify-between gap-6 rounded-[28px] bg-surface p-8 shadow-tile">
           <div>
             <Eyebrow>{runbeta.next.eyebrow}</Eyebrow>
-            <div className="mt-3 font-display text-[clamp(22px,2.6vw,30px)] font-medium leading-[1.15] tracking-[-0.015em]">
+            <div className="mt-3 text-[clamp(22px,2.6vw,30px)] font-semibold leading-[1.15] tracking-[-0.015em]">
               {runbeta.next.title}
             </div>
           </div>

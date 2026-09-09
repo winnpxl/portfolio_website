@@ -19,8 +19,8 @@
   --color-line: #e3e3df;
   --color-live: #22c55e;
 
-  /* PP Palma for the name and headings, PP Mori for everything else. */
-  --font-display: var(--font-palma), ui-sans-serif, system-ui, sans-serif;
+  /* PP Mori throughout. Hierarchy comes from size and weight, not from
+     a second face. */
   --font-sans: var(--font-mori), ui-sans-serif, system-ui, sans-serif;
 
   /* Elevation is a whisper: a hairline ring and a short soft lift. */
