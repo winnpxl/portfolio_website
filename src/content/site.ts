@@ -30,7 +30,7 @@ export const hero = {
     { label: "Lagos, Nigeria · remote" },
   ],
   headline: "Seven years turning unformed briefs into shipped products.",
-  lead: "I design complex, trust-dependent products across marketplaces, fintech and consumer mobile, and I build the front end that ships them. Onboarding, identity verification, matching, escrow, messaging, trust and safety. Mobile-first, specified so engineers never have to guess.",
+  lead: "I simplify complex, trust-dependent products across marketplaces, fintech and consumer mobile, while building the frontend that ships them. I build sites that convert, and mobile apps users can come back to on a daily basis.",
 } as const;
 
 export const stats = [
