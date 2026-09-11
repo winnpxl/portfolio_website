@@ -140,7 +140,7 @@ export default function HomePage() {
             <LiveDot />
           </ButtonLink>
           <ButtonLink href="#work" tone="ghost">
-            See the work
+            See my work
           </ButtonLink>
         </div>
 
