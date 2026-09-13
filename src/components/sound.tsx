@@ -288,3 +288,13 @@ export function SoundToggle({ className }: { className?: string }) {
     </button>
   );
 }
+
+/**
+ * The visitor's interface-sound preference, for features that synthesise
+ * sounds of their own, such as the games. False until the stored
+ * preference is known, so nothing plays before hydration settles.
+ */
+export function useSoundEnabled() {
+  const api = useContext(SoundContext);
+  return !!api && api.ready && api.enabled;
+}

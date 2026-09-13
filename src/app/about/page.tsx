@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { Nav } from "@/components/Nav";
-import { aboutNav, type Social } from "@/components/navItems";
+import { aboutNav, socials } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
 import {
   ButtonLink,
@@ -16,18 +16,6 @@ export const metadata: Metadata = {
   title: "About — Samuel Winner",
   description: about.paragraphs[0],
 };
-
-const email = contact.tiles.find((t) => t.label === "Email");
-const socials: Social[] = [
-  ...contact.tiles
-    .filter((t) => t.label === "GitHub" || t.label === "LinkedIn")
-    .map((t) => ({
-      label: t.label,
-      href: t.href,
-      icon: t.label.toLowerCase() as Social["icon"],
-    })),
-  ...(email ? [{ label: "Email", href: email.href, icon: "mail" as const }] : []),
-];
 
 export default function AboutPage() {
   return (
