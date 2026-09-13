@@ -36,6 +36,27 @@ function Icon({ name }: { name: Social["icon"] }) {
   );
 }
 
+/** Back arrow for links that lead up a level; nudges left on hover. */
+function BackArrow() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      className="shrink-0 transition-transform duration-200 group-hover:-translate-x-0.5"
+    >
+      <path d="M19 12H5" />
+      <path d="m12 19-7-7 7-7" />
+    </svg>
+  );
+}
+
 function Item({
   item,
   stacked,
@@ -61,9 +82,11 @@ function Item({
         "tracking-[-0.01em] transition-colors hover:text-ink",
         item.active ? "text-ink" : "text-muted",
         item.strong && "text-ink",
+        item.back && "group inline-flex items-center gap-1.5",
         size,
       )}
     >
+      {item.back && <BackArrow />}
       {item.label}
     </Link>
   );

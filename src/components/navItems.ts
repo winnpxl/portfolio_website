@@ -13,6 +13,8 @@ export type NavItem =
       href: string;
       active?: boolean;
       strong?: boolean;
+      /** Leads back up a level; rendered with an arrow icon. */
+      back?: boolean;
       /** Hidden from the desktop row, kept in the mobile panel. The
        *  deep-link sections stay reachable on a phone without crowding
        *  the top of a wide screen. */
@@ -52,7 +54,7 @@ export const homeNav: NavItem[] = [
 ];
 
 export const aboutNav: NavItem[] = [
-  { kind: "link", label: "← Home", href: "/", strong: true },
+  { kind: "link", label: "Home", href: "/", strong: true, back: true },
   { kind: "current", label: "About" },
   { kind: "link", label: "Work", href: "/#work" },
   { kind: "link", label: "Gallery", href: "/gallery" },
@@ -61,7 +63,7 @@ export const aboutNav: NavItem[] = [
 ];
 
 export const caseStudyNav = (label: string): NavItem[] => [
-  { kind: "link", label: "← All work", href: "/#work", strong: true },
+  { kind: "link", label: "All work", href: "/#work", strong: true, back: true },
   { kind: "current", label },
   { kind: "link", label: "About", href: "/about" },
   { kind: "link", label: "Gallery", href: "/gallery" },
@@ -70,7 +72,7 @@ export const caseStudyNav = (label: string): NavItem[] => [
 ];
 
 export const galleryNav: NavItem[] = [
-  { kind: "link", label: "← Home", href: "/", strong: true },
+  { kind: "link", label: "Home", href: "/", strong: true, back: true },
   { kind: "current", label: "Gallery" },
   { kind: "link", label: "Work", href: "/#work" },
   { kind: "link", label: "About", href: "/about" },
@@ -79,7 +81,7 @@ export const galleryNav: NavItem[] = [
 ];
 
 export const gamesNav: NavItem[] = [
-  { kind: "link", label: "← Home", href: "/", strong: true },
+  { kind: "link", label: "Home", href: "/", strong: true, back: true },
   { kind: "current", label: "Games" },
   { kind: "link", label: "Work", href: "/#work" },
   { kind: "link", label: "About", href: "/about" },
@@ -87,7 +89,7 @@ export const gamesNav: NavItem[] = [
 ];
 
 export const gameNav = (label: string): NavItem[] => [
-  { kind: "link", label: "← Games", href: "/games", strong: true },
+  { kind: "link", label: "Games", href: "/games", strong: true, back: true },
   { kind: "current", label },
   { kind: "link", label: "Work", href: "/#work" },
   { kind: "link", label: "About", href: "/about" },

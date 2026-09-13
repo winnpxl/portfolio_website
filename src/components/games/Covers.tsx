@@ -47,7 +47,7 @@ function Spark({ x, y, s, color }: { x: number; y: number; s: number; color: str
   return <path d={d} stroke={color} strokeWidth={s * 0.25} strokeLinecap="round" />;
 }
 
-/** Tetris: a smiling piece in front of a yellow drip, over a gappy stack. */
+/** Tetrix: a smiling piece in front of a yellow drip, over a gappy stack. */
 export function TetrisCover() {
   const s = 34;
   const ground = 290;

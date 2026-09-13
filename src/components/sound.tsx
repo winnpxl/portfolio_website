@@ -35,7 +35,7 @@ const VOICES: Record<
   Kind,
   { from: number; to: number; dur: number; gain: number; type: OscillatorType }
 > = {
-  hover: { from: 1180, to: 880, dur: 0.05, gain: 0.03, type: "sine" },
+  hover: { from: 1180, to: 880, dur: 0.05, gain: 0.08, type: "sine" },
   click: { from: 660, to: 330, dur: 0.1, gain: 0.055, type: "triangle" },
 };
 

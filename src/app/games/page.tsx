@@ -12,14 +12,14 @@ import { Eyebrow } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Games — Samuel Winner",
-  description: "Tetris and Space Invaders, rebuilt for this site. Play with a keyboard or on your phone.",
+  description: "Tetrix and Space Invaders, rebuilt for this site. Play with a keyboard or on your phone.",
 };
 
 const GAMES: { id: GameId; href: string; title: string; blurb: string; keys: string; cover: ReactNode }[] = [
   {
     id: "tetris",
-    href: "/games/tetris",
-    title: "Tetris",
+    href: "/games/tetrix",
+    title: "Tetrix",
     blurb: "Rotate and stack the falling pieces. Clear rows before the well fills up.",
     keys: "Keyboard or touch",
     cover: <TetrisCover />,
