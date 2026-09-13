@@ -19,6 +19,20 @@
   --color-line: #e3e3df;
   --color-live: #22c55e;
 
+  /* Arcade palette for the games. Mirrors ARCADE and BLOCKS in
+     src/components/games/palette.ts, which the canvases read; change
+     both together. */
+  --color-arcade-ink: #262626;
+  --color-arcade-yellow: #ffd21f;
+  --color-arcade-yellow-soft: #ffdc4d;
+  --color-arcade-blue: #4dbef7;
+  --color-arcade-orange: #ff8a1f;
+  --color-arcade-green: #2fcb5f;
+  --color-arcade-red: #f0304a;
+  --color-space: #13111d;
+  --color-space-panel: #1a1727;
+  --color-space-line: #312c45;
+
   /* PP Mori throughout. Hierarchy comes from size and weight, not from
      a second face. */
   --font-sans: var(--font-mori), ui-sans-serif, system-ui, sans-serif;
@@ -121,4 +135,29 @@
   .ticker {
     overflow-x: auto;
   }
+}
+
+/* ---------------------------------------------------------------
+   Dark scope for the Space Invaders page, because space is dark.
+   Tailwind utilities read colour tokens through var(), so redefining
+   them here flips the nav, borders, labels and panels inside without
+   touching a single component.
+   --------------------------------------------------------------- */
+.theme-space {
+  color-scheme: dark;
+  color: var(--color-ink);
+  --color-canvas: #0e0c16;
+  --color-surface: #1a1727;
+  --color-tile: #171523;
+  --color-tile-deep: #201d30;
+  --color-ink: #f4f2fa;
+  --color-ink-soft: #cdc9de;
+  --color-muted: #9591ad;
+  --color-faint: #6b6784;
+  --color-line: #2a263b;
+}
+
+/* Match the page behind overscroll, so the edges do not flash grey. */
+body:has(.theme-space) {
+  background: #0e0c16;
 }

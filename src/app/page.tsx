@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { LocalTime } from "@/components/LocalTime";
 import { Nav } from "@/components/Nav";
-import { homeNav, type Social } from "@/components/navItems";
+import { homeNav, socials } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
 import { Ticker } from "@/components/Ticker";
 import {
@@ -36,16 +36,6 @@ import {
 } from "@/content/site";
 
 const email = contact.tiles.find((t) => t.label === "Email");
-const socials: Social[] = [
-  ...contact.tiles
-    .filter((t) => t.label === "GitHub" || t.label === "LinkedIn")
-    .map((t) => ({
-      label: t.label,
-      href: t.href,
-      icon: t.label.toLowerCase() as Social["icon"],
-    })),
-  ...(email ? [{ label: "Email", href: email.href, icon: "mail" as const }] : []),
-];
 
 /** The names of everything on the work grid, for the hero's projects line. */
 const projectNames = [featuredWork.title, ...work.map((w) => w.title)];
