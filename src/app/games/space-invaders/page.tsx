@@ -8,7 +8,7 @@ import { SpaceInvaders } from "@/components/games/SpaceInvaders";
 
 export const metadata: Metadata = {
   title: "Space Invaders — Samuel Winner",
-  description: "Play Space Invaders with your keyboard. High scores are saved in your browser.",
+  description: "Play Space Invaders with a keyboard or touch controls. High scores are saved in your browser.",
 };
 
 /** Space is dark, so this whole page is: theme-space flips the colour tokens. */

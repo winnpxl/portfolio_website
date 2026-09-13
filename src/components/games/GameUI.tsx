@@ -325,21 +325,20 @@ export function ScoreForm({
   );
 }
 
-/** Shown only on touch-first devices, where there is no keyboard. */
-export function KeyboardNote() {
-  return (
-    <p className="m-0 hidden rounded-[14px] border-2 border-dashed border-line px-4 py-3 text-[14px] text-muted pointer-coarse:block">
-      These games are played with a keyboard. Open this page on a computer to play.
-    </p>
-  );
-}
-
-/** Board and live stats side by side, then how to play and the scores. */
+/**
+ * Board and live stats side by side, then how to play and the scores.
+ *
+ * On a touch device the tall stats column and the key legend give way to
+ * a compact score strip above the board and a touch pad below it, sized
+ * so all three fit on screen together once play starts.
+ */
 export function GameLayout({
   tone,
   ratio,
   board,
   side,
+  mini,
+  pad,
   controls,
   game,
   highlightId,
@@ -348,26 +347,187 @@ export function GameLayout({
   ratio: number;
   board: ReactNode;
   side: ReactNode;
+  mini: ReactNode;
+  pad: ReactNode;
   controls: readonly Control[];
   game: GameId;
   highlightId?: string | null;
 }) {
   return (
-    <div className="grid gap-5">
-      <KeyboardNote />
-      <div className="grid items-start gap-5 md:grid-cols-[minmax(0,1fr)_280px]">
-        {/* Sized so the whole board fits on screen below the nav and title. */}
-        <div className="mx-auto w-full" style={{ maxWidth: `max(260px, calc((100svh - 13rem) * ${ratio}))` }}>
-          {board}
+    <div className="grid gap-5 [--board-min:260px] pointer-coarse:[--board-min:200px]">
+      <div className="grid items-start gap-5 md:grid-cols-[minmax(0,1fr)_280px] pointer-coarse:md:grid-cols-1">
+        <div className="grid gap-3">
+          <div className="hidden pointer-coarse:block">{mini}</div>
+          {/* 13rem is the nav and title on a desktop, or the score strip and
+              pad on a phone once the game has scrolled into view. */}
+          <div
+            className="mx-auto w-full"
+            style={{ maxWidth: `max(var(--board-min), calc((100svh - 13rem) * ${ratio}))` }}
+          >
+            {board}
+          </div>
+          <div className="hidden pointer-coarse:block">{pad}</div>
         </div>
-        <div className="grid content-start gap-4">{side}</div>
+        <div className="grid content-start gap-4 pointer-coarse:hidden">{side}</div>
       </div>
-      <div className="grid items-start gap-5 md:grid-cols-2">
-        <Controls tone={tone} items={controls} />
+      <div className="grid items-start gap-5 md:grid-cols-2 pointer-coarse:md:grid-cols-1">
+        <div className="pointer-coarse:hidden">
+          <Controls tone={tone} items={controls} />
+        </div>
         <Leaderboard tone={tone} game={game} highlightId={highlightId} />
       </div>
     </div>
   );
+}
+
+/** The phone-sized stand-in for the stats column. */
+export function MiniHud({
+  tone,
+  score,
+  detail,
+  children,
+}: {
+  tone: Tone;
+  score: ReactNode;
+  detail: ReactNode;
+  children?: ReactNode;
+}) {
+  return (
+    <div className={cx("flex items-center justify-between gap-3 rounded-[16px] border-[3px] px-3 py-2", panel[tone])}>
+      <div className="min-w-0">
+        <div className="text-[20px] font-semibold leading-none tracking-[-0.02em] tabular-nums">{score}</div>
+        <div className="mt-1 truncate text-[12px] text-muted">{detail}</div>
+      </div>
+      {children && <div className="flex shrink-0 items-center gap-2">{children}</div>}
+    </div>
+  );
+}
+
+export function MiniSlot({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="grid justify-items-center gap-0.5">
+      <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-muted">{label}</span>
+      {children}
+    </div>
+  );
+}
+
+/**
+ * Wrapper for on-screen controls. Touching it never scrolls, zooms,
+ * selects text or opens the long-press menu, and the first touch unlocks
+ * audio, which browsers only allow from a gesture.
+ */
+export function TouchPad({ onGesture, children }: { onGesture?: () => void; children: ReactNode }) {
+  return (
+    <div
+      role="group"
+      aria-label="Touch controls"
+      onPointerDownCapture={onGesture}
+      className="grid select-none gap-2 [-webkit-touch-callout:none] [touch-action:none]"
+    >
+      {children}
+    </div>
+  );
+}
+
+/**
+ * One arcade button on the touch pad. It fires on touch-down rather than
+ * on click, so there is no delay, and reports release too, so holding a
+ * direction or fire keeps it going exactly like holding a key.
+ */
+export function PadButton({
+  tone,
+  label,
+  look = "plain",
+  size = "lg",
+  onPress,
+  onRelease,
+  className,
+  children,
+}: {
+  tone: Tone;
+  label: string;
+  look?: "plain" | "accent" | "primary";
+  size?: "lg" | "sm";
+  onPress: () => void;
+  onRelease?: () => void;
+  className?: string;
+  children: ReactNode;
+}) {
+  const [held, setHeld] = useState(false);
+  const release = () => {
+    setHeld(false);
+    onRelease?.();
+  };
+  const looks = {
+    plain: tone === "light" ? "border-arcade-ink bg-surface text-arcade-ink" : "border-space-line bg-space-panel text-ink",
+    accent: "border-arcade-ink bg-arcade-blue text-arcade-ink",
+    primary: "border-arcade-ink bg-arcade-yellow text-arcade-ink",
+  } as const;
+
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        // Keep receiving the release even if the finger slides off.
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+          // The pointer is already gone; the release handlers still run.
+        }
+        setHeld(true);
+        onPress();
+      }}
+      onPointerUp={release}
+      onPointerCancel={release}
+      onLostPointerCapture={release}
+      // Assistive tech activates with a click and no pointer: a quick tap.
+      onClick={(e) => {
+        if (e.detail === 0) {
+          onPress();
+          onRelease?.();
+        }
+      }}
+      onContextMenu={(e) => e.preventDefault()}
+      className={cx(
+        "grid shrink-0 place-items-center border-[3px] font-semibold [touch-action:none]",
+        size === "lg" ? "h-13 min-w-13 rounded-[16px] px-3 text-[15px]" : "h-9 min-w-9 rounded-[12px] px-3 text-[13px]",
+        held ? "translate-y-[2px] shadow-[inset_0_-1px_0_rgb(0_0_0/0.14)]" : "shadow-[inset_0_-4px_0_rgb(0_0_0/0.14)]",
+        looks[look],
+        className,
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function PadIcon({ name }: { name: "left" | "right" | "down" | "rotate" | "pause" }) {
+  const common = {
+    width: 22,
+    height: 22,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 3,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": true,
+  } as const;
+  if (name === "left") return <svg {...common}><path d="M15 5 8 12l7 7" /></svg>;
+  if (name === "right") return <svg {...common}><path d="m9 5 7 7-7 7" /></svg>;
+  if (name === "down") return <svg {...common}><path d="m5 9 7 7 7-7" /></svg>;
+  if (name === "rotate") {
+    return (
+      <svg {...common}>
+        <path d="M20 11a8 8 0 1 1-2.3-5.6" />
+        <path d="M20 4v5h-5" />
+      </svg>
+    );
+  }
+  return <svg {...common}><path d="M9 6v12M15 6v12" /></svg>;
 }
 
 /** The top score on a game card, read from this browser. */

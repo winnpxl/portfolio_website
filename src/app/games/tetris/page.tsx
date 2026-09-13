@@ -8,7 +8,7 @@ import { Tetris } from "@/components/games/Tetris";
 
 export const metadata: Metadata = {
   title: "Tetris — Samuel Winner",
-  description: "Play Tetris with your keyboard. High scores are saved in your browser.",
+  description: "Play Tetris with a keyboard or touch controls. High scores are saved in your browser.",
 };
 
 export default function TetrisPage() {

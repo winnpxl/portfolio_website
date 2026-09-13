@@ -9,10 +9,15 @@ import {
   ArcadePanel,
   BoardFrame,
   GameLayout,
+  MiniHud,
+  MiniSlot,
   OverlayCard,
+  PadButton,
+  PadIcon,
   PanelLabel,
   ScoreForm,
   StatGrid,
+  TouchPad,
   type Control,
 } from "./GameUI";
 import { keyBelongsToGame, useAnimationFrame, useHiDpiCanvas } from "./hooks";
@@ -53,6 +58,9 @@ export function Tetris() {
   const { ref: boardRef, ctx: boardCtx } = useHiDpiCanvas(BOARD_W, BOARD_H);
   const { ref: nextRef, ctx: nextCtx } = useHiDpiCanvas(NEXT_W, NEXT_H);
   const { ref: holdRef, ctx: holdCtx } = useHiDpiCanvas(HOLD_W, HOLD_H);
+  // Small copies of hold and next for the phone score strip.
+  const { ref: holdMiniRef, ctx: holdMiniCtx } = useHiDpiCanvas(HOLD_W, HOLD_H);
+  const { ref: nextMiniRef, ctx: nextMiniCtx } = useHiDpiCanvas(HOLD_W, HOLD_H);
   const gameRef = useRef<TetrisGame | null>(null);
   const sfxRef = useRef<Sfx | null>(null);
   const soundOn = useSoundEnabled();
@@ -89,6 +97,10 @@ export function Tetris() {
     game.start();
     // Take focus off whichever button started it, so Space drops pieces.
     rootRef.current?.focus({ preventScroll: true });
+    // On a phone, bring the score strip, board and pad into view together.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      rootRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }, []);
 
   useEffect(() => {
@@ -184,7 +196,12 @@ export function Tetris() {
     if (boardCtx.current) renderTetris(boardCtx.current, game);
     if (nextCtx.current) renderNext(nextCtx.current, game.queue);
     if (holdCtx.current) renderHold(holdCtx.current, game.hold, game.canHold);
+    if (holdMiniCtx.current) renderHold(holdMiniCtx.current, game.hold, game.canHold);
+    if (nextMiniCtx.current) renderHold(nextMiniCtx.current, game.queue[0] ?? null, true);
   });
+
+  /** Touch pad input for the held directions. */
+  const press = (key: "left" | "right" | "down", down: boolean) => gameRef.current?.press(key, down);
 
   const best = scores[0]?.score ?? 0;
   const detail = `Level ${hud.level} · ${hud.lines} ${hud.lines === 1 ? "line" : "lines"}`;
@@ -200,7 +217,7 @@ export function Tetris() {
         <ArcadeButton tone="light" onClick={start} className="mt-5 w-full">
           Start game
         </ArcadeButton>
-        <p className="m-0 mt-3 text-[12px] text-faint">or press Enter</p>
+        <p className="m-0 mt-3 text-[12px] text-faint pointer-coarse:hidden">or press Enter</p>
       </OverlayCard>
     );
   } else if (hud.status === "paused") {
@@ -213,7 +230,7 @@ export function Tetris() {
         <ArcadeButton tone="light" variant="secondary" onClick={start} className="mt-2 w-full">
           Restart
         </ArcadeButton>
-        <p className="m-0 mt-3 text-[12px] text-faint">P to resume, R to restart</p>
+        <p className="m-0 mt-3 text-[12px] text-faint pointer-coarse:hidden">P to resume, R to restart</p>
       </OverlayCard>
     );
   } else if (hud.status === "over") {
@@ -244,9 +261,56 @@ export function Tetris() {
   }
 
   return (
-    <div ref={rootRef} tabIndex={-1} className="outline-none">
+    <div ref={rootRef} tabIndex={-1} className="scroll-mt-3 outline-none">
       <GameLayout
         tone="light"
+        mini={
+          <MiniHud
+            tone="light"
+            score={fmt(hud.score)}
+            detail={`Best ${fmt(Math.max(best, hud.score))} · ${detail}`}
+          >
+            <MiniSlot label="Hold">
+              <canvas ref={holdMiniRef} aria-hidden className="block h-[30px] w-[42px]" />
+            </MiniSlot>
+            <MiniSlot label="Next">
+              <canvas ref={nextMiniRef} aria-hidden className="block h-[30px] w-[42px]" />
+            </MiniSlot>
+          </MiniHud>
+        }
+        pad={
+          <TouchPad onGesture={() => sfxRef.current?.unlock()}>
+            <div className="flex items-center justify-between">
+              <PadButton tone="light" size="sm" label="Hold piece" onPress={() => gameRef.current?.holdPiece()}>
+                Hold
+              </PadButton>
+              <PadButton tone="light" size="sm" label="Pause" onPress={() => gameRef.current?.togglePause()}>
+                <PadIcon name="pause" />
+              </PadButton>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex gap-2">
+                <PadButton tone="light" label="Move left" onPress={() => press("left", true)} onRelease={() => press("left", false)}>
+                  <PadIcon name="left" />
+                </PadButton>
+                <PadButton tone="light" label="Soft drop" onPress={() => press("down", true)} onRelease={() => press("down", false)}>
+                  <PadIcon name="down" />
+                </PadButton>
+                <PadButton tone="light" label="Move right" onPress={() => press("right", true)} onRelease={() => press("right", false)}>
+                  <PadIcon name="right" />
+                </PadButton>
+              </div>
+              <div className="flex gap-2">
+                <PadButton tone="light" look="accent" label="Rotate" onPress={() => gameRef.current?.rotate(1)}>
+                  <PadIcon name="rotate" />
+                </PadButton>
+                <PadButton tone="light" look="primary" label="Hard drop" onPress={() => gameRef.current?.hardDrop()} className="px-4">
+                  Drop
+                </PadButton>
+              </div>
+            </div>
+          </TouchPad>
+        }
         ratio={BOARD_W / BOARD_H}
         controls={CONTROLS}
         game="tetris"

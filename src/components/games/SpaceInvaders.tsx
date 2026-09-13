@@ -8,9 +8,13 @@ import {
   ArcadeButton,
   BoardFrame,
   GameLayout,
+  MiniHud,
   OverlayCard,
+  PadButton,
+  PadIcon,
   ScoreForm,
   StatGrid,
+  TouchPad,
   type Control,
 } from "./GameUI";
 import { keyBelongsToGame, useAnimationFrame, useHiDpiCanvas } from "./hooks";
@@ -91,6 +95,10 @@ export function SpaceInvaders() {
     sfxRef.current?.unlock();
     game.start();
     rootRef.current?.focus({ preventScroll: true });
+    // On a phone, bring the score strip, board and pad into view together.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      rootRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }, []);
 
   useEffect(() => {
@@ -171,6 +179,9 @@ export function SpaceInvaders() {
     if (boardCtx.current) renderInvaders(boardCtx.current, game, fontRef.current);
   });
 
+  /** Touch pad input for the held controls. */
+  const press = (key: "left" | "right" | "fire", down: boolean) => gameRef.current?.press(key, down);
+
   const best = scores[0]?.score ?? 0;
   const detail = `Wave ${hud.wave}`;
   const canSave = hud.status === "over" && !savedId && !skipped && qualifiesFor(scores, hud.score);
@@ -185,7 +196,7 @@ export function SpaceInvaders() {
         <ArcadeButton tone="dark" onClick={start} className="mt-5 w-full">
           Start game
         </ArcadeButton>
-        <p className="m-0 mt-3 text-[12px] text-faint">or press Enter</p>
+        <p className="m-0 mt-3 text-[12px] text-faint pointer-coarse:hidden">or press Enter</p>
       </OverlayCard>
     );
   } else if (hud.status === "paused") {
@@ -198,7 +209,7 @@ export function SpaceInvaders() {
         <ArcadeButton tone="dark" variant="secondary" onClick={start} className="mt-2 w-full">
           Restart
         </ArcadeButton>
-        <p className="m-0 mt-3 text-[12px] text-faint">P to resume, R to restart</p>
+        <p className="m-0 mt-3 text-[12px] text-faint pointer-coarse:hidden">P to resume, R to restart</p>
       </OverlayCard>
     );
   } else if (hud.status === "over") {
@@ -224,9 +235,36 @@ export function SpaceInvaders() {
   }
 
   return (
-    <div ref={rootRef} tabIndex={-1} className="outline-none">
+    <div ref={rootRef} tabIndex={-1} className="scroll-mt-3 outline-none">
       <GameLayout
         tone="dark"
+        mini={
+          <MiniHud tone="dark" score={fmt(hud.score)} detail={`Best ${fmt(Math.max(best, hud.score))} · ${detail}`}>
+            <Lives count={hud.lives} />
+          </MiniHud>
+        }
+        pad={
+          <TouchPad onGesture={() => sfxRef.current?.unlock()}>
+            <div className="flex justify-end">
+              <PadButton tone="dark" size="sm" label="Pause" onPress={() => gameRef.current?.togglePause()}>
+                <PadIcon name="pause" />
+              </PadButton>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex gap-2">
+                <PadButton tone="dark" label="Move left" onPress={() => press("left", true)} onRelease={() => press("left", false)} className="min-w-16">
+                  <PadIcon name="left" />
+                </PadButton>
+                <PadButton tone="dark" label="Move right" onPress={() => press("right", true)} onRelease={() => press("right", false)} className="min-w-16">
+                  <PadIcon name="right" />
+                </PadButton>
+              </div>
+              <PadButton tone="dark" look="primary" label="Fire" onPress={() => press("fire", true)} onRelease={() => press("fire", false)} className="min-w-30 px-6">
+                Fire
+              </PadButton>
+            </div>
+          </TouchPad>
+        }
         ratio={W / H}
         controls={CONTROLS}
         game="space-invaders"

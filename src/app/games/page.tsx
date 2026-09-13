@@ -12,7 +12,7 @@ import { Eyebrow } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Games — Samuel Winner",
-  description: "Tetris and Space Invaders, rebuilt for this site and played with a keyboard.",
+  description: "Tetris and Space Invaders, rebuilt for this site. Play with a keyboard or on your phone.",
 };
 
 const GAMES: { id: GameId; href: string; title: string; blurb: string; keys: string; cover: ReactNode }[] = [
@@ -21,7 +21,7 @@ const GAMES: { id: GameId; href: string; title: string; blurb: string; keys: str
     href: "/games/tetris",
     title: "Tetris",
     blurb: "Rotate and stack the falling pieces. Clear rows before the well fills up.",
-    keys: "Arrow keys, Space to drop",
+    keys: "Keyboard or touch",
     cover: <TetrisCover />,
   },
   {
@@ -29,7 +29,7 @@ const GAMES: { id: GameId; href: string; title: string; blurb: string; keys: str
     href: "/games/space-invaders",
     title: "Space Invaders",
     blurb: "Hold the line against wave after wave marching down from above.",
-    keys: "Arrow keys, Space to fire",
+    keys: "Keyboard or touch",
     cover: <InvadersCover />,
   },
 ];
@@ -45,8 +45,8 @@ export default function GamesPage() {
           Take a break and play something.
         </h1>
         <p className="text-pretty-wrap m-0 mt-5 max-w-[54ch] text-[clamp(16px,1.5vw,19px)] leading-[1.6] text-muted">
-          Two arcade classics I rebuilt from scratch for this site. Grab a keyboard, set a high score, and try to hold
-          the top spot. Scores stay in your browser.
+          Two arcade classics I rebuilt from scratch for this site. Play with a keyboard or right on your phone, set a
+          high score, and try to hold the top spot. Scores stay in your browser.
         </p>
       </Section>
 
