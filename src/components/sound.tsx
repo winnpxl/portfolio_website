@@ -35,7 +35,7 @@ const VOICES: Record<
   Kind,
   { from: number; to: number; dur: number; gain: number; type: OscillatorType }
 > = {
-  hover: { from: 1180, to: 880, dur: 0.05, gain: 0.03, type: "sine" },
+  hover: { from: 1180, to: 880, dur: 0.05, gain: 0.08, type: "sine" },
   click: { from: 660, to: 330, dur: 0.1, gain: 0.055, type: "triangle" },
 };
 
@@ -239,16 +239,20 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   return <SoundContext.Provider value={api}>{children}</SoundContext.Provider>;
 }
 
-/** Speaker, with waves when on and a cross when off. */
+/**
+ * Speaker, with waves when on and a cross when off. Drawn as an outline,
+ * unlike the solid social icons beside it, but zoomed in slightly so it
+ * reads at the same size; the stroke is thinned to keep its line weight.
+ */
 function SpeakerIcon({ on }: { on: boolean }) {
   return (
     <svg
       width="18"
       height="18"
-      viewBox="0 0 24 24"
+      viewBox="2 2 20 20"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.7}
+      strokeWidth={1.45}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden

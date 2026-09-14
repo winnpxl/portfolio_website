@@ -43,79 +43,90 @@ export const stats = [
   },
 ];
 
-export const featuredWork = {
-  slug: "runbeta",
-  href: "/work/runbeta",
-  title: "RunBeta",
-  pills: [
-    { label: "Featured case study" },
-    { label: "Founding Product Designer · 2026" },
-  ],
-  summary:
-    "An on-demand services marketplace for Lagos. Two apps, escrow-held payments, and a PIN handshake that confirms who turned up and that the job is done before money moves.",
-  bullets: [
-    "Provider home restructured from 17 undifferentiated rows into 9 grouped entries with live state",
-    "Found a 0 km default service radius silently blocking every booking",
-    "Dark-mode mobile design system and a navigable multi-screen prototype",
-  ],
-  cta: "Read the case study →",
-  image: {
-    alt: "RunBeta hero shot",
-    placeholder: "Drop a RunBeta screen or hero shot",
-  } satisfies ImageSlot,
-};
-
+/**
+ * Every project on the work grid, in display order. A tile shows only the
+ * title, the year and the one-line tagline; role, summary and bullets are
+ * the fuller record that case study pages draw on. A project with an
+ * `href` has a case study, and its tile links there.
+ */
 export const work = [
+  {
+    slug: "runbeta",
+    title: "RunBeta",
+    href: "/work/runbeta",
+    role: "Founding Product Designer",
+    year: "2026",
+    tagline: "An on-demand services marketplace for Lagos.",
+    summary:
+      "An on-demand services marketplace for Lagos. Two apps, escrow-held payments, and a PIN handshake that confirms who turned up and that the job is done before money moves.",
+    bullets: [
+      "Provider home restructured from 17 undifferentiated rows into 9 grouped entries with live state",
+      "Found a 0 km default service radius silently blocking every booking",
+      "Dark-mode mobile design system and a navigable multi-screen prototype",
+    ],
+    image: {
+      alt: "RunBeta hero shot",
+      placeholder: "Drop a RunBeta screen or hero shot",
+    },
+  },
   {
     slug: "visio",
     title: "Visio",
-    pill: "Lead Product Designer · 2026",
+    role: "Lead Product Designer",
+    year: "2026",
+    tagline:
+      "A managed talent marketplace connecting vetted Nigerian professionals with clients in Nigeria, the UK and the US.",
     summary:
       "A managed talent marketplace connecting vetted Nigerian professionals with clients in Nigeria, the UK and the US. Brief to full design specification.",
     bullets: [
       "Owned the brand and design language: colour, three-tier type, 8pt grid, motion, voice",
       "Four surfaces mapped: public site, talent portal, client portal, admin",
     ],
-    status: "Case study in progress",
     image: { alt: "Visio screen", placeholder: "Drop a Visio screen" },
   },
   {
     slug: "governance-clout",
     title: "Governance Clout",
-    pill: "Founding Product Designer · 2025",
+    role: "Founding Product Designer",
+    year: "2025",
+    tagline:
+      "A governance platform connecting citizens with their elected representatives, on mobile and web.",
     summary:
       "A governance platform connecting citizens with their elected representatives, on mobile and web. Unformed brief to shipped product.",
     bullets: [
       "Led a team of 3 designers; set the pattern library and delivery plan",
       "Original research from raw public data in a category with no design precedent",
     ],
-    status: "Case study in progress",
     image: { alt: "Governance Clout screen", placeholder: "Drop a GClout screen" },
   },
   {
     slug: "penaid",
     title: "Penaid SLA & PLA",
-    pill: "UI/UX Designer · 2024",
+    role: "UI/UX Designer",
+    year: "2024",
+    tagline:
+      "Loan disbursement and collection for underserved borrowers, including student and pensioner loan products.",
     summary:
       "Loan disbursement and collection for underserved borrowers, including student and pensioner loan products.",
     bullets: [
       "Desktop-first screens converted to mobile-first without losing parity",
       "Usability testing with users of low digital-financial literacy",
     ],
-    status: "Case study in progress",
     image: { alt: "Penaid screen", placeholder: "Drop a Penaid screen" },
   },
   {
     slug: "paying-friends",
     title: "Paying Friends",
-    pill: "UI/UX Designer · 2023",
+    role: "UI/UX Designer",
+    year: "2023",
+    tagline:
+      "A full revamp of a European peer-to-peer product rental marketplace, modernising an outdated platform from Lisbon.",
     summary:
       "A full revamp of a European peer-to-peer product rental marketplace, modernising an outdated platform from Lisbon.",
     bullets: [
       "Directed the design team through the rebuild",
       "Wrote and tested UX copy that lifted conversion and engagement",
     ],
-    status: "Case study in progress",
     image: {
       alt: "Paying Friends screen",
       placeholder: "Drop a Paying Friends screen",
@@ -124,10 +135,13 @@ export const work = [
 ] satisfies Array<{
   slug: string;
   title: string;
-  pill: string;
+  href?: string;
+  role: string;
+  year: string;
+  /** One sentence, shown under the tile. */
+  tagline: string;
   summary: string;
   bullets: string[];
-  status: string;
   image: ImageSlot;
 }>;
 

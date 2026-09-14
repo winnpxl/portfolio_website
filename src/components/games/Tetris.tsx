@@ -210,9 +210,9 @@ export function Tetris() {
   let overlay = null;
   if (hud.status === "ready") {
     overlay = (
-      <OverlayCard tone="light" eyebrow="Tetris" title="Stack it up">
+      <OverlayCard tone="light" eyebrow="Tetrix" title="Stack it up">
         <p className="m-0 mt-3 text-[14px] leading-[1.45] text-muted">
-          Fill a row to clear it. Clear four at once for a Tetris.
+          Fill a row to clear it. Clear four at once for a Tetrix.
         </p>
         <ArcadeButton tone="light" onClick={start} className="mt-5 w-full">
           Start game
@@ -320,7 +320,7 @@ export function Tetris() {
             <canvas
               ref={boardRef}
               role="img"
-              aria-label="Tetris board"
+              aria-label="Tetrix board"
               className="block h-auto w-full"
               style={{ aspectRatio: `${BOARD_W} / ${BOARD_H}` }}
             />

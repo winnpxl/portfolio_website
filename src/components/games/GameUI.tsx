@@ -6,7 +6,7 @@ import { cx } from "@/components/ui";
 
 import { addScore, clearScores, getSavedName, useScores, type GameId } from "./leaderboard";
 
-/** Light for Tetris, dark for Space Invaders. */
+/** Light for Tetrix, dark for Space Invaders. */
 export type Tone = "light" | "dark";
 
 export type Control = { keys: readonly string[]; label: string };
