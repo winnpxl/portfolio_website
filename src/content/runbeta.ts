@@ -24,7 +24,8 @@ export const runbeta: CaseStudy = {
   hero: {
     kind: "showcase",
     image: {
-      alt: "RunBeta customer and provider app screens",
+      src: "/images/work/runbeta/hero.png",
+      alt: "A collage of RunBeta screens: a bridal makeup service, sign-up, onboarding, live navigation to a customer and a successful booking",
       placeholder:
         "Product showcase: RunBeta identity with customer and provider screens, including Book with AI or Active Booking",
     },
@@ -74,7 +75,8 @@ export const runbeta: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "RunBeta onboarding before and after the redesign",
+              src: "/images/work/runbeta/onboarding.gif",
+              alt: "RunBeta onboarding, alternating between the three intro screens and the sign-up and verification flow",
               placeholder:
                 "Onboarding, before and after: original entry and verification, then the new sign-up, sign-in options and first screen",
             },
@@ -111,7 +113,8 @@ export const runbeta: CaseStudy = {
             kind: "flow",
             caption: "Scheduled when it can wait. Instant when it can't.",
             image: {
-              alt: "RunBeta scheduled and instant service screens",
+              src: "/images/work/runbeta/scheduled-vs-instant.png",
+              alt: "Instant and scheduled booking side by side: the same service list and bridal makeup service page, with Book service now for instant and Schedule booking for scheduled",
               placeholder:
                 "Scheduled and Instant service screens: selection, timing and the price difference",
             },
@@ -194,7 +197,8 @@ export const runbeta: CaseStudy = {
           visual: {
             kind: "feature",
             image: {
-              alt: "The RunBeta Book with AI flow",
+              src: "/images/work/runbeta/book-with-ai.png",
+              alt: "Four Book with AI screens: describing the problem, answering follow-up questions, choosing from matched providers and a confirmed booking",
               placeholder:
                 "Book with AI, end to end: entry, the problem, AI response, follow-up questions, recommendation, provider details, confirmation, booking request",
             },
@@ -260,7 +264,8 @@ export const runbeta: CaseStudy = {
           visual: {
             kind: "timeline",
             image: {
-              alt: "The RunBeta active booking lifecycle",
+              src: "/images/work/runbeta/active-booking.png",
+              alt: "A provider's active booking: accepting the job, navigating to the customer, working through the tasks and the payment being released",
               placeholder:
                 "Active booking as a timeline: confirmed, provider confirmation, active booking, tasks, PIN, completion, approval, payment release",
             },
@@ -310,7 +315,8 @@ export const runbeta: CaseStudy = {
               {
                 label: "iOS · Dynamic Island",
                 image: {
-                  alt: "A RunBeta Live Activity in the iOS Dynamic Island",
+                  src: "/images/work/runbeta/live-activities-ios.png",
+                  alt: "A RunBeta Live Activity on the iOS lock screen and in the Dynamic Island, showing the provider arriving in three minutes",
                   placeholder: "iOS Dynamic Island, two or three job states in a device mockup",
                 },
               },
@@ -364,7 +370,8 @@ export const runbeta: CaseStudy = {
           visual: {
             kind: "showcase",
             image: {
-              alt: "Final RunBeta customer and provider screens",
+              src: "/images/work/runbeta/closing.png",
+              alt: "A thank-you slide with three RunBeta screens: easy access to professionals, requested services, and all service categories",
               placeholder: "Closing product composition: the strongest final RunBeta screens",
             },
           },

@@ -209,7 +209,6 @@ export function Row({
 /* -------------------------------------------------------- Image frame */
 
 const ratioClass = {
-  "2/1": "aspect-[2/1]",
   "16/9": "aspect-[16/9]",
   "16/10": "aspect-[16/10]",
   "4/3": "aspect-[4/3]",
@@ -273,11 +272,13 @@ export function ImageFrame({
       style={{ borderRadius: radius }}
     >
       {slot.src ? (
+        // Animated GIFs go out untouched; the optimiser would only handle stills.
         <Image
           src={slot.src}
           alt={slot.alt}
           fill
           priority={priority}
+          unoptimized={slot.src.endsWith(".gif")}
           className="object-cover"
           sizes={sizes}
         />
