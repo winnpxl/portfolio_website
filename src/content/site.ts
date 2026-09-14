@@ -83,7 +83,11 @@ export const work = [
       "Owned the brand and design language: colour, three-tier type, 8pt grid, motion, voice",
       "Four surfaces mapped: public site, talent portal, client portal, admin",
     ],
-    image: { alt: "Visio screen", placeholder: "Drop a Visio screen" },
+    image: {
+      src: "/images/work/visio/thumbnail.png",
+      alt: "The Visio logo above its talent dashboard, showing an approved and verified application",
+      placeholder: "Drop a Visio screen",
+    },
   },
   {
     slug: "governance-clout",
@@ -117,7 +121,11 @@ export const work = [
       "Desktop-first screens converted to mobile-first without losing parity",
       "Usability testing with users of low digital-financial literacy",
     ],
-    image: { alt: "Penaid screen", placeholder: "Drop a Penaid screen" },
+    image: {
+      src: "/images/work/penaid/thumbnail.png",
+      alt: "The Penaid logo above its loan landing page, with a smiling customer on the phone",
+      placeholder: "Drop a Penaid screen",
+    },
   },
   {
     // Jaye everywhere on the site; GoJaye, the official name, only on its thumbnail.
@@ -132,7 +140,11 @@ export const work = [
     summary:
       "Jaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
     bullets: [],
-    image: { alt: "GoJaye screen", placeholder: "Drop a GoJaye screen" },
+    image: {
+      src: "/images/work/gojaye/thumbnail.png",
+      alt: "The Jaye logo above driver, map, wallet and subscription screens",
+      placeholder: "Drop a GoJaye screen",
+    },
   },
 ] satisfies Array<{
   slug: string;
