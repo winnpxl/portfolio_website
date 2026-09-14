@@ -1,16 +1,17 @@
 import type { CaseStudy } from "./case-study";
 
 /**
- * GoJaye case study. Copy is verbatim from the final case study document,
- * which writes the name "Gojaye" in running text; each image placeholder
- * describes the screens its frame is waiting for.
+ * Jaye case study. Copy is verbatim from the final case study document,
+ * except that the name is written Jaye throughout, at the author's request;
+ * Jaye, the official name, appears only on the home thumbnail. Each image
+ * placeholder describes the screens its frame is waiting for.
  */
 export const gojaye: CaseStudy = {
   slug: "gojaye",
-  name: "GoJaye",
+  name: "Jaye",
   title: "Building a mobility platform from the ground up.",
   intro: [
-    "Gojaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
+    "Jaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
     "I joined the project from a clean slate and owned the design from the brand and visual language through the product experience, flows, and design system.",
     "The result is a 150+ screen product spanning customer, driver, and administrative experiences.",
   ],
@@ -24,7 +25,7 @@ export const gojaye: CaseStudy = {
   hero: {
     kind: "showcase",
     image: {
-      alt: "GoJaye customer onboarding, customer wallet and driver subscription screens",
+      alt: "Jaye customer onboarding, customer wallet and driver subscription screens",
       placeholder: "Opening composition: customer onboarding, customer wallet and driver subscription",
     },
   },
@@ -40,7 +41,7 @@ export const gojaye: CaseStudy = {
         },
         {
           type: "text",
-          body: "I had to define how Gojaye should look, feel, and behave across the entire product — from the logo and brand guidelines to the smallest interaction in the apps.",
+          body: "I had to define how Jaye should look, feel, and behave across the entire product — from the logo and brand guidelines to the smallest interaction in the apps.",
         },
         {
           type: "text",
@@ -51,7 +52,7 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "GoJaye brand elements beside early product screens",
+              alt: "Jaye brand elements beside early product screens",
               placeholder: "Brand, foundation, product and system: selected brand elements beside a few early product screens",
             },
           },
@@ -69,7 +70,7 @@ export const gojaye: CaseStudy = {
         },
         {
           type: "text",
-          body: "One of the decisions I designed into Gojaye was giving customers different ride categories based on what they can afford.",
+          body: "One of the decisions I designed into Jaye was giving customers different ride categories based on what they can afford.",
         },
         {
           type: "cards",
@@ -88,7 +89,7 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "feature",
             image: {
-              alt: "GoJaye ride category selection from Economy to Elite",
+              alt: "Jaye ride category selection from Economy to Elite",
               placeholder: "Economy, Mid-level and Elite: category selection, vehicle differences, pricing and the confirmation state",
             },
           },
@@ -102,7 +103,7 @@ export const gojaye: CaseStudy = {
       blocks: [
         {
           type: "text",
-          body: "Consistency in ride quality is one of the things Gojaye needs to earn from its users.",
+          body: "Consistency in ride quality is one of the things Jaye needs to earn from its users.",
         },
         {
           type: "text",
@@ -125,7 +126,7 @@ export const gojaye: CaseStudy = {
         },
         {
           type: "text",
-          body: "The idea wasn't simply to tell users that Gojaye cares about quality.",
+          body: "The idea wasn't simply to tell users that Jaye cares about quality.",
         },
         { type: "text", body: "It was to design a mechanism that actively supports it." },
         {
@@ -133,7 +134,7 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "timeline",
             image: {
-              alt: "The GoJaye driver course, from onboarding to assessment score and profile history",
+              alt: "The Jaye driver course, from onboarding to assessment score and profile history",
               placeholder: "Driver onboarding, course, assessment, score and profile history as one connected flow",
             },
           },
@@ -148,7 +149,7 @@ export const gojaye: CaseStudy = {
         { type: "text", body: "They are customers of the platform too." },
         {
           type: "text",
-          body: "Gojaye needed to give drivers a clear path from joining the platform to actually earning through it.",
+          body: "Jaye needed to give drivers a clear path from joining the platform to actually earning through it.",
         },
         {
           type: "text",
@@ -168,7 +169,7 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "GoJaye driver onboarding, subscription and earning screens",
+              alt: "Jaye driver onboarding, subscription and earning screens",
               placeholder: "Driver onboarding, subscription offer, subscription state, getting a ride and the earning experience",
             },
           },
@@ -180,7 +181,7 @@ export const gojaye: CaseStudy = {
       label: "Mobility services",
       title: "More than just getting from A to B.",
       blocks: [
-        { type: "text", body: "Gojaye isn't limited to one type of mobility need." },
+        { type: "text", body: "Jaye isn't limited to one type of mobility need." },
         { type: "text", body: "The customer experience supports multiple ways of using the platform:" },
         {
           type: "cards",
@@ -199,7 +200,7 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "GoJaye ride, courier and professional driver flows",
+              alt: "Jaye ride, courier and professional driver flows",
               placeholder: "Ride, Courier and Professional Driver: the strongest screens from each journey",
             },
           },
@@ -211,10 +212,10 @@ export const gojaye: CaseStudy = {
       label: "Cross-platform",
       title: "One product can't feel like two different products.",
       blocks: [
-        { type: "text", body: "Gojaye is designed across both iOS and Android." },
+        { type: "text", body: "Jaye is designed across both iOS and Android." },
         {
           type: "text",
-          body: "That introduced another layer of complexity: creating experiences that feel consistent with the Gojaye design language while still working naturally across different platforms.",
+          body: "That introduced another layer of complexity: creating experiences that feel consistent with the Jaye design language while still working naturally across different platforms.",
         },
         { type: "text", body: "The goal wasn't to make two identical products." },
         {
@@ -229,15 +230,15 @@ export const gojaye: CaseStudy = {
               {
                 label: "iOS",
                 image: {
-                  alt: "GoJaye screens on iOS",
-                  placeholder: "A few representative GoJaye screens on iOS",
+                  alt: "Jaye screens on iOS",
+                  placeholder: "A few representative Jaye screens on iOS",
                 },
               },
               {
                 label: "Android",
                 image: {
-                  alt: "The same GoJaye screens on Android",
-                  placeholder: "The same or related GoJaye screens on Android",
+                  alt: "The same Jaye screens on Android",
+                  placeholder: "The same or related Jaye screens on Android",
                 },
               },
             ],
@@ -269,7 +270,7 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "A GoJaye flow before and after an AI-assisted design review",
+              alt: "A Jaye flow before and after an AI-assisted design review",
               placeholder: "A selected flow, a small glimpse of the review, and the refined result",
             },
           },
@@ -281,7 +282,7 @@ export const gojaye: CaseStudy = {
       label: "Launch",
       title: "From design to launch.",
       blocks: [
-        { type: "text", body: "Gojaye is now approaching launch." },
+        { type: "text", body: "Jaye is now approaching launch." },
         {
           type: "text",
           body: "The customer application has shipped, while the driver application is in its final stages of design and preparation.",
@@ -299,7 +300,7 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "A curated montage of final GoJaye customer and driver screens",
+              alt: "A curated montage of final Jaye customer and driver screens",
               placeholder: "Final product montage: customer home, booking, in-ride, wallet, courier, driver home, subscription and driver ride flow",
             },
           },
@@ -326,7 +327,7 @@ export const gojaye: CaseStudy = {
       label: "Outcome",
       title: "From zero to a mobility platform.",
       blocks: [
-        { type: "text", body: "Gojaye started with a blank canvas." },
+        { type: "text", body: "Jaye started with a blank canvas." },
         {
           type: "text",
           body: "My job was to turn the vision into a product system that could actually carry it — from the brand and visual language to the experiences customers and drivers interact with every day.",
@@ -340,7 +341,7 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "showcase",
             image: {
-              alt: "The strongest full GoJaye product composition",
+              alt: "The strongest full Jaye product composition",
               placeholder: "End frame: the strongest full-product composition",
             },
           },

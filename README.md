@@ -105,7 +105,7 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
    | `active-booking` | RunBeta, Active booking | 16:10 | 2400×1500 |
    | `live-activities-ios`, `live-activities-android` | RunBeta, Live Activities | 4:5 | 1200×1500 |
 
-   GoJaye's chapter images go in `public/images/work/gojaye/` alongside its
+   Jaye's chapter images go in `public/images/work/gojaye/` alongside its
    `thumbnail`, `hero` and `closing`:
 
    | File | Chapter | Ratio | Export at |

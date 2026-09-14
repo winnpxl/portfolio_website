@@ -116,22 +116,25 @@ export const work = [
     image: { alt: "Penaid screen", placeholder: "Drop a Penaid screen" },
   },
   {
-    // Known as JAYE; GoJaye is the official name.
+    // Jaye everywhere on the site; GoJaye, the official name, only on its thumbnail.
     slug: "gojaye",
-    title: "GoJaye",
+    title: "Jaye",
+    cardTitle: "GoJaye",
     href: "/work/gojaye",
     role: "Senior Product Designer · Sole Designer",
     year: "2026",
     tagline:
       "A mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
     summary:
-      "Gojaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
+      "Jaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
     bullets: [],
     image: { alt: "GoJaye screen", placeholder: "Drop a GoJaye screen" },
   },
 ] satisfies Array<{
   slug: string;
   title: string;
+  /** Shown on the thumbnail in place of `title`, where the card needs another name. */
+  cardTitle?: string;
   href?: string;
   role: string;
   year: string;
