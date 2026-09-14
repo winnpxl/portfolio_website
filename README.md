@@ -115,8 +115,6 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
    | `driver-quality` | Driver quality | 16:10 | 2400×1500 |
    | `driver-business` | Driver business | 16:10 | 2400×1500 |
    | `mobility-services` | Mobility services | 16:10 | 2400×1500 |
-   | `cross-platform-ios`, `cross-platform-android` | Cross-platform | 4:5 | 1200×1500 |
-   | `ai-assisted-design` | AI-assisted design | 16:10 | 2400×1500 |
    | `launch` | Launch | 16:10 | 2400×1500 |
 2. **Writing and testimonials** — `writing` and `testimonials` in
    `src/content/site.ts` are empty arrays, so those two sections do not render.

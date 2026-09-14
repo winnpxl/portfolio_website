@@ -222,28 +222,6 @@ export const gojaye: CaseStudy = {
           type: "text",
           body: "It was to create one coherent product system that could adapt to both platforms without losing its identity.",
         },
-        {
-          type: "visual",
-          visual: {
-            kind: "devices",
-            items: [
-              {
-                label: "iOS",
-                image: {
-                  alt: "Jaye screens on iOS",
-                  placeholder: "A few representative Jaye screens on iOS",
-                },
-              },
-              {
-                label: "Android",
-                image: {
-                  alt: "The same Jaye screens on Android",
-                  placeholder: "The same or related Jaye screens on Android",
-                },
-              },
-            ],
-          },
-        },
       ],
     },
     {
@@ -264,16 +242,6 @@ export const gojaye: CaseStudy = {
         {
           type: "text",
           body: "It became another layer of review — helping me catch gaps, question assumptions, and explore flows more thoroughly.",
-        },
-        {
-          type: "visual",
-          visual: {
-            kind: "flow",
-            image: {
-              alt: "A Jaye flow before and after an AI-assisted design review",
-              placeholder: "A selected flow, a small glimpse of the review, and the refined result",
-            },
-          },
         },
       ],
     },
