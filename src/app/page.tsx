@@ -37,6 +37,16 @@ const email = contact.tiles.find((t) => t.label === "Email");
 /** The names of everything on the work grid, for the hero's projects line. */
 const projectNames = work.map((w) => w.title);
 
+/** "Five projects, 2024 – 2026", worked out from the grid so it never goes stale. */
+const counts = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+const years = work.map((w) => Number(w.year)).filter(Boolean);
+const span = years.length
+  ? Math.min(...years) === Math.max(...years)
+    ? `${Math.min(...years)}`
+    : `${Math.min(...years)} – ${Math.max(...years)}`
+  : "";
+const workSummary = [`${counts[work.length] ?? work.length} projects`, span].filter(Boolean).join(", ");
+
 /** Lets a long email break after the "@" rather than mid-domain. */
 function TileValue({ value }: { value: string }) {
   const at = value.indexOf("@");
@@ -151,7 +161,7 @@ export default function HomePage() {
 
       {/* ---------------------------------------------- Selected work */}
       <Section id="work" className={sectionPad}>
-        <SectionHeader title="Selected work" aside="Five projects, 2023 – 2026" />
+        <SectionHeader title="Selected work" aside={workSummary} />
 
         {/* One uniform grid: thumbnail, then name and a single sentence. */}
         <div className="grid gap-x-6 gap-y-12 [grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))]">

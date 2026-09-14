@@ -116,22 +116,17 @@ export const work = [
     image: { alt: "Penaid screen", placeholder: "Drop a Penaid screen" },
   },
   {
-    slug: "paying-friends",
-    title: "Paying Friends",
-    role: "UI/UX Designer",
-    year: "2023",
-    tagline:
-      "A full revamp of a European peer-to-peer product rental marketplace, modernising an outdated platform from Lisbon.",
-    summary:
-      "A full revamp of a European peer-to-peer product rental marketplace, modernising an outdated platform from Lisbon.",
-    bullets: [
-      "Directed the design team through the rebuild",
-      "Wrote and tested UX copy that lifted conversion and engagement",
-    ],
-    image: {
-      alt: "Paying Friends screen",
-      placeholder: "Drop a Paying Friends screen",
-    },
+    // Known as JAYE; GoJaye is the official name.
+    slug: "gojaye",
+    title: "GoJaye",
+    role: "Product Designer",
+    // TODO(Samuel): year, one-sentence tagline, summary and bullets to come.
+    // Empty fields stay off the thumbnail rather than showing stand-in copy.
+    year: "",
+    tagline: "",
+    summary: "",
+    bullets: [],
+    image: { alt: "GoJaye screen", placeholder: "Drop a GoJaye screen" },
   },
 ] satisfies Array<{
   slug: string;
