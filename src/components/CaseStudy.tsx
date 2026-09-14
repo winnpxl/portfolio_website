@@ -249,7 +249,7 @@ function BlockView({ block }: { block: Block }) {
       );
     case "cards":
       return (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className={cx("grid gap-4", block.items.length === 3 ? "md:grid-cols-3" : "sm:grid-cols-2")}>
           {block.items.map((card) => (
             <div key={card.title} className="rounded-[24px] bg-surface p-6 shadow-tile">
               <div className="text-[17px] font-semibold tracking-[-0.01em] text-ink">{card.title}</div>
@@ -381,11 +381,15 @@ function ChapterSection({ chapter, number }: { chapter: Chapter; number: string 
             </div>
           ) : (
             <div key={i} className="lg:col-start-2">
-              {i === headed && (
-                <h2 className="text-pretty-wrap m-0 mb-8 max-w-[24ch] text-[clamp(28px,3.6vw,44px)] font-normal leading-[1.12] tracking-[-0.022em]">
-                  {chapter.title}
-                </h2>
-              )}
+              {i === headed &&
+                (chapter.title ? (
+                  <h2 className="text-pretty-wrap m-0 mb-8 max-w-[24ch] text-[clamp(28px,3.6vw,44px)] font-normal leading-[1.12] tracking-[-0.022em]">
+                    {chapter.title}
+                  </h2>
+                ) : (
+                  // No headline of its own: the rail label is its name, kept for screen readers too.
+                  <h2 className="sr-only">{chapter.label}</h2>
+                ))}
               {seg.blocks.map((block, j) => (
                 <div key={j} className={gapBefore(seg.blocks[j - 1], block)}>
                   <BlockView block={block} />
@@ -432,6 +436,11 @@ export function CaseStudyPage({ study }: { study: CaseStudy }) {
             </p>
           ))}
         </div>
+        {study.statement && (
+          <p className="text-pretty-wrap m-0 mt-8 max-w-[40ch] text-[clamp(19px,1.8vw,23px)] font-semibold leading-[1.35] tracking-[-0.015em] text-ink">
+            {study.statement}
+          </p>
+        )}
 
         <dl className="m-0 mt-[clamp(40px,6vw,64px)] grid grid-cols-2 border-t border-line md:grid-cols-4">
           {study.meta.map((item) => (

@@ -59,7 +59,8 @@ export type Chapter = {
   /** Anchor id for the section. */
   id: string;
   label: string;
-  title: string;
+  /** The chapter headline. Without one, the label names the chapter on its own. */
+  title?: string;
   /** Designed but not yet shipped. Marked on the chapter and on its visuals. */
   inProgress?: boolean;
   blocks: Block[];
@@ -71,6 +72,8 @@ export type CaseStudy = {
   name: string;
   title: string;
   intro: string[];
+  /** An optional line that closes the intro, set apart from the paragraphs. */
+  statement?: string;
   meta: { label: string; value: string; live?: boolean }[];
   hero: Visual;
   chapters: Chapter[];

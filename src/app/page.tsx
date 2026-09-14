@@ -169,7 +169,7 @@ export default function HomePage() {
             <ProjectCard
               key={project.slug}
               slug={project.slug}
-              title={project.title}
+              title={project.cardTitle ?? project.title}
               tagline={project.tagline}
               year={project.year}
               image={project.image}

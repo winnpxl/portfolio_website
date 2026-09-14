@@ -83,7 +83,11 @@ export const work = [
       "Owned the brand and design language: colour, three-tier type, 8pt grid, motion, voice",
       "Four surfaces mapped: public site, talent portal, client portal, admin",
     ],
-    image: { alt: "Visio screen", placeholder: "Drop a Visio screen" },
+    image: {
+      src: "/images/work/visio/thumbnail.png",
+      alt: "The Visio logo above its talent dashboard, showing an approved and verified application",
+      placeholder: "Drop a Visio screen",
+    },
   },
   {
     slug: "governance-clout",
@@ -98,7 +102,11 @@ export const work = [
       "Led a team of 3 designers; set the pattern library and delivery plan",
       "Original research from raw public data in a category with no design precedent",
     ],
-    image: { alt: "Governance Clout screen", placeholder: "Drop a GClout screen" },
+    image: {
+      src: "/images/work/governance-clout/thumbnail.png",
+      alt: "The Governance Clout logo and wordmark on a blue gradient",
+      placeholder: "Drop a GClout screen",
+    },
   },
   {
     slug: "penaid",
@@ -113,24 +121,36 @@ export const work = [
       "Desktop-first screens converted to mobile-first without losing parity",
       "Usability testing with users of low digital-financial literacy",
     ],
-    image: { alt: "Penaid screen", placeholder: "Drop a Penaid screen" },
+    image: {
+      src: "/images/work/penaid/thumbnail.png",
+      alt: "The Penaid logo above its loan landing page, with a smiling customer on the phone",
+      placeholder: "Drop a Penaid screen",
+    },
   },
   {
-    // Known as JAYE; GoJaye is the official name.
+    // Jaye everywhere on the site; GoJaye, the official name, only on its thumbnail.
     slug: "gojaye",
-    title: "GoJaye",
-    role: "Product Designer",
-    // TODO(Samuel): year, one-sentence tagline, summary and bullets to come.
-    // Empty fields stay off the thumbnail rather than showing stand-in copy.
-    year: "",
-    tagline: "",
-    summary: "",
+    title: "Jaye",
+    cardTitle: "GoJaye",
+    href: "/work/gojaye",
+    role: "Senior Product Designer · Sole Designer",
+    year: "2026",
+    tagline:
+      "A mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
+    summary:
+      "Jaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
     bullets: [],
-    image: { alt: "GoJaye screen", placeholder: "Drop a GoJaye screen" },
+    image: {
+      src: "/images/work/gojaye/thumbnail.png",
+      alt: "The Jaye logo above driver, map, wallet and subscription screens",
+      placeholder: "Drop a GoJaye screen",
+    },
   },
 ] satisfies Array<{
   slug: string;
   title: string;
+  /** Shown on the thumbnail in place of `title`, where the card needs another name. */
+  cardTitle?: string;
   href?: string;
   role: string;
   year: string;
