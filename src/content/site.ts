@@ -98,7 +98,11 @@ export const work = [
       "Led a team of 3 designers; set the pattern library and delivery plan",
       "Original research from raw public data in a category with no design precedent",
     ],
-    image: { alt: "Governance Clout screen", placeholder: "Drop a GClout screen" },
+    image: {
+      src: "/images/work/governance-clout/thumbnail.png",
+      alt: "The Governance Clout logo and wordmark on a blue gradient",
+      placeholder: "Drop a GClout screen",
+    },
   },
   {
     slug: "penaid",
