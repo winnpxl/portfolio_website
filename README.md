@@ -87,18 +87,33 @@ for the record; it is no longer what the site follows.
 
 The design ships with deliberate gaps. Each is a content edit, not a layout one.
 
-1. **Images** — `ImageFrame` renders its placeholder note until a `src` is set.
-   Drop a file in `public/images/` and add `src` to the matching `image` entry in
-   `src/content/`. The frame already fixes the aspect ratio.
-2. **Email and LinkedIn** — `contact.tiles` in `src/content/site.ts`, both marked
-   with `TODO`.
-3. **Writing and testimonials** — `writing` and `testimonials` in
+1. **Project images** — every project has its own folder in
+   `public/images/work/<slug>/` (`runbeta`, `visio`, `governance-clout`, `penaid`,
+   `paying-friends`). Drop images in using the names below, as PNG, JPG or WebP,
+   then point the matching `image` entry in `src/content/` at the file, for example
+   `src: "/images/work/runbeta/hero.png"`. Until `src` is set, `ImageFrame` shows
+   its placeholder note at the right shape, so a missing image never breaks a page.
+
+   | File | Where it shows | Ratio | Export at |
+   |---|---|---|---|
+   | `thumbnail` | Home work grid, every project | 16:10 | 1600×1000 |
+   | `hero` | Case study opening showcase | 16:9 | 2400×1350 |
+   | `closing` | Case study closing composition | 16:9 | 2400×1350 |
+   | `onboarding` | RunBeta, Onboarding | 16:10 | 2400×1500 |
+   | `scheduled-vs-instant` | RunBeta, Scheduled vs Instant | 16:10 | 2400×1500 |
+   | `book-with-ai` | RunBeta, Book with AI | 4:3 | 2400×1800 |
+   | `active-booking` | RunBeta, Active booking | 2:1 | 2400×1200 |
+   | `live-activities-ios`, `live-activities-android` | RunBeta, Live Activities | 4:5 | 1200×1500 |
+
+   Other projects' case studies will add their own chapter images to their folder.
+2. **Writing and testimonials** — `writing` and `testimonials` in
    `src/content/site.ts` are empty arrays, so those two sections do not render.
    Add entries and they appear.
-4. **The four remaining case studies** — Visio, Governance Clout, Penaid and
-   Paying Friends show "Case study in progress". Build them on
-   `src/app/work/runbeta/page.tsx`, add a route under `src/app/work/<slug>/`,
-   and give the entry in `work` an `href`.
+3. **The four remaining case studies** — Visio, Governance Clout, Penaid and
+   Paying Friends show an "under construction" toast when clicked. For each, add a
+   content file shaped like `src/content/runbeta.ts`, a three-line page under
+   `src/app/work/<slug>/` like `src/app/work/runbeta/page.tsx`, and give the entry
+   in `work` an `href`.
 
 ## Notes on the port
 
