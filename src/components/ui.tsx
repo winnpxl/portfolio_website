@@ -204,6 +204,7 @@ export function Row({
 /* -------------------------------------------------------- Image frame */
 
 const ratioClass = {
+  "2/1": "aspect-[2/1]",
   "16/9": "aspect-[16/9]",
   "16/10": "aspect-[16/10]",
   "4/3": "aspect-[4/3]",
