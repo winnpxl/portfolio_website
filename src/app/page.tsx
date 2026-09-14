@@ -7,23 +7,20 @@ import { homeNav, socials } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
 import { Ticker } from "@/components/Ticker";
 import {
-  BulletList,
   ButtonLink,
   Eyebrow,
-  ImageFrame,
   LiveDot,
   Pill,
+  ProjectCard,
   Row,
   SectionHeader,
   SectionHeading,
   cx,
-  tileRotation,
 } from "@/components/ui";
 import { tiles } from "@/content/gallery";
 import {
   about,
   contact,
-  featuredWork,
   galleryBanner,
   hero,
   process,
@@ -38,7 +35,7 @@ import {
 const email = contact.tiles.find((t) => t.label === "Email");
 
 /** The names of everything on the work grid, for the hero's projects line. */
-const projectNames = [featuredWork.title, ...work.map((w) => w.title)];
+const projectNames = work.map((w) => w.title);
 
 /** Lets a long email break after the "@" rather than mid-domain. */
 function TileValue({ value }: { value: string }) {
@@ -156,57 +153,18 @@ export default function HomePage() {
       <Section id="work" className={sectionPad}>
         <SectionHeader title="Selected work" aside="Five projects, 2023 – 2026" />
 
-        {/* Featured: the one project with a case study gets the full width. */}
-        <article className="grid gap-6 rounded-[28px] bg-surface p-3 shadow-tile md:grid-cols-[1.15fr_1fr] md:gap-8">
-          <ImageFrame
-            slot={featuredWork.image}
-            ratio="4/3"
-            fill="dark"
-            radius={20}
-            sound
-            sizes="(max-width: 768px) 100vw, 55vw"
-          />
-          <div className="flex flex-col justify-center px-3 pb-4 md:py-6 md:pr-8">
-            <div className="flex flex-wrap gap-2">
-              <Pill tone="solid">{featuredWork.pills[0].label}</Pill>
-              <Pill>{featuredWork.pills[1].label}</Pill>
-            </div>
-            <h3 className="m-0 mt-5 text-[clamp(28px,3vw,36px)] font-semibold leading-[1.1] tracking-[-0.015em]">
-              {featuredWork.title}
-            </h3>
-            <p className="m-0 mt-3 max-w-[48ch] text-[15px] leading-[1.55] text-ink-soft">
-              {featuredWork.summary}
-            </p>
-            <BulletList items={featuredWork.bullets} size="sm" className="mt-5" />
-            <div className="mt-7">
-              <ButtonLink href={featuredWork.href}>{featuredWork.cta}</ButtonLink>
-            </div>
-          </div>
-        </article>
-
-        {/* The rest: the image is the card, caption beneath. */}
-        <div className="mt-6 grid gap-x-6 gap-y-10 [grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))]">
+        {/* One uniform grid: thumbnail, then name and a single sentence. */}
+        <div className="grid gap-x-6 gap-y-12 [grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))]">
           {work.map((project, i) => (
-            <article key={project.slug} className="flex flex-col">
-              <ImageFrame
-                slot={project.image}
-                ratio="4/5"
-                fill={tileRotation[i % tileRotation.length]}
-                ring={tileRotation[i % tileRotation.length] === "surface"}
-                sound
-              />
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                <h3 className="m-0 text-[19px] font-medium leading-none tracking-[-0.015em]">
-                  {project.title}
-                </h3>
-                <Pill>{project.pill}</Pill>
-              </div>
-              <p className="m-0 mt-3 max-w-[52ch] text-[15px] leading-[1.55] text-muted">
-                {project.summary}
-              </p>
-              <BulletList items={project.bullets} size="sm" className="mt-4" />
-              <Eyebrow className="mt-4 text-faint">{project.status}</Eyebrow>
-            </article>
+            <ProjectCard
+              key={project.slug}
+              title={project.title}
+              tagline={project.tagline}
+              year={project.year}
+              image={project.image}
+              href={project.href}
+              priority={i < 3}
+            />
           ))}
         </div>
       </Section>

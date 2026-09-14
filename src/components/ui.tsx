@@ -288,3 +288,58 @@ export function ImageFrame({
     </div>
   );
 }
+
+/**
+ * Project thumbnail. A soft square card with the product shot inset and
+ * floating inside it, the year as a chip in the corner, and only the name
+ * and a one-line summary beneath. When the project has a case study the
+ * card links to it; the shot lifts a touch on hover either way.
+ */
+export function ProjectCard({
+  title,
+  tagline,
+  year,
+  image,
+  href,
+  priority,
+}: {
+  title: string;
+  tagline: string;
+  year: string;
+  image: ImageSlot;
+  href?: string;
+  priority?: boolean;
+}) {
+  const thumb = (
+    <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[28px] bg-tile px-[6%] transition-colors duration-300 group-hover:bg-tile-deep motion-reduce:transition-none">
+      <span className="absolute left-4 top-4 z-10 rounded-full bg-surface/85 px-3 py-[7px] text-[13px] leading-none tracking-[-0.005em] text-ink-soft shadow-tile backdrop-blur-sm">
+        {year}
+      </span>
+      <ImageFrame
+        slot={image}
+        ratio="16/10"
+        fill="surface"
+        radius={12}
+        priority={priority}
+        sizes="(max-width: 768px) 88vw, 380px"
+        className="w-full shadow-lift transition-transform duration-500 ease-out group-hover:-translate-y-1 motion-reduce:transition-none"
+      />
+    </div>
+  );
+
+  return (
+    <article className="flex flex-col">
+      {href ? (
+        <Link href={href} data-sound className="group block rounded-[28px]" aria-label={`${title} case study`}>
+          {thumb}
+        </Link>
+      ) : (
+        <div data-sound className="group">
+          {thumb}
+        </div>
+      )}
+      <h3 className="m-0 mt-5 text-[19px] font-semibold leading-tight tracking-[-0.015em]">{title}</h3>
+      <p className="m-0 mt-2 max-w-[46ch] text-[15px] leading-[1.5] text-muted">{tagline}</p>
+    </article>
+  );
+}
