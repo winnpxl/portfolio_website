@@ -65,7 +65,8 @@ export const work = [
       "Dark-mode mobile design system and a navigable multi-screen prototype",
     ],
     image: {
-      alt: "RunBeta hero shot",
+      src: "/images/work/runbeta/thumbnail.png",
+      alt: "The RunBeta app icon and wordmark on a deep blue background",
       placeholder: "Drop a RunBeta screen or hero shot",
     },
   },

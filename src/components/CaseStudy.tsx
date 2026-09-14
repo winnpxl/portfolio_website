@@ -70,11 +70,12 @@ const cornerChip =
 
 /* ------------------------------------------------------------ visuals */
 
+/** Compositions are 16:9 and screen sequences 16:10, the shapes the exports come in, so nothing crops. */
 const ratioFor: Record<"showcase" | "flow" | "feature" | "timeline", Ratio> = {
   showcase: "16/9",
   flow: "16/10",
-  feature: "4/3",
-  timeline: "2/1",
+  feature: "16/10",
+  timeline: "16/10",
 };
 
 function Figure({
@@ -99,10 +100,20 @@ function Figure({
   );
 
   if (visual.kind === "devices") {
+    // Once any device has its image, show only the ones that do: a finished
+    // mockup beside an empty frame reads as broken. The rest join as they land,
+    // and a lone device keeps the size it would have in a pair.
+    const ready = visual.items.filter((item) => item.image.src);
+    const items = ready.length > 0 ? ready : visual.items;
     return (
       <figure className="m-0">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {visual.items.map((item) => (
+        <div
+          className={cx(
+            "grid gap-4",
+            items.length > 1 ? "sm:grid-cols-2" : "mx-auto sm:max-w-[calc(50%-0.5rem)]",
+          )}
+        >
+          {items.map((item) => (
             <div key={item.label}>
               <div className="relative">
                 {chip}
