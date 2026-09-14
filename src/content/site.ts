@@ -119,12 +119,13 @@ export const work = [
     // Known as JAYE; GoJaye is the official name.
     slug: "gojaye",
     title: "GoJaye",
-    role: "Product Designer",
-    // TODO(Samuel): year, one-sentence tagline, summary and bullets to come.
-    // Empty fields stay off the thumbnail rather than showing stand-in copy.
-    year: "",
-    tagline: "",
-    summary: "",
+    href: "/work/gojaye",
+    role: "Senior Product Designer · Sole Designer",
+    year: "2026",
+    tagline:
+      "A mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
+    summary:
+      "Gojaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
     bullets: [],
     image: { alt: "GoJaye screen", placeholder: "Drop a GoJaye screen" },
   },

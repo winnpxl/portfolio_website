@@ -101,16 +101,28 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
    | `closing` | Case study closing composition | 16:9 | 2400×1350 |
    | `onboarding` | RunBeta, Onboarding | 16:10 | 2400×1500 |
    | `scheduled-vs-instant` | RunBeta, Scheduled vs Instant | 16:10 | 2400×1500 |
-   | `book-with-ai` | RunBeta, Book with AI | 4:3 | 2400×1800 |
-   | `active-booking` | RunBeta, Active booking | 2:1 | 2400×1200 |
+   | `book-with-ai` | RunBeta, Book with AI | 16:10 | 2400×1500 |
+   | `active-booking` | RunBeta, Active booking | 16:10 | 2400×1500 |
    | `live-activities-ios`, `live-activities-android` | RunBeta, Live Activities | 4:5 | 1200×1500 |
 
-   Other projects' case studies will add their own chapter images to their folder.
+   GoJaye's chapter images go in `public/images/work/gojaye/` alongside its
+   `thumbnail`, `hero` and `closing`:
+
+   | File | Chapter | Ratio | Export at |
+   |---|---|---|---|
+   | `foundation` | Brand & foundation | 16:10 | 2400×1500 |
+   | `affordability` | Affordability | 16:10 | 2400×1500 |
+   | `driver-quality` | Driver quality | 16:10 | 2400×1500 |
+   | `driver-business` | Driver business | 16:10 | 2400×1500 |
+   | `mobility-services` | Mobility services | 16:10 | 2400×1500 |
+   | `cross-platform-ios`, `cross-platform-android` | Cross-platform | 4:5 | 1200×1500 |
+   | `ai-assisted-design` | AI-assisted design | 16:10 | 2400×1500 |
+   | `launch` | Launch | 16:10 | 2400×1500 |
 2. **Writing and testimonials** — `writing` and `testimonials` in
    `src/content/site.ts` are empty arrays, so those two sections do not render.
    Add entries and they appear.
-3. **The four remaining case studies** — Visio, Governance Clout, Penaid and
-   GoJaye show an "under construction" toast when clicked. For each, add a
+3. **The three remaining case studies** — Visio, Governance Clout and Penaid
+   show an "under construction" toast when clicked. For each, add a
    content file shaped like `src/content/runbeta.ts`, a three-line page under
    `src/app/work/<slug>/` like `src/app/work/runbeta/page.tsx`, and give the entry
    in `work` an `href`.
