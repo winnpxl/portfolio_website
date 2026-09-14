@@ -25,7 +25,8 @@ export const gojaye: CaseStudy = {
   hero: {
     kind: "showcase",
     image: {
-      alt: "Jaye customer onboarding, customer wallet and driver subscription screens",
+      src: "/images/work/gojaye/thumbnail.png",
+      alt: "The Jaye logo and service names above driver, map, wallet and subscription screens",
       placeholder: "Opening composition: customer onboarding, customer wallet and driver subscription",
     },
   },
@@ -52,7 +53,8 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "Jaye brand elements beside early product screens",
+              src: "/images/work/gojaye/foundation.gif",
+              alt: "Alternating between the Jaye logo and the Jaye logo design beside its colour variables in Figma",
               placeholder: "Brand, foundation, product and system: selected brand elements beside a few early product screens",
             },
           },
@@ -89,7 +91,8 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "feature",
             image: {
-              alt: "Jaye ride category selection from Economy to Elite",
+              src: "/images/work/gojaye/affordability.png",
+              alt: "Three affordability screens: adjusting a fare offer, choosing between Jaye Ride, Comfort and Elite, and accepting one of several driver bids",
               placeholder: "Economy, Mid-level and Elite: category selection, vehicle differences, pricing and the confirmation state",
             },
           },
@@ -134,7 +137,8 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "timeline",
             image: {
-              alt: "The Jaye driver course, from onboarding to assessment score and profile history",
+              src: "/images/work/gojaye/driver-quality.png",
+              alt: "The Jaye Driver course: its introduction, three course modules, a congratulations screen with a trophy, and a driver profile showing the completed course",
               placeholder: "Driver onboarding, course, assessment, score and profile history as one connected flow",
             },
           },
@@ -169,7 +173,8 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "Jaye driver onboarding, subscription and earning screens",
+              src: "/images/work/gojaye/driver-business.png",
+              alt: "Driver business screens: keeping 100% of earnings, choosing a subscription plan, choosing how to earn, and weekly earnings and balance",
               placeholder: "Driver onboarding, subscription offer, subscription state, getting a ride and the earning experience",
             },
           },
@@ -200,7 +205,8 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "Jaye ride, courier and professional driver flows",
+              src: "/images/work/gojaye/mobility-services.png",
+              alt: "An excerpt from the Jaye landing page: book a ride, send a package and name your price",
               placeholder: "Ride, Courier and Professional Driver: the strongest screens from each journey",
             },
           },
@@ -268,7 +274,8 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "flow",
             image: {
-              alt: "A curated montage of final Jaye customer and driver screens",
+              src: "/images/work/gojaye/launch.gif",
+              alt: "A montage cycling through the Jaye logo and the case study's screens, ending on the driver, map, wallet and subscription screens",
               placeholder: "Final product montage: customer home, booking, in-ride, wallet, courier, driver home, subscription and driver ride flow",
             },
           },
@@ -309,7 +316,8 @@ export const gojaye: CaseStudy = {
           visual: {
             kind: "showcase",
             image: {
-              alt: "The strongest full Jaye product composition",
+              src: "/images/work/gojaye/closing.png",
+              alt: "A thank-you card on a warm peach background",
               placeholder: "End frame: the strongest full-product composition",
             },
           },
