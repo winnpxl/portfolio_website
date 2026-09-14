@@ -372,5 +372,4 @@ export const runbeta: CaseStudy = {
       ],
     },
   ],
-  next: { title: "See the rest of the work", cta: "Back to all work", href: "/#work" },
 };

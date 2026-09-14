@@ -74,5 +74,4 @@ export type CaseStudy = {
   meta: { label: string; value: string; live?: boolean }[];
   hero: Visual;
   chapters: Chapter[];
-  next: { title: string; cta: string; href: string };
 };

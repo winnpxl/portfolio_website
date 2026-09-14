@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 import type { Block, Callout, CaseStudy, Chapter, Visual } from "@/content/case-study";
-import { profile } from "@/content/site";
+import { profile, work } from "@/content/site";
 
 import { Nav } from "./Nav";
 import { caseStudyNav, socials } from "./navItems";
@@ -34,7 +34,7 @@ function ProgressDot() {
   );
 }
 
-function ArrowRight() {
+function ArrowRight({ className }: { className?: string }) {
   return (
     <svg
       width="16"
@@ -46,7 +46,7 @@ function ArrowRight() {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
-      className="mt-[5px] shrink-0 text-faint"
+      className={cx("shrink-0", className)}
     >
       <path d="M5 12h14" />
       <path d="m12 5 7 7-7 7" />
@@ -275,7 +275,7 @@ function BlockView({ block }: { block: Block }) {
               key={item}
               className="flex items-start gap-3 border-b border-line py-4 text-[clamp(16px,1.4vw,18px)] leading-[1.45] tracking-[-0.01em] text-ink"
             >
-              <ArrowRight />
+              <ArrowRight className="mt-[5px] text-faint" />
               <span>{item}</span>
             </li>
           ))}
@@ -382,9 +382,13 @@ function ChapterSection({ chapter, number }: { chapter: Chapter; number: string 
 
 /**
  * A full case study: title, intro and project facts, the opening
- * showcase, numbered chapters, and a closing link back to the work.
+ * showcase, numbered chapters, and a link on to the next project.
  */
 export function CaseStudyPage({ study }: { study: CaseStudy }) {
+  // The next project in the work grid's order, wrapping round after the last.
+  // Until it has a case study of its own, the link lands on its thumbnail.
+  const next = work[(work.findIndex((p) => p.slug === study.slug) + 1) % work.length];
+
   return (
     <PageShell>
       <Nav items={caseStudyNav(study.name)} socials={socials} />
@@ -434,10 +438,13 @@ export function CaseStudyPage({ study }: { study: CaseStudy }) {
           <div>
             <Eyebrow>Next</Eyebrow>
             <div className="mt-3 max-w-[24ch] text-[clamp(22px,2.6vw,30px)] font-semibold leading-[1.15] tracking-[-0.015em]">
-              {study.next.title}
+              See the next project
             </div>
           </div>
-          <ButtonLink href={study.next.href}>{study.next.cta}</ButtonLink>
+          <ButtonLink href={next.href ?? `/#${next.slug}`}>
+            {next.title}
+            <ArrowRight />
+          </ButtonLink>
         </div>
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-3 text-[13px] text-muted">

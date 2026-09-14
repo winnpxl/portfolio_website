@@ -158,6 +158,7 @@ export default function HomePage() {
           {work.map((project, i) => (
             <ProjectCard
               key={project.slug}
+              slug={project.slug}
               title={project.title}
               tagline={project.tagline}
               year={project.year}

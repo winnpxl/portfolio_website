@@ -297,6 +297,7 @@ export function ImageFrame({
  * card links to it; the shot lifts a touch on hover either way.
  */
 export function ProjectCard({
+  slug,
   title,
   tagline,
   year,
@@ -304,6 +305,8 @@ export function ProjectCard({
   href,
   priority,
 }: {
+  /** Anchor id, so the next-project link can land on this card. */
+  slug: string;
   title: string;
   tagline: string;
   year: string;
@@ -329,7 +332,7 @@ export function ProjectCard({
   );
 
   return (
-    <article className="flex flex-col">
+    <article id={slug} className="flex scroll-mt-8 flex-col">
       {href ? (
         <Link href={href} data-sound className="group block rounded-[28px]" aria-label={`${title} case study`}>
           {thumb}
