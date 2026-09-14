@@ -6,7 +6,17 @@ import { profile, work } from "@/content/site";
 import { Nav } from "./Nav";
 import { caseStudyNav, socials } from "./navItems";
 import { PageShell, Section } from "./Page";
-import { BulletList, ButtonLink, Eyebrow, ImageFrame, LiveDot, Pill, cx, type Ratio } from "./ui";
+import {
+  BulletList,
+  ButtonLink,
+  Eyebrow,
+  ImageFrame,
+  LiveDot,
+  Pill,
+  buttonClass,
+  cx,
+  type Ratio,
+} from "./ui";
 
 /* ------------------------------------------------------------ helpers */
 
@@ -386,7 +396,7 @@ function ChapterSection({ chapter, number }: { chapter: Chapter; number: string 
  */
 export function CaseStudyPage({ study }: { study: CaseStudy }) {
   // The next project in the work grid's order, wrapping round after the last.
-  // Until it has a case study of its own, the link lands on its thumbnail.
+  // Until it has a case study of its own, the button raises the under-construction toast.
   const next = work[(work.findIndex((p) => p.slug === study.slug) + 1) % work.length];
 
   return (
@@ -441,10 +451,22 @@ export function CaseStudyPage({ study }: { study: CaseStudy }) {
               See the next project
             </div>
           </div>
-          <ButtonLink href={next.href ?? `/#${next.slug}`}>
-            {next.title}
-            <ArrowRight />
-          </ButtonLink>
+          {next.href ? (
+            <ButtonLink href={next.href}>
+              {next.title}
+              <ArrowRight />
+            </ButtonLink>
+          ) : (
+            <button
+              type="button"
+              data-sound
+              data-unavailable={next.title}
+              className={buttonClass("solid", "cursor-pointer")}
+            >
+              {next.title}
+              <ArrowRight />
+            </button>
+          )}
         </div>
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-3 text-[13px] text-muted">

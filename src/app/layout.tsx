@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import { SoundProvider } from "@/components/sound";
+import { Toaster } from "@/components/toast";
 
 import "./globals.css";
 
@@ -37,7 +38,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={mori.variable}>
       <body>
-        <SoundProvider>{children}</SoundProvider>
+        <SoundProvider>
+          {children}
+          <Toaster />
+        </SoundProvider>
       </body>
     </html>
   );

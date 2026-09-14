@@ -53,6 +53,17 @@ export function LiveDot({ className }: { className?: string }) {
 const buttonBase =
   "inline-flex items-center gap-2 rounded-full px-[22px] py-[13px] text-[15px] font-medium leading-none tracking-[-0.01em] transition-colors";
 
+const buttonTones = {
+  solid: "bg-ink text-canvas hover:bg-ink-soft",
+  ghost: "border border-line bg-transparent text-ink hover:bg-ink/5",
+  light: "bg-canvas text-ink hover:bg-surface",
+} as const;
+
+/** ButtonLink's styling on its own, for a real <button> that should match it. */
+export function buttonClass(tone: keyof typeof buttonTones = "solid", className?: string) {
+  return cx(buttonBase, buttonTones[tone], className);
+}
+
 /** Primary is the black pill from the references; ghost is its quiet sibling. */
 export function ButtonLink({
   href,
@@ -62,18 +73,12 @@ export function ButtonLink({
 }: {
   href: string;
   children: ReactNode;
-  tone?: "solid" | "ghost" | "light";
+  tone?: keyof typeof buttonTones;
   className?: string;
 }) {
-  const tones = {
-    solid: "bg-ink text-canvas hover:bg-ink-soft",
-    ghost: "border border-line bg-transparent text-ink hover:bg-ink/5",
-    light: "bg-canvas text-ink hover:bg-surface",
-  } as const;
-
   const external =
     href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:");
-  const cls = cx(buttonBase, tones[tone], className);
+  const cls = buttonClass(tone, className);
 
   if (external) {
     return (
@@ -305,7 +310,7 @@ export function ProjectCard({
   href,
   priority,
 }: {
-  /** Anchor id, so the next-project link can land on this card. */
+  /** Anchor id for the card. */
   slug: string;
   title: string;
   tagline: string;
@@ -338,9 +343,16 @@ export function ProjectCard({
           {thumb}
         </Link>
       ) : (
-        <div data-sound className="group">
+        // No case study yet: a click raises the under-construction toast.
+        <button
+          type="button"
+          data-sound
+          data-unavailable={title}
+          aria-label={`${title} case study`}
+          className="group block w-full cursor-pointer rounded-[28px] text-left"
+        >
           {thumb}
-        </div>
+        </button>
       )}
       <h3 className="m-0 mt-5 text-[19px] font-semibold leading-tight tracking-[-0.015em]">{title}</h3>
       <p className="m-0 mt-2 max-w-[46ch] text-[15px] leading-[1.5] text-muted">{tagline}</p>
