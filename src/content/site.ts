@@ -51,6 +51,25 @@ export const stats = [
  */
 export const work = [
   {
+    // Jaye everywhere on the site; GoJaye, the official name, only on its thumbnail.
+    slug: "gojaye",
+    title: "Jaye",
+    cardTitle: "GoJaye",
+    href: "/work/gojaye",
+    role: "Senior Product Designer · Sole Designer",
+    year: "2026",
+    tagline:
+      "A mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
+    summary:
+      "Jaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
+    bullets: [],
+    image: {
+      src: "/images/work/gojaye/thumbnail.png",
+      alt: "The Jaye logo above driver, map, wallet and subscription screens",
+      placeholder: "Drop a GoJaye screen",
+    },
+  },
+  {
     slug: "runbeta",
     title: "RunBeta",
     href: "/work/runbeta",
@@ -68,25 +87,6 @@ export const work = [
       src: "/images/work/runbeta/thumbnail.png",
       alt: "The RunBeta app icon and wordmark on a deep blue background",
       placeholder: "Drop a RunBeta screen or hero shot",
-    },
-  },
-  {
-    slug: "visio",
-    title: "Visio",
-    role: "Lead Product Designer",
-    year: "2026",
-    tagline:
-      "A managed talent marketplace connecting vetted Nigerian professionals with clients in Nigeria, the UK and the US.",
-    summary:
-      "A managed talent marketplace connecting vetted Nigerian professionals with clients in Nigeria, the UK and the US. Brief to full design specification.",
-    bullets: [
-      "Owned the brand and design language: colour, three-tier type, 8pt grid, motion, voice",
-      "Four surfaces mapped: public site, talent portal, client portal, admin",
-    ],
-    image: {
-      src: "/images/work/visio/thumbnail.png",
-      alt: "The Visio logo above its talent dashboard, showing an approved and verified application",
-      placeholder: "Drop a Visio screen",
     },
   },
   {
@@ -109,10 +109,29 @@ export const work = [
     },
   },
   {
+    slug: "visio",
+    title: "Visio",
+    role: "Lead Product Designer",
+    year: "2026",
+    tagline:
+      "A managed talent marketplace connecting vetted Nigerian professionals with clients in Nigeria, the UK and the US.",
+    summary:
+      "A managed talent marketplace connecting vetted Nigerian professionals with clients in Nigeria, the UK and the US. Brief to full design specification.",
+    bullets: [
+      "Owned the brand and design language: colour, three-tier type, 8pt grid, motion, voice",
+      "Four surfaces mapped: public site, talent portal, client portal, admin",
+    ],
+    image: {
+      src: "/images/work/visio/thumbnail.png",
+      alt: "The Visio logo above its talent dashboard, showing an approved and verified application",
+      placeholder: "Drop a Visio screen",
+    },
+  },
+  {
     slug: "penaid",
     title: "Penaid SLA & PLA",
     role: "UI/UX Designer",
-    year: "2024",
+    year: "2023 – 2025",
     tagline:
       "Loan disbursement and collection for underserved borrowers, including student and pensioner loan products.",
     summary:
@@ -125,25 +144,6 @@ export const work = [
       src: "/images/work/penaid/thumbnail.png",
       alt: "The Penaid logo above its loan landing page, with a smiling customer on the phone",
       placeholder: "Drop a Penaid screen",
-    },
-  },
-  {
-    // Jaye everywhere on the site; GoJaye, the official name, only on its thumbnail.
-    slug: "gojaye",
-    title: "Jaye",
-    cardTitle: "GoJaye",
-    href: "/work/gojaye",
-    role: "Senior Product Designer · Sole Designer",
-    year: "2026",
-    tagline:
-      "A mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
-    summary:
-      "Jaye is a mobility platform designed to make moving around easier for customers while creating a better earning opportunity for drivers.",
-    bullets: [],
-    image: {
-      src: "/images/work/gojaye/thumbnail.png",
-      alt: "The Jaye logo above driver, map, wallet and subscription screens",
-      placeholder: "Drop a GoJaye screen",
     },
   },
 ] satisfies Array<{
