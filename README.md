@@ -89,7 +89,7 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
 
 1. **Project images** — every project has its own folder in
    `public/images/work/<slug>/` (`runbeta`, `visio`, `governance-clout`, `penaid`,
-   `paying-friends`). Drop images in using the names below, as PNG, JPG or WebP,
+   `gojaye`). Drop images in using the names below, as PNG, JPG or WebP,
    then point the matching `image` entry in `src/content/` at the file, for example
    `src: "/images/work/runbeta/hero.png"`. Until `src` is set, `ImageFrame` shows
    its placeholder note at the right shape, so a missing image never breaks a page.
@@ -110,7 +110,7 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
    `src/content/site.ts` are empty arrays, so those two sections do not render.
    Add entries and they appear.
 3. **The four remaining case studies** — Visio, Governance Clout, Penaid and
-   Paying Friends show an "under construction" toast when clicked. For each, add a
+   GoJaye show an "under construction" toast when clicked. For each, add a
    content file shaped like `src/content/runbeta.ts`, a three-line page under
    `src/app/work/<slug>/` like `src/app/work/runbeta/page.tsx`, and give the entry
    in `work` an `href`.

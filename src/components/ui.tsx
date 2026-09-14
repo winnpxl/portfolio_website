@@ -322,9 +322,11 @@ export function ProjectCard({
 }) {
   const thumb = (
     <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[28px] bg-tile px-[6%] transition-colors duration-300 group-hover:bg-tile-deep motion-reduce:transition-none">
-      <span className="absolute left-4 top-4 z-10 rounded-full bg-surface/85 px-3 py-[7px] text-[13px] leading-none tracking-[-0.005em] text-ink-soft shadow-tile backdrop-blur-sm">
-        {year}
-      </span>
+      {year && (
+        <span className="absolute left-4 top-4 z-10 rounded-full bg-surface/85 px-3 py-[7px] text-[13px] leading-none tracking-[-0.005em] text-ink-soft shadow-tile backdrop-blur-sm">
+          {year}
+        </span>
+      )}
       <ImageFrame
         slot={image}
         ratio="16/10"
@@ -356,7 +358,7 @@ export function ProjectCard({
         </button>
       )}
       <h3 className="m-0 mt-5 text-[19px] font-semibold leading-tight tracking-[-0.015em]">{title}</h3>
-      <p className="m-0 mt-2 max-w-[46ch] text-[15px] leading-[1.5] text-muted">{tagline}</p>
+      {tagline && <p className="m-0 mt-2 max-w-[46ch] text-[15px] leading-[1.5] text-muted">{tagline}</p>}
     </article>
   );
 }
