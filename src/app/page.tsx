@@ -238,10 +238,12 @@ export default function HomePage() {
 
       {/* ---------------------------------------------- Gallery banner */}
       <Section className={sectionPad}>
-        <Link
-          href="/gallery"
+        {/* The gallery is locked for now: the card raises the coming-soon toast. */}
+        <button
+          type="button"
           data-sound
-          className="on-dark group flex flex-wrap items-end justify-between gap-6 rounded-[28px] bg-tile-dark p-8 text-canvas sm:p-12"
+          data-coming-soon="Gallery"
+          className="on-dark group flex w-full cursor-pointer flex-wrap items-end justify-between gap-6 rounded-[28px] bg-tile-dark p-8 text-left text-canvas sm:p-12"
         >
           <div>
             <Eyebrow className="text-canvas/50">{galleryBanner.eyebrow}</Eyebrow>
@@ -252,7 +254,7 @@ export default function HomePage() {
           <span className="inline-flex items-center rounded-full bg-canvas px-[22px] py-[13px] text-[15px] font-medium leading-none text-ink transition-colors group-hover:bg-surface">
             {galleryBanner.cta}
           </span>
-        </Link>
+        </button>
       </Section>
 
       {/* ---------------------------------------------------- Writing */}
