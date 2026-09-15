@@ -29,12 +29,12 @@ export const hero = {
     { label: "Samuel Winner, Design Engineer" },
     { label: "Lagos, Nigeria · remote" },
   ],
-  headline: "Seven years turning unformed briefs into shipped products.",
+  headline: "5+ years turning unformed briefs into shipped products.",
   lead: "I simplify complex, trust-dependent products across marketplaces, fintech and consumer mobile, while building the frontend that ships them. I build sites that convert, and mobile apps users can come back to on a daily basis.",
 } as const;
 
 export const stats = [
-  { value: "7+", label: "years across UI/UX, product strategy and front end" },
+  { value: "7+", label: "years in the design industry" },
   { value: "3", label: "design teams led and mentored" },
   { value: "4", label: "countries of distributed teams: NG, UK, PT, US" },
   {
