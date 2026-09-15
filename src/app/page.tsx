@@ -39,7 +39,8 @@ const projectNames = work.map((w) => w.title);
 
 /** "Five projects, 2024 – 2026", worked out from the grid so it never goes stale. */
 const counts = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
-const years = work.map((w) => Number(w.year)).filter(Boolean);
+// A year can be a range such as "2023 – 2025"; every year in it counts.
+const years = work.flatMap((w) => (w.year.match(/\d{4}/g) ?? []).map(Number));
 const span = years.length
   ? Math.min(...years) === Math.max(...years)
     ? `${Math.min(...years)}`
