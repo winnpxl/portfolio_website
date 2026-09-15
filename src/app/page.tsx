@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { LocalTime } from "@/components/LocalTime";
 import { Nav } from "@/components/Nav";
