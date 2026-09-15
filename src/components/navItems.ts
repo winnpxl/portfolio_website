@@ -15,6 +15,9 @@ export type NavItem =
       strong?: boolean;
       /** Leads back up a level; rendered with an arrow icon. */
       back?: boolean;
+      /** Not open yet: shown with a lock, and raises the coming-soon toast
+       *  instead of navigating. */
+      locked?: boolean;
       /** Hidden from the desktop row, kept in the mobile panel. The
        *  deep-link sections stay reachable on a phone without crowding
        *  the top of a wide screen. */
@@ -48,7 +51,7 @@ export const homeNav: NavItem[] = [
   { kind: "link", label: "Process", href: "/#process", mobileOnly: true },
   { kind: "link", label: "About", href: "/about" },
   { kind: "link", label: "Side projects", href: "/#side", mobileOnly: true },
-  { kind: "link", label: "Gallery", href: "/gallery" },
+  { kind: "link", label: "Gallery", href: "/gallery", locked: true },
   { kind: "link", label: "Games", href: "/games" },
   { kind: "link", label: "Contact", href: "/#contact" },
 ];
@@ -57,7 +60,7 @@ export const aboutNav: NavItem[] = [
   { kind: "link", label: "Home", href: "/", strong: true, back: true },
   { kind: "current", label: "About" },
   { kind: "link", label: "Work", href: "/#work" },
-  { kind: "link", label: "Gallery", href: "/gallery" },
+  { kind: "link", label: "Gallery", href: "/gallery", locked: true },
   { kind: "link", label: "Games", href: "/games" },
   { kind: "link", label: "Contact", href: "/#contact" },
 ];
@@ -66,7 +69,7 @@ export const caseStudyNav = (label: string): NavItem[] => [
   { kind: "link", label: "All work", href: "/#work", strong: true, back: true },
   { kind: "current", label },
   { kind: "link", label: "About", href: "/about" },
-  { kind: "link", label: "Gallery", href: "/gallery" },
+  { kind: "link", label: "Gallery", href: "/gallery", locked: true },
   { kind: "link", label: "Games", href: "/games" },
   { kind: "link", label: "Contact", href: "/#contact" },
 ];

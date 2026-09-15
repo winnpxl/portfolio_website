@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { cx } from "./ui";
 
-type Toast = { id: number; project: string; leaving: boolean };
+type Toast = { id: number; title: string; leaving: boolean };
 
 /** How long the toast stays, and how long it waits again after a hover. */
 const VISIBLE_MS = 4200;
@@ -13,11 +13,12 @@ const RESUME_MS = 2000;
 const EXIT_MS = 160;
 
 /**
- * The site's toast, for projects whose case study is not written yet.
- * Anything carrying data-unavailable="Project name" raises it when clicked,
- * through one delegated listener, so the server components that render
- * thumbnails and buttons stay server components. It works the way
- * data-sound does.
+ * The site's toast, for things that are not open yet. Anything carrying
+ * data-unavailable="Project name" says its case study is under construction;
+ * anything carrying data-coming-soon="Section name" says that section is
+ * coming soon. Both are raised on click through one delegated listener, so
+ * the server components that render them stay server components. It works
+ * the way data-sound does.
  *
  * The live region is always mounted, so screen readers announce the
  * message when it appears. It pauses while hovered and Escape dismisses it.
@@ -45,12 +46,18 @@ export function Toaster() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const el =
-        e.target instanceof Element ? e.target.closest<HTMLElement>("[data-unavailable]") : null;
+        e.target instanceof Element
+          ? e.target.closest<HTMLElement>("[data-unavailable], [data-coming-soon]")
+          : null;
       if (!el) return;
       e.preventDefault();
       window.clearTimeout(exitTimer.current);
+      const title =
+        el.dataset.comingSoon !== undefined
+          ? `${el.dataset.comingSoon || "This section"} is coming soon`
+          : `${el.dataset.unavailable || "This project"} case study is under construction`;
       // A fresh id replays the entrance, so a repeat click still reads as a response.
-      setToast({ id: Date.now(), project: el.dataset.unavailable || "This project", leaving: false });
+      setToast({ id: Date.now(), title, leaving: false });
       hideAfter(VISIBLE_MS);
     };
     document.addEventListener("click", onClick);
@@ -100,7 +107,7 @@ export function Toaster() {
           />
           <div className="min-w-0 flex-1">
             <p className="m-0 text-[14px] font-medium leading-[1.35] tracking-[-0.01em]">
-              {toast.project} case study is under construction
+              {toast.title}
             </p>
             <p className="m-0 mt-1 text-[13px] leading-[1.35] text-canvas/60">Check back later.</p>
           </div>

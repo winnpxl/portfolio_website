@@ -67,6 +67,18 @@ function BackArrow() {
   );
 }
 
+/** Small solid lock for items that are not open yet. */
+function LockIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="shrink-0 opacity-70">
+      <path
+        fillRule="evenodd"
+        d="M7 10V7a5 5 0 0 1 10 0v3h.5A2.5 2.5 0 0 1 20 12.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 19.5v-7A2.5 2.5 0 0 1 6.5 10H7zm2 0h6V7a3 3 0 0 0-6 0v3z"
+      />
+    </svg>
+  );
+}
+
 function Item({
   item,
   stacked,
@@ -82,6 +94,24 @@ function Item({
       <span aria-current="page" className={cx("text-ink", size)}>
         {item.label}
       </span>
+    );
+  }
+  if (item.locked) {
+    return (
+      <button
+        type="button"
+        data-sound
+        data-coming-soon={item.label}
+        onClick={onNavigate}
+        aria-label={`${item.label}, coming soon`}
+        className={cx(
+          "inline-flex cursor-pointer items-center gap-1.5 tracking-[-0.01em] text-muted transition-colors hover:text-ink",
+          size,
+        )}
+      >
+        {item.label}
+        <LockIcon />
+      </button>
     );
   }
   return (
