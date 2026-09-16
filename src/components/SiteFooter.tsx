@@ -1,3 +1,4 @@
+import { Reveal, SplitText } from "./motion";
 import { Section } from "./Page";
 import { LiveDot, Pill, cx } from "./ui";
 import { contact, profile } from "@/content/site";
@@ -26,14 +27,16 @@ export function SiteFooter() {
         <LiveDot />
         {contact.badge}
       </Pill>
-      <h2 className="text-pretty-wrap m-0 mt-6 max-w-[18ch] text-[clamp(34px,5vw,64px)] font-normal leading-[1.05] tracking-[-0.025em]">
-        {contact.headline}
-      </h2>
-      <p className="m-0 mt-5 max-w-[56ch] text-[clamp(16px,1.4vw,19px)] leading-[1.55] text-muted">
+      <SplitText
+        as="h2"
+        text={contact.headline}
+        className="text-pretty-wrap m-0 mt-6 block max-w-[18ch] text-[clamp(34px,5vw,64px)] font-normal leading-[1.05] tracking-[-0.025em]"
+      />
+      <Reveal as="p" delay={250} className="m-0 mt-5 max-w-[56ch] text-[clamp(16px,1.4vw,19px)] leading-[1.55] text-muted">
         {contact.availabilityNote}
-      </p>
+      </Reveal>
 
-      <div className="mt-10">
+      <Reveal delay={350} className="mt-10">
         {contact.tiles.map((tile, i) => (
           <a
             key={tile.label}
@@ -56,7 +59,7 @@ export function SiteFooter() {
             </span>
           </a>
         ))}
-      </div>
+      </Reveal>
 
       <div className="mt-14 flex flex-wrap items-center justify-between gap-3 text-[13px] text-muted">
         <span>{profile.footer}</span>

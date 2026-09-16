@@ -219,3 +219,123 @@ body:has(.theme-space) {
     --tile-h: clamp(200px, 40svh, 380px);
   }
 }
+
+/* ------------------------------------------------------------------ Motion */
+
+/*
+ * Page transitions. PageShell wraps every page in a ViewTransition with
+ * these classes: the old page leaves quickly, the new one waits a beat and
+ * eases up. The nav is named separately and simply swaps, so it reads as
+ * the fixed point while the page underneath changes.
+ */
+:root {
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(.page-out) {
+  animation: 200ms ease-in both page-leave;
+}
+::view-transition-new(.page-in) {
+  animation: 560ms var(--ease-out-soft) 120ms both page-enter;
+}
+
+@keyframes page-leave {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+    filter: blur(4px);
+  }
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+  }
+}
+
+::view-transition-group(site-nav) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-nav) {
+  display: none;
+}
+::view-transition-new(site-nav) {
+  animation: none;
+}
+
+/* A project thumbnail grows into its case study's opening image, and back. */
+::view-transition-group(.work-morph) {
+  animation-duration: 620ms;
+  animation-timing-function: var(--ease-out-soft);
+}
+::view-transition-image-pair(.work-morph) {
+  animation-name: morph-blur;
+}
+@keyframes morph-blur {
+  40% {
+    filter: blur(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*),
+  ::view-transition-image-pair(*) {
+    animation: none !important;
+  }
+}
+
+/*
+ * Scroll-in reveals (components/motion.tsx). The hidden state applies only
+ * with scripting on and motion allowed, and has no transition, so pieces
+ * hide instantly on load and only the reveal animates. If the observer has
+ * not started after a few seconds, the fallback animation shows everything.
+ */
+.split-mask {
+  display: inline-block;
+  /* Clip below the line only, with room for descenders and tight tracking. */
+  clip-path: inset(-0.5em -0.3em -0.14em -0.3em);
+  vertical-align: top;
+}
+.split-piece {
+  display: inline-block;
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal="split"]:not([data-revealed]) .split-piece {
+    transform: translateY(125%) rotate(4deg);
+  }
+  [data-reveal="split"][data-revealed] .split-piece {
+    transform-origin: 0 100%;
+    transition: transform 1000ms var(--ease-out-soft) var(--d, 0ms);
+  }
+
+  [data-reveal="fade"]:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  [data-reveal="fade"][data-revealed] {
+    transition:
+      opacity 800ms ease var(--d, 0ms),
+      transform 1000ms var(--ease-out-soft) var(--d, 0ms);
+  }
+
+  html:not([data-motion-ready]) [data-reveal="fade"],
+  html:not([data-motion-ready]) [data-reveal="split"] .split-piece {
+    animation: reveal-fallback 0s 4s forwards;
+  }
+}
+
+@keyframes reveal-fallback {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

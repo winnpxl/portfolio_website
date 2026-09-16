@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 
 import type { ImageSlot } from "@/content/site";
 
+import { SplitText, WorkMorph } from "./motion";
+
 export function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
@@ -126,7 +128,7 @@ export function SectionHeading({
         className,
       )}
     >
-      {children}
+      {typeof children === "string" ? <SplitText text={children} /> : children}
     </h2>
   );
 }
@@ -331,15 +333,17 @@ export function ProjectCard({
           {year}
         </span>
       )}
-      <ImageFrame
-        slot={image}
-        ratio="16/10"
-        fill="surface"
-        radius={12}
-        priority={priority}
-        sizes="(max-width: 768px) 88vw, 380px"
-        className="w-full shadow-lift transition-transform duration-500 ease-out group-hover:-translate-y-1 motion-reduce:transition-none"
-      />
+      <WorkMorph slug={href ? slug : undefined}>
+        <ImageFrame
+          slot={image}
+          ratio="16/10"
+          fill="surface"
+          radius={12}
+          priority={priority}
+          sizes="(max-width: 768px) 88vw, 380px"
+          className="w-full shadow-lift transition-transform duration-500 ease-out group-hover:-translate-y-1 motion-reduce:transition-none"
+        />
+      </WorkMorph>
     </div>
   );
 

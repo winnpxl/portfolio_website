@@ -5,6 +5,7 @@ import { Nav } from "@/components/Nav";
 import { aboutNav, socials } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Reveal, SplitText } from "@/components/motion";
 import { ButtonLink, ImageFrame, cx } from "@/components/ui";
 import { about, stats, work } from "@/content/site";
 
@@ -47,27 +48,33 @@ export default function AboutPage() {
 
       {/* Name, then where and what: the page's whole introduction. */}
       <Section className="pt-[clamp(40px,7vw,96px)]">
-        <h1 className="m-0 whitespace-nowrap text-[clamp(64px,27.6vw,354px)] font-medium leading-[0.82] tracking-[-0.055em]">
-          {about.title}
-        </h1>
+        <SplitText
+          as="h1"
+          by="char"
+          text={about.title}
+          delay={120}
+          className="m-0 block whitespace-nowrap text-[clamp(64px,27.6vw,354px)] font-medium leading-[0.82] tracking-[-0.055em]"
+        />
         <div className="mt-[clamp(28px,4vw,56px)] grid gap-4 md:grid-cols-2 md:gap-12">
           {about.intro.map((line, i) => (
-            <p
+            <Reveal
+              as="p"
               key={i}
+              delay={500 + i * 120}
               className={cx(
                 "m-0 max-w-[34ch] text-[clamp(18px,1.6vw,22px)] leading-[1.35] tracking-[-0.012em] text-muted",
                 i === 1 && "md:justify-self-end md:text-right",
               )}
             >
               {line}
-            </p>
+            </Reveal>
           ))}
         </div>
       </Section>
 
       {/* Bio beside the feature photo. */}
       <Section className="pt-[clamp(40px,6vw,80px)]">
-        <div className={cx(panel, "grid gap-10 md:grid-cols-2 md:gap-12")}>
+        <Reveal className={cx(panel, "grid gap-10 md:grid-cols-2 md:gap-12")}>
           <div className="flex flex-col">
             <h2 className={cx(panelLabel, "m-0")}>Bio</h2>
             <div className="mt-5">
@@ -100,23 +107,25 @@ export default function AboutPage() {
             focus="50% 60%"
             sizes="(max-width: 768px) 100vw, 560px"
           />
-        </div>
+        </Reveal>
       </Section>
 
       <Section className="pt-[clamp(12px,1.6vw,20px)]">
-        <ImageFrame
-          slot={about.photos.wide}
-          ratio="16/9"
-          fill="deep"
-          radius={28}
-          focus="50% 72%"
-          sizes="(max-width: 1280px) 100vw, 1136px"
-        />
+        <Reveal>
+          <ImageFrame
+            slot={about.photos.wide}
+            ratio="16/9"
+            fill="deep"
+            radius={28}
+            focus="50% 72%"
+            sizes="(max-width: 1280px) 100vw, 1136px"
+            />
+        </Reveal>
       </Section>
 
       {/* Experience from the work list; services and industries beside it. */}
       <Section className="pt-[clamp(12px,1.6vw,20px)]">
-        <div className={cx(panel, "grid gap-12 lg:grid-cols-[1.25fr_1fr] lg:gap-16")}>
+        <Reveal className={cx(panel, "grid gap-12 lg:grid-cols-[1.25fr_1fr] lg:gap-16")}>
           <div>
             <h2 className={cx(panelLabel, "m-0")}>Experience</h2>
             <ul className="m-0 mt-4 list-none p-0">
@@ -153,20 +162,20 @@ export default function AboutPage() {
               ))}
             </ul>
           </div>
-        </div>
+        </Reveal>
       </Section>
 
       <Section className="pt-[clamp(40px,6vw,80px)]">
         <dl className="m-0 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col-reverse justify-end border-t border-line pt-5">
+          {stats.map((stat, i) => (
+            <Reveal key={stat.label} delay={i * 80} className="flex flex-col-reverse justify-end border-t border-line pt-5">
               <dt className="mt-3 max-w-[24ch] text-[14px] leading-[1.45] text-muted">
                 {stat.label}
               </dt>
               <dd className="m-0 text-[clamp(36px,4vw,52px)] leading-none tracking-[-0.03em]">
                 {stat.value}
               </dd>
-            </div>
+            </Reveal>
           ))}
         </dl>
 

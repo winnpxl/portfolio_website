@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import type { Block, Callout, CaseStudy, Chapter, Visual } from "@/content/case-study";
 import { profile, work } from "@/content/site";
 
+import { Reveal, SplitText, WorkMorph } from "./motion";
 import { Nav } from "./Nav";
 import { caseStudyNav, socials } from "./navItems";
 import { PageShell, Section } from "./Page";
@@ -383,9 +384,11 @@ function ChapterSection({ chapter, number }: { chapter: Chapter; number: string 
             <div key={i} className="lg:col-start-2">
               {i === headed &&
                 (chapter.title ? (
-                  <h2 className="text-pretty-wrap m-0 mb-8 max-w-[24ch] text-[clamp(28px,3.6vw,44px)] font-normal leading-[1.12] tracking-[-0.022em]">
-                    {chapter.title}
-                  </h2>
+                  <SplitText
+                    as="h2"
+                    text={chapter.title}
+                    className="text-pretty-wrap m-0 mb-8 block max-w-[24ch] text-[clamp(28px,3.6vw,44px)] font-normal leading-[1.12] tracking-[-0.022em]"
+                  />
                 ) : (
                   // No headline of its own: the rail label is its name, kept for screen readers too.
                   <h2 className="sr-only">{chapter.label}</h2>
@@ -420,10 +423,13 @@ export function CaseStudyPage({ study }: { study: CaseStudy }) {
 
       <Section className="pt-[clamp(48px,8vw,104px)]">
         <Eyebrow>Case study</Eyebrow>
-        <h1 className="text-pretty-wrap m-0 mt-5 max-w-[20ch] text-[clamp(34px,5.4vw,68px)] font-normal leading-[1.05] tracking-[-0.03em]">
-          {study.title}
-        </h1>
-        <div className="mt-8 grid max-w-[62ch] gap-4">
+        <SplitText
+          as="h1"
+          text={study.title}
+          delay={120}
+          className="text-pretty-wrap m-0 mt-5 block max-w-[20ch] text-[clamp(34px,5.4vw,68px)] font-normal leading-[1.05] tracking-[-0.03em]"
+        />
+        <Reveal delay={400} className="mt-8 grid max-w-[62ch] gap-4">
           {study.intro.map((para, i) => (
             <p
               key={i}
@@ -435,7 +441,7 @@ export function CaseStudyPage({ study }: { study: CaseStudy }) {
               {para}
             </p>
           ))}
-        </div>
+        </Reveal>
         {study.statement && (
           <p className="text-pretty-wrap m-0 mt-8 max-w-[40ch] text-[clamp(19px,1.8vw,23px)] font-semibold leading-[1.35] tracking-[-0.015em] text-ink">
             {study.statement}
@@ -456,7 +462,11 @@ export function CaseStudyPage({ study }: { study: CaseStudy }) {
       </Section>
 
       <Section className="pb-[clamp(56px,8vw,112px)] pt-[clamp(40px,6vw,72px)]">
-        <Figure visual={study.hero} priority />
+        <WorkMorph slug={study.slug}>
+          <div>
+            <Figure visual={study.hero} priority />
+          </div>
+        </WorkMorph>
       </Section>
 
       {study.chapters.map((chapter, i) => (
