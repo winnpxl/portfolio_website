@@ -7,6 +7,7 @@ import { Nav } from "@/components/Nav";
 import { homeNav, socials } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Reveal, SplitText } from "@/components/motion";
 import { Ticker } from "@/components/Ticker";
 import {
   ButtonLink,
@@ -107,20 +108,27 @@ export default function HomePage() {
           </div>
         </div>
 
-        <h1 className="text-pretty-wrap m-0 mt-[clamp(40px,6vw,72px)] max-w-[24ch] text-[clamp(32px,4.6vw,58px)] font-normal leading-[1.12] tracking-[-0.025em]">
-          {hero.headline}
-        </h1>
+        <SplitText
+          as="h1"
+          text={hero.headline}
+          delay={150}
+          className="text-pretty-wrap m-0 mt-[clamp(40px,6vw,72px)] block max-w-[24ch] text-[clamp(32px,4.6vw,58px)] font-normal leading-[1.12] tracking-[-0.025em]"
+        />
 
-        <p className="text-pretty-wrap m-0 mt-6 max-w-[62ch] text-[clamp(17px,1.5vw,21px)] leading-[1.55] tracking-[-0.012em] text-muted">
+        <Reveal
+          as="p"
+          delay={450}
+          className="text-pretty-wrap m-0 mt-6 max-w-[62ch] text-[clamp(17px,1.5vw,21px)] leading-[1.55] tracking-[-0.012em] text-muted"
+        >
           {hero.lead}
-        </p>
+        </Reveal>
 
-        <p className="m-0 mt-6 max-w-[62ch] text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.01em]">
+        <Reveal as="p" delay={550} className="m-0 mt-6 max-w-[62ch] text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.01em]">
           <span className="text-ink">Selected projects: </span>
           <span className="text-muted">{projectNames.join(", ")}.</span>
-        </p>
+        </Reveal>
 
-        <div className="mt-8 flex flex-wrap items-center gap-3">
+        <Reveal delay={650} className="mt-8 flex flex-wrap items-center gap-3">
           <ButtonLink href="#contact">
             Get in touch
             <LiveDot />
@@ -128,22 +136,22 @@ export default function HomePage() {
           <ButtonLink href="#work" tone="ghost">
             See my work
           </ButtonLink>
-        </div>
+        </Reveal>
 
       </Section>
 
       {/* ------------------------------------------------------ Stats */}
       <Section className="pb-[clamp(40px,6vw,72px)]">
         <div className="grid border-t border-line [grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))]">
-          {stats.map((stat) => (
-            <div key={stat.value} className="border-b border-line py-6 pr-6">
+          {stats.map((stat, i) => (
+            <Reveal key={stat.value} delay={i * 80} className="border-b border-line py-6 pr-6">
               <div className="text-[clamp(30px,3.2vw,40px)] font-semibold leading-none tracking-[-0.02em]">
                 {stat.value}
               </div>
               <div className="mt-3 max-w-[22ch] text-[14px] leading-[1.45] text-muted">
                 {stat.label}
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Section>
@@ -155,16 +163,17 @@ export default function HomePage() {
         {/* One uniform grid: thumbnail, then name and a single sentence. */}
         <div className="grid gap-x-6 gap-y-12 [grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))]">
           {work.map((project, i) => (
-            <ProjectCard
-              key={project.slug}
-              slug={project.slug}
-              title={project.cardTitle ?? project.title}
-              tagline={project.tagline}
-              year={project.year}
-              image={project.image}
-              href={project.href}
-              priority={i < 3}
-            />
+            <Reveal key={project.slug} delay={(i % 3) * 90}>
+              <ProjectCard
+                slug={project.slug}
+                title={project.cardTitle ?? project.title}
+                tagline={project.tagline}
+                year={project.year}
+                image={project.image}
+                href={project.href}
+                priority={i < 3}
+              />
+            </Reveal>
           ))}
         </div>
       </Section>
@@ -183,9 +192,11 @@ export default function HomePage() {
           </p>
         </div>
         <ol className="m-0 list-none p-0">
-          {process.steps.map((step) => (
-            <li
+          {process.steps.map((step, i) => (
+            <Reveal
+              as="li"
               key={step.number}
+              delay={i * 60}
               className="grid gap-x-8 gap-y-2 border-t border-line py-6 last:border-b sm:grid-cols-[3rem_minmax(0,12rem)_1fr]"
             >
               <span className="text-[15px] text-muted">{step.number}</span>
@@ -193,7 +204,7 @@ export default function HomePage() {
               <p className="m-0 max-w-[56ch] text-[15px] leading-[1.55] text-muted">
                 {step.body}
               </p>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </Section>

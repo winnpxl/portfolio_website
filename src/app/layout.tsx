@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
+import { RevealObserver } from "@/components/RevealObserver";
 import { SoundProvider } from "@/components/sound";
 import { Toaster } from "@/components/toast";
 
@@ -41,6 +42,7 @@ export default function RootLayout({
         <SoundProvider>
           {children}
           <Toaster />
+          <RevealObserver />
         </SoundProvider>
       </body>
     </html>

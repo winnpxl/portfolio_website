@@ -8,6 +8,7 @@ import { PageShell, Section } from "@/components/Page";
 import { InvadersCover, TetrisCover } from "@/components/games/Covers";
 import { BestScore } from "@/components/games/GameUI";
 import type { GameId } from "@/components/games/leaderboard";
+import { SplitText } from "@/components/motion";
 import { Eyebrow } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -41,9 +42,12 @@ export default function GamesPage() {
 
       <Section className="pt-[clamp(48px,8vw,104px)]">
         <Eyebrow>Games</Eyebrow>
-        <h1 className="text-pretty-wrap m-0 mt-5 max-w-[18ch] text-[clamp(34px,5vw,58px)] font-normal leading-[1.08] tracking-[-0.025em]">
-          Take a break and play something.
-        </h1>
+        <SplitText
+          as="h1"
+          text="Take a break and play something."
+          delay={120}
+          className="text-pretty-wrap m-0 mt-5 block max-w-[18ch] text-[clamp(34px,5vw,58px)] font-normal leading-[1.08] tracking-[-0.025em]"
+        />
         <p className="text-pretty-wrap m-0 mt-5 max-w-[54ch] text-[clamp(16px,1.5vw,19px)] leading-[1.6] text-muted">
           Two arcade classics I rebuilt from scratch for this site. Play with a keyboard or right on your phone, set a
           high score, and try to hold the top spot. Scores stay in your browser.
