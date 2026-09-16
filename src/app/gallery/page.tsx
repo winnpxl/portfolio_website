@@ -1,73 +1,58 @@
 import type { Metadata } from "next";
 
+import { GalleryStrip } from "@/components/GalleryStrip";
+import { LocalTime } from "@/components/LocalTime";
 import { Nav } from "@/components/Nav";
-import { galleryNav } from "@/components/navItems";
-import { PageShell, Section } from "@/components/Page";
-import { ButtonLink, Eyebrow, ImageFrame, Pill, cx, tileRotation } from "@/components/ui";
+import { galleryNav, socials } from "@/components/navItems";
+import { PageShell } from "@/components/Page";
+import { Eyebrow } from "@/components/ui";
 import { galleryCta, galleryHeader, tiles } from "@/content/gallery";
+import { profile } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Gallery — Samuel Winner",
   description: galleryHeader.lead,
 };
 
+const gutter = "px-[clamp(20px,5vw,72px)]";
+
+/**
+ * One screen, no page scroll: the nav, a strip of shots that moves
+ * sideways, and a footer row. Modelled on leonsayer.framer.website.
+ */
 export default function GalleryPage() {
   return (
     <PageShell>
-      <Nav items={galleryNav} />
-
-      <Section className="pt-[clamp(48px,8vw,104px)] pb-[clamp(40px,6vw,72px)]">
-        <div className="flex flex-wrap gap-2">
-          {galleryHeader.pills.map((pill) => (
-            <Pill key={pill.label}>{pill.label}</Pill>
-          ))}
-        </div>
-        <h1 className="m-0 mt-8 text-[clamp(40px,6vw,72px)] font-normal leading-none tracking-[-0.03em]">
-          {galleryHeader.title}
-        </h1>
-        <p className="text-pretty-wrap m-0 mt-5 max-w-[56ch] text-[clamp(17px,1.5vw,20px)] leading-[1.55] text-muted">
-          {galleryHeader.lead}
-        </p>
-      </Section>
-
-      <Section className="pb-[clamp(56px,8vw,112px)]">
-        <div className="grid gap-x-6 gap-y-9 [grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))]">
-          {tiles.map((tile, i) => {
-            const fill = tileRotation[i % tileRotation.length];
-            return (
-              <figure
-                key={tile.id}
-                className={cx("m-0", tile.wide && "sm:col-span-2")}
-              >
-                <ImageFrame
-                  slot={tile.image}
-                  ratio={tile.ratio}
-                  fill={fill}
-                  ring={fill === "surface"}
-                  sound
-                  sizes={tile.wide ? "(max-width: 640px) 100vw, 66vw" : "(max-width: 640px) 100vw, 33vw"}
-                />
-                <figcaption className="mt-3 flex flex-wrap justify-between gap-2 px-1 text-[14px]">
-                  <span className="font-medium tracking-[-0.01em]">{tile.caption}</span>
-                  <span className="text-muted">{tile.meta}</span>
-                </figcaption>
-              </figure>
-            );
-          })}
+      <div className="flex min-h-[100svh] flex-col overflow-hidden">
+        {/* A column flex item with auto margins shrinks to fit, so the nav
+            gets a full-width wrapper to keep its own layout. */}
+        <div className="w-full">
+          <Nav items={galleryNav} socials={socials} />
         </div>
 
-        <div className="on-dark mt-12 flex flex-wrap items-end justify-between gap-6 rounded-[28px] bg-tile-dark p-8 text-canvas sm:p-12">
-          <div>
-            <Eyebrow className="text-canvas/50">Case studies</Eyebrow>
-            <div className="mt-4 max-w-[22ch] text-[clamp(26px,3.2vw,40px)] font-semibold leading-[1.1] tracking-[-0.02em]">
-              {galleryCta.title}
-            </div>
+        <div className={`mx-auto mt-[clamp(20px,3vw,32px)] flex w-full max-w-[1280px] items-baseline justify-between gap-4 ${gutter}`}>
+          <Eyebrow>{galleryHeader.pills[0].label}</Eyebrow>
+          <Eyebrow>{tiles.length} shots</Eyebrow>
+        </div>
+
+        <div className="flex flex-1 items-center py-6">
+          <GalleryStrip tiles={tiles} />
+        </div>
+
+        <div
+          className={`mx-auto flex w-full max-w-[1280px] flex-wrap items-end justify-between gap-x-8 gap-y-3 pb-[max(20px,env(safe-area-inset-bottom))] text-[13px] ${gutter}`}
+        >
+          <p className="m-0 max-w-[44ch] leading-[1.5] text-muted">{galleryHeader.lead}</p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted">
+            <span className="pointer-coarse:hidden">Scroll or drag sideways</span>
+            <span className="hidden pointer-coarse:inline">Swipe sideways</span>
+            <a href={galleryCta.href} data-sound className="text-ink hover:underline">
+              {galleryCta.label}
+            </a>
+            <LocalTime timeZone="Africa/Lagos" label={profile.location.split(",")[0]} />
           </div>
-          <ButtonLink href={galleryCta.href} tone="light">
-            {galleryCta.label}
-          </ButtonLink>
         </div>
-      </Section>
+      </div>
     </PageShell>
   );
 }

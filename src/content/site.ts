@@ -244,7 +244,7 @@ export const sideProjects = [
 export const galleryBanner = {
   eyebrow: "Gallery",
   title: "Screens, components and visual studies",
-  cta: "Coming soon",
+  cta: "Open the gallery →",
 };
 
 /**
