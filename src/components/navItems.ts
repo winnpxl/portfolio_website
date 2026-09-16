@@ -51,7 +51,7 @@ export const homeNav: NavItem[] = [
   { kind: "link", label: "Process", href: "/#process", mobileOnly: true },
   { kind: "link", label: "About", href: "/about" },
   { kind: "link", label: "Side projects", href: "/#side", mobileOnly: true },
-  { kind: "link", label: "Gallery", href: "/gallery", locked: true },
+  { kind: "link", label: "Gallery", href: "/gallery" },
   { kind: "link", label: "Games", href: "/games" },
   { kind: "link", label: "Contact", href: "/#contact" },
 ];
@@ -60,7 +60,7 @@ export const aboutNav: NavItem[] = [
   { kind: "link", label: "Home", href: "/", strong: true, back: true },
   { kind: "current", label: "About" },
   { kind: "link", label: "Work", href: "/#work" },
-  { kind: "link", label: "Gallery", href: "/gallery", locked: true },
+  { kind: "link", label: "Gallery", href: "/gallery" },
   { kind: "link", label: "Games", href: "/games" },
   { kind: "link", label: "Contact", href: "/#contact" },
 ];
@@ -69,7 +69,7 @@ export const caseStudyNav = (label: string): NavItem[] => [
   { kind: "link", label: "All work", href: "/#work", strong: true, back: true },
   { kind: "current", label },
   { kind: "link", label: "About", href: "/about" },
-  { kind: "link", label: "Gallery", href: "/gallery", locked: true },
+  { kind: "link", label: "Gallery", href: "/gallery" },
   { kind: "link", label: "Games", href: "/games" },
   { kind: "link", label: "Contact", href: "/#contact" },
 ];

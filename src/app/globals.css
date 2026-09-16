@@ -198,3 +198,24 @@ body:has(.theme-space) {
     animation-duration: 1ms;
   }
 }
+
+/* ---------------------------------------------------------------
+   Gallery strip. Tiles lean with the strip's velocity; the lean is set
+   on the track as a custom property each frame. Tile height fits the
+   viewport, so the strip and its captions sit within one screen.
+   --------------------------------------------------------------- */
+.gallery-strip {
+  --tile-h: clamp(220px, 46svh, 460px);
+  --lean: 0deg;
+}
+
+.gallery-strip .gallery-tile {
+  transform: skewX(var(--lean));
+  transform-origin: 50% 50%;
+}
+
+@media (pointer: coarse) {
+  .gallery-strip {
+    --tile-h: clamp(200px, 40svh, 380px);
+  }
+}
