@@ -195,8 +195,37 @@ export const process = {
 
 export const about = {
   heading: "About",
+  /** The big name at the top of /about. */
+  title: "Samuel",
+  /** Two short lines under the title: where, then what. */
+  intro: [
+    "Based in Lagos, working with distributed teams across Nigeria, the UK, Portugal and the US.",
+    "I simplify complex, trust-dependent products across marketplaces, fintech and consumer mobile.",
+  ],
+  /** Large photos on /about. */
+  photos: {
+    feature: {
+      src: "/images/my_photo.JPG",
+      alt: "Samuel Winner in sunglasses, in front of a pink and orange wall",
+      placeholder: "Photo coming soon",
+    },
+    wide: {
+      src: "/images/wide_photo.jpg",
+      alt: "A laptop showing app screens on a desk at night, beside a plant and a keyboard",
+      placeholder: "Photo coming soon",
+    },
+  } satisfies Record<string, ImageSlot>,
+  services: [
+    "Product design",
+    "UX research",
+    "Information architecture",
+    "Interaction design",
+    "Design systems",
+    "Front-end development",
+  ],
+  industries: ["Marketplaces", "Fintech", "Mobility", "Civic tech", "Consumer mobile"],
   paragraphs: [
-    "I am a product designer and design engineer with seven years across UI/UX, product strategy and front-end development, specialising in taking early-stage products from 0 to 1.",
+    "I am a product designer and design engineer with 5+ years across UI/UX, product strategy and front-end development, specialising in taking early-stage products from 0 to 1.",
     "I have led design on two-sided marketplaces, fintech platforms and consumer mobile apps, owning research, information architecture, user journeys, interaction design and the design systems that hold them together. The work I like most sits in complex, trust-dependent workflows: verification, matching, escrow, messaging, trust and safety.",
     "I build front end in React and Next.js, which means my handoffs are written in terms engineers can implement without guesswork. Mathematics degree from the University of Ilorin. Based in Lagos, working with distributed teams across Nigeria, the UK, Portugal and the US.",
   ],

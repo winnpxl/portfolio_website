@@ -245,6 +245,7 @@ export function ImageFrame({
   sound = false,
   priority,
   sizes = "(max-width: 768px) 100vw, 50vw",
+  focus,
   className,
 }: {
   slot: ImageSlot;
@@ -256,6 +257,8 @@ export function ImageFrame({
   sound?: boolean;
   priority?: boolean;
   sizes?: string;
+  /** CSS object-position, for photos whose subject sits off centre. */
+  focus?: string;
   className?: string;
 }) {
   const dark = fill === "dark";
@@ -280,6 +283,7 @@ export function ImageFrame({
           priority={priority}
           unoptimized={slot.src.endsWith(".gif")}
           className="object-cover"
+          style={focus ? { objectPosition: focus } : undefined}
           sizes={sizes}
         />
       ) : (
