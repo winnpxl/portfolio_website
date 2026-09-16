@@ -97,6 +97,7 @@ export default function AboutPage() {
             fill="deep"
             radius={20}
             priority
+            focus="50% 60%"
             sizes="(max-width: 768px) 100vw, 560px"
           />
         </div>
@@ -108,6 +109,7 @@ export default function AboutPage() {
           ratio="16/9"
           fill="deep"
           radius={28}
+          focus="50% 72%"
           sizes="(max-width: 1280px) 100vw, 1136px"
         />
       </Section>

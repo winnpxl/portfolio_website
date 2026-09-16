@@ -202,14 +202,16 @@ export const about = {
     "Based in Lagos, working with distributed teams across Nigeria, the UK, Portugal and the US.",
     "I simplify complex, trust-dependent products across marketplaces, fintech and consumer mobile.",
   ],
-  /** Large photos on /about. Empty until the user supplies them. */
+  /** Large photos on /about. */
   photos: {
     feature: {
-      alt: "Samuel Winner",
+      src: "/images/my_photo.JPG",
+      alt: "Samuel Winner in sunglasses, in front of a pink and orange wall",
       placeholder: "Photo coming soon",
     },
     wide: {
-      alt: "Samuel Winner at work",
+      src: "/images/wide_photo.jpg",
+      alt: "A laptop showing app screens on a desk at night, beside a plant and a keyboard",
       placeholder: "Photo coming soon",
     },
   } satisfies Record<string, ImageSlot>,
