@@ -195,6 +195,33 @@ export const process = {
 
 export const about = {
   heading: "About",
+  /** The big name at the top of /about. */
+  title: "Samuel",
+  /** Two short lines under the title: where, then what. */
+  intro: [
+    "Based in Lagos, working with distributed teams across Nigeria, the UK, Portugal and the US.",
+    "I simplify complex, trust-dependent products across marketplaces, fintech and consumer mobile.",
+  ],
+  /** Large photos on /about. Empty until the user supplies them. */
+  photos: {
+    feature: {
+      alt: "Samuel Winner",
+      placeholder: "Photo coming soon",
+    },
+    wide: {
+      alt: "Samuel Winner at work",
+      placeholder: "Photo coming soon",
+    },
+  } satisfies Record<string, ImageSlot>,
+  services: [
+    "Product design",
+    "UX research",
+    "Information architecture",
+    "Interaction design",
+    "Design systems",
+    "Front-end development",
+  ],
+  industries: ["Marketplaces", "Fintech", "Mobility", "Civic tech", "Consumer mobile"],
   paragraphs: [
     "I am a product designer and design engineer with seven years across UI/UX, product strategy and front-end development, specialising in taking early-stage products from 0 to 1.",
     "I have led design on two-sided marketplaces, fintech platforms and consumer mobile apps, owning research, information architecture, user journeys, interaction design and the design systems that hold them together. The work I like most sits in complex, trust-dependent workflows: verification, matching, escrow, messaging, trust and safety.",

@@ -62,7 +62,7 @@ export const aboutNav: NavItem[] = [
   { kind: "link", label: "Work", href: "/#work" },
   { kind: "link", label: "Gallery", href: "/gallery" },
   { kind: "link", label: "Games", href: "/games" },
-  { kind: "link", label: "Contact", href: "/#contact" },
+  { kind: "link", label: "Contact", href: "#contact" },
 ];
 
 export const caseStudyNav = (label: string): NavItem[] => [
