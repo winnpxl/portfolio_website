@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 
 import { Nav } from "@/components/Nav";
 import { gameNav, socials } from "@/components/navItems";
-import { PageShell, Section } from "@/components/Page";
-import { GameHeader } from "@/components/games/GameHeader";
+import { PageShell } from "@/components/Page";
 import { Tetris } from "@/components/games/Tetris";
 
 export const metadata: Metadata = {
@@ -15,13 +14,12 @@ export default function TetrixPage() {
   return (
     <PageShell>
       <Nav items={gameNav("Tetrix")} socials={socials} />
-      <GameHeader
-        title="Tetrix"
-        blurb="Rotate and stack the falling pieces. Fill a row to clear it, and keep the well from overflowing."
-      />
-      <Section width={880} className="pb-[clamp(56px,8vw,104px)]">
-        <Tetris />
-      </Section>
+      <main className="mx-auto max-w-[1280px] px-[clamp(20px,5vw,72px)] pb-[clamp(40px,6vw,64px)] pt-[clamp(12px,2vw,24px)]">
+        <Tetris
+          title="Tetrix"
+          blurb="Rotate and stack the falling pieces. Fill a row to clear it, and keep the well from overflowing."
+        />
+      </main>
     </PageShell>
   );
 }

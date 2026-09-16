@@ -5,15 +5,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSoundEnabled } from "@/components/sound";
 
 import {
-  ArcadeButton,
-  BoardFrame,
-  GameLayout,
-  MiniHud,
+  Btn,
+  Card,
+  GameShell,
   OverlayCard,
+  OverlayHint,
+  OverlayKeys,
   PadButton,
   PadIcon,
   ScoreForm,
-  StatGrid,
+  Slot,
+  Stage,
+  StatsCard,
   TouchPad,
   type Control,
 } from "./GameUI";
@@ -22,9 +25,22 @@ import { H, InvadersGame, W, renderInvaders, type InvadersStatus } from "./invad
 import { qualifiesFor, useScores } from "./leaderboard";
 import { Sfx, invadersVoice } from "./sfx";
 
-type Hud = { status: InvadersStatus; score: number; lives: number; wave: number };
+type Hud = { status: InvadersStatus; score: number; lives: number; wave: number; formation: string[] };
+const FULL_ROW = "1".repeat(11);
 /** Matches a freshly constructed game, so no sync is needed on mount. */
-const INITIAL_HUD: Hud = { status: "ready", score: 0, lives: 3, wave: 1 };
+const INITIAL_HUD: Hud = {
+  status: "ready",
+  score: 0,
+  lives: 3,
+  wave: 1,
+  formation: Array.from({ length: 5 }, () => FULL_ROW),
+};
+
+const READY_KEYS: readonly Control[] = [
+  { keys: ["←", "→"], label: "Move" },
+  { keys: ["Space"], label: "Fire" },
+  { keys: ["P"], label: "Pause" },
+];
 
 const CONTROLS: readonly Control[] = [
   { keys: ["←", "→"], label: "Move" },
@@ -35,12 +51,13 @@ const CONTROLS: readonly Control[] = [
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
+/** One ship per life left, drawn like the player's cannon. */
 function Lives({ count }: { count: number }) {
-  if (count <= 0) return <>0</>;
+  if (count <= 0) return <span className="text-[13px] text-faint">None left</span>;
   return (
-    <span className="flex h-[22px] items-center gap-1.5" aria-label={`${count} ${count === 1 ? "life" : "lives"}`}>
+    <span className="flex flex-wrap items-center justify-center gap-2.5 max-md:gap-1.5" aria-label={`${count} ${count === 1 ? "life" : "lives"}`}>
       {Array.from({ length: count }, (_, i) => (
-        <svg key={i} width="22" height="14" viewBox="-1 -1 15 10" aria-hidden>
+        <svg key={i} viewBox="-1 -1 15 10" aria-hidden className="h-auto w-9 max-md:w-5">
           <path
             d="M6 0h1v1h1v2h4v1h1v4H0V4h1V3h4V1h1z"
             fill="#4dbef7"
@@ -54,7 +71,34 @@ function Lives({ count }: { count: number }) {
   );
 }
 
-export function SpaceInvaders() {
+/** The marching formation in miniature: a dot per invader still standing. */
+function Formation({ rows }: { rows: string[] }) {
+  const left = rows.join("").split("").filter((c) => c === "1").length;
+  return (
+    <div
+      role="img"
+      aria-label={`${left} invaders left in this wave`}
+      className="grid h-full content-center justify-center gap-[5px]"
+    >
+      {rows.map((row, r) => (
+        <div key={r} className="flex gap-[5px]">
+          {row.split("").map((cell, c) => (
+            <span
+              key={c}
+              className={
+                cell === "1"
+                  ? "size-[7px] rounded-[2px] bg-ink/80 transition-opacity duration-200"
+                  : "size-[7px] rounded-[2px] bg-ink/10 transition-opacity duration-200"
+              }
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function SpaceInvaders({ title, blurb }: { title: string; blurb: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const { ref: boardRef, ctx: boardCtx } = useHiDpiCanvas(W, H);
   const gameRef = useRef<InvadersGame | null>(null);
@@ -70,7 +114,14 @@ export function SpaceInvaders() {
     const sfx = new Sfx();
     const game: InvadersGame = new InvadersGame(
       (event) => invadersVoice(sfx, event),
-      () => setHud({ status: game.status, score: game.score, lives: game.lives, wave: game.wave }),
+      () =>
+        setHud({
+          status: game.status,
+          score: game.score,
+          lives: game.lives,
+          wave: game.wave,
+          formation: game.formation(),
+        }),
     );
     sfxRef.current = sfx;
     gameRef.current = game;
@@ -97,7 +148,7 @@ export function SpaceInvaders() {
     rootRef.current?.focus({ preventScroll: true });
     // On a phone, bring the score strip, board and pad into view together.
     if (window.matchMedia("(pointer: coarse)").matches) {
-      rootRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      rootRef.current?.querySelector(".game-stats")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, []);
 
@@ -189,36 +240,32 @@ export function SpaceInvaders() {
   let overlay = null;
   if (hud.status === "ready") {
     overlay = (
-      <OverlayCard tone="dark" eyebrow="Space Invaders" title="Hold the line">
-        <p className="m-0 mt-3 text-[14px] leading-[1.45] text-muted">
-          Clear every wave before it lands. The bunkers will not last forever.
-        </p>
-        <ArcadeButton tone="dark" onClick={start} className="mt-5 w-full">
+      <OverlayCard label="Space Invaders" title="Ready?">
+        <OverlayKeys items={READY_KEYS} />
+        <p className="m-0 hidden text-[13px] text-muted pointer-coarse:block">Use the buttons under the board.</p>
+        <Btn onClick={start} className="w-full">
           Start game
-        </ArcadeButton>
-        <p className="m-0 mt-3 text-[12px] text-faint pointer-coarse:hidden">or press Enter</p>
+        </Btn>
+        <OverlayHint>or press Enter</OverlayHint>
       </OverlayCard>
     );
   } else if (hud.status === "paused") {
     overlay = (
-      <OverlayCard tone="dark" eyebrow="Paused" title={fmt(hud.score)}>
-        <p className="m-0 mt-2 text-[13px] text-muted">{detail}</p>
-        <ArcadeButton tone="dark" onClick={() => gameRef.current?.togglePause()} className="mt-5 w-full">
+      <OverlayCard label="Paused" title={fmt(hud.score)} sub={detail}>
+        <Btn onClick={() => gameRef.current?.togglePause()} className="w-full">
           Resume
-        </ArcadeButton>
-        <ArcadeButton tone="dark" variant="secondary" onClick={start} className="mt-2 w-full">
+        </Btn>
+        <Btn variant="secondary" onClick={start} className="w-full">
           Restart
-        </ArcadeButton>
-        <p className="m-0 mt-3 text-[12px] text-faint pointer-coarse:hidden">P to resume, R to restart</p>
+        </Btn>
+        <OverlayHint>P to resume, R to restart</OverlayHint>
       </OverlayCard>
     );
   } else if (hud.status === "over") {
     overlay = (
-      <OverlayCard tone="dark" eyebrow="Game over" title={fmt(hud.score)}>
-        <p className="m-0 mt-2 text-[13px] text-muted">{detail}</p>
+      <OverlayCard label="Game over" title={fmt(hud.score)} sub={detail}>
         {canSave && (
           <ScoreForm
-            tone="dark"
             game="space-invaders"
             score={hud.score}
             detail={detail}
@@ -226,70 +273,76 @@ export function SpaceInvaders() {
             onSkip={() => setSkipped(true)}
           />
         )}
-        {savedId && <p className="m-0 mt-3 text-[13px] font-semibold text-ink">Saved to the leaderboard</p>}
-        <ArcadeButton tone="dark" variant={canSave ? "secondary" : "primary"} onClick={start} className="mt-4 w-full">
+        {savedId && <p className="m-0 text-[13px] text-muted">Saved to this browser&rsquo;s top 10.</p>}
+        <Btn variant={canSave ? "secondary" : "primary"} onClick={start} className="w-full">
           Play again
-        </ArcadeButton>
+        </Btn>
       </OverlayCard>
     );
   }
 
+  const total = hud.formation.join("").length;
+  const cleared = hud.formation.join("").split("").filter((c) => c === "0").length;
+  const left = total - cleared;
+
   return (
     <div ref={rootRef} tabIndex={-1} className="scroll-mt-3 outline-none">
-      <GameLayout
-        tone="dark"
-        mini={
-          <MiniHud tone="dark" score={fmt(hud.score)} detail={`Best ${fmt(Math.max(best, hud.score))} · ${detail}`}>
-            <Lives count={hud.lives} />
-          </MiniHud>
+      <GameShell
+        title={title}
+        blurb={blurb}
+        ratio={W / H}
+        game="space-invaders"
+        highlightId={savedId}
+        controls={CONTROLS}
+        first={
+          <Card label="Lives">
+            <Slot className="grid flex-1 place-items-center overflow-hidden px-2">
+              <Lives count={hud.lives} />
+            </Slot>
+          </Card>
+        }
+        second={
+          <Card label="Formation" meta={`${left} left`}>
+            <Slot className="flex-1 overflow-hidden">
+              <Formation rows={hud.formation} />
+            </Slot>
+          </Card>
+        }
+        stats={
+          <StatsCard
+            score={hud.score}
+            items={[
+              { label: "Best", value: fmt(Math.max(best, hud.score)) },
+              { label: "Wave", value: hud.wave },
+              { label: "Lives", value: hud.lives },
+            ]}
+            progress={{
+              text: `Wave ${hud.wave + 1} in ${left} ${left === 1 ? "invader" : "invaders"}`,
+              done: cleared,
+              total,
+            }}
+          />
+        }
+        board={
+          <Stage ratio={W / H} overlay={overlay}>
+            <canvas ref={boardRef} role="img" aria-label="Space Invaders playfield" />
+          </Stage>
         }
         pad={
           <TouchPad onGesture={() => sfxRef.current?.unlock()}>
-            <div className="flex justify-end">
-              <PadButton tone="dark" size="sm" label="Pause" onPress={() => gameRef.current?.togglePause()}>
-                <PadIcon name="pause" />
-              </PadButton>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex gap-2">
-                <PadButton tone="dark" label="Move left" onPress={() => press("left", true)} onRelease={() => press("left", false)} className="min-w-16">
-                  <PadIcon name="left" />
-                </PadButton>
-                <PadButton tone="dark" label="Move right" onPress={() => press("right", true)} onRelease={() => press("right", false)} className="min-w-16">
-                  <PadIcon name="right" />
-                </PadButton>
-              </div>
-              <PadButton tone="dark" look="primary" label="Fire" onPress={() => press("fire", true)} onRelease={() => press("fire", false)} className="min-w-30 px-6">
-                Fire
-              </PadButton>
-            </div>
+            <PadButton label="Move left" onPress={() => press("left", true)} onRelease={() => press("left", false)}>
+              <PadIcon name="left" />
+            </PadButton>
+            <PadButton label="Move right" onPress={() => press("right", true)} onRelease={() => press("right", false)}>
+              <PadIcon name="right" />
+            </PadButton>
+            <PadButton label={hud.status === "paused" ? "Resume" : "Pause"} span={2} onPress={() => gameRef.current?.togglePause()}>
+              {hud.status === "paused" ? "Resume" : "Pause"}
+            </PadButton>
+            <PadButton label="Fire" primary span={4} onPress={() => press("fire", true)} onRelease={() => press("fire", false)}>
+              Fire
+            </PadButton>
           </TouchPad>
-        }
-        ratio={W / H}
-        controls={CONTROLS}
-        game="space-invaders"
-        highlightId={savedId}
-        board={
-          <BoardFrame tone="dark" overlay={overlay}>
-            <canvas
-              ref={boardRef}
-              role="img"
-              aria-label="Space Invaders playfield"
-              className="block h-auto w-full"
-              style={{ aspectRatio: `${W} / ${H}` }}
-            />
-          </BoardFrame>
-        }
-        side={
-          <StatGrid
-            tone="dark"
-            stats={[
-              { label: "Score", value: fmt(hud.score) },
-              { label: "Best", value: fmt(Math.max(best, hud.score)) },
-              { label: "Wave", value: hud.wave },
-              { label: "Lives", value: <Lives count={hud.lives} /> },
-            ]}
-          />
         }
       />
     </div>

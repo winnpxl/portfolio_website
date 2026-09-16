@@ -91,8 +91,6 @@ export const CELL = 32;
 const PAD = 6;
 export const BOARD_W = COLS * CELL + PAD * 2;
 export const BOARD_H = ROWS * CELL + PAD * 2;
-export const NEXT_W = 120;
-export const NEXT_H = 250;
 export const HOLD_W = 120;
 export const HOLD_H = 86;
 
@@ -546,13 +544,7 @@ function drawPiece(
   );
 }
 
-export function renderNext(ctx: CanvasRenderingContext2D, queue: readonly PieceType[]) {
-  ctx.clearRect(0, 0, NEXT_W, NEXT_H);
-  queue.slice(0, 3).forEach((type, i) => {
-    drawPiece(ctx, type, NEXT_W / 2, 42 + i * 82, i === 0 ? 24 : 19, i === 0 ? 1 : 0.85);
-  });
-}
-
+/** One piece centred in a small preview, used for Hold and each Next slot. */
 export function renderHold(ctx: CanvasRenderingContext2D, type: PieceType | null, canHold: boolean) {
   ctx.clearRect(0, 0, HOLD_W, HOLD_H);
   if (type) drawPiece(ctx, type, HOLD_W / 2, HOLD_H / 2, 22, canHold ? 1 : 0.35);

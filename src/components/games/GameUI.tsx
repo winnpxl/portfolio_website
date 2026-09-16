@@ -1,72 +1,103 @@
 "use client";
 
-import { useId, useState, type FormEvent, type ReactNode } from "react";
+import { useId, useState, type CSSProperties, type FormEvent, type ReactNode } from "react";
 
 import { cx } from "@/components/ui";
 
 import { addScore, clearScores, getSavedName, useScores, type GameId } from "./leaderboard";
 
-/** Light for Tetrix, dark for Space Invaders. */
-export type Tone = "light" | "dark";
+/*
+ * The game page kit. Quiet white cards with hairline borders carry the
+ * information; only the board, its overlay cards and the buttons keep the
+ * arcade edge (a dark outline with a hard drop shadow). The grid itself
+ * lives in globals.css under `.game-grid`, because its areas rearrange
+ * at three widths and on touch devices.
+ */
 
 export type Control = { keys: readonly string[]; label: string };
 
-const panel: Record<Tone, string> = {
-  light: "border-arcade-ink bg-surface",
-  dark: "border-space-line bg-space-panel",
-};
+const fmt = (n: number) => n.toLocaleString("en-US");
 
-export function ArcadePanel({
-  tone,
-  className,
-  children,
-}: {
-  tone: Tone;
-  className?: string;
-  children: ReactNode;
-}) {
-  return <div className={cx("rounded-[20px] border-[3px]", panel[tone], className)}>{children}</div>;
-}
+/* ------------------------------------------------------------- Pieces */
 
-export function PanelLabel({ children, className }: { children: ReactNode; className?: string }) {
+export function Label({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={cx("text-[11px] font-semibold uppercase tracking-[0.14em] text-muted", className)}>
+    <span
+      className={cx(
+        "m-0 block text-[11px] font-semibold uppercase leading-none tracking-[0.12em] text-muted",
+        className,
+      )}
+    >
       {children}
-    </div>
+    </span>
   );
 }
 
-/** Chunky button with a pressed-in bottom edge, in the arcade style. */
-export function ArcadeButton({
+/** A plain information card: label row, then content. */
+export function Card({
+  label,
+  meta,
+  className,
+  children,
+  ...rest
+}: {
+  label?: string;
+  meta?: ReactNode;
+  className?: string;
+  children: ReactNode;
+  "aria-label"?: string;
+}) {
+  return (
+    <section
+      {...rest}
+      className={cx("flex min-w-0 flex-col rounded-[14px] border border-line bg-surface px-4 pb-4 pt-3.5", className)}
+    >
+      {(label || meta) && (
+        <div className="mb-2.5 flex min-h-[22px] items-center justify-between gap-2">
+          {label && <h2 className="m-0"><Label>{label}</Label></h2>}
+          {meta && <span className="text-[12px] text-faint">{meta}</span>}
+        </div>
+      )}
+      {children}
+    </section>
+  );
+}
+
+/** A recessed well for previews inside a card. */
+export function Slot({ className, children }: { className?: string; children: ReactNode }) {
+  return <div className={cx("relative min-h-0 rounded-[10px] bg-canvas", className)}>{children}</div>;
+}
+
+export function Kbd({ children }: { children: ReactNode }) {
+  return (
+    <kbd className="inline-grid h-[22px] min-w-[22px] place-items-center rounded-[6px] border border-b-2 border-line bg-surface px-1.5 font-sans text-[11px] font-semibold leading-none text-ink">
+      {children}
+    </kbd>
+  );
+}
+
+/** Chunky button with a hard bottom edge that presses in. */
+export function Btn({
   children,
   onClick,
-  tone,
   variant = "primary",
   type = "button",
   className,
 }: {
   children: ReactNode;
   onClick?: () => void;
-  tone: Tone;
   variant?: "primary" | "secondary";
   type?: "button" | "submit";
   className?: string;
 }) {
-  const look =
-    variant === "primary"
-      ? "border-arcade-ink bg-arcade-yellow text-arcade-ink hover:bg-arcade-yellow-soft"
-      : tone === "light"
-        ? "border-arcade-ink bg-surface text-arcade-ink hover:bg-canvas"
-        : "border-space-line bg-space text-ink hover:bg-space-panel";
   return (
     <button
       type={type}
       onClick={onClick}
       data-sound
       className={cx(
-        "inline-flex items-center justify-center rounded-[14px] border-[3px] px-5 py-2.5 text-[15px] font-semibold",
-        "shadow-[inset_0_-4px_0_rgb(0_0_0/0.14)] transition-transform active:translate-y-px active:shadow-[inset_0_-2px_0_rgb(0_0_0/0.14)]",
-        look,
+        "game-btn inline-flex h-11 items-center justify-center rounded-[12px] border-2 px-[18px] text-[15px] font-semibold leading-none",
+        variant === "primary" ? "game-btn-primary" : "bg-surface text-ink",
         className,
       )}
     >
@@ -75,168 +106,190 @@ export function ArcadeButton({
   );
 }
 
-export function Key({ tone, children }: { tone: Tone; children: ReactNode }) {
-  return (
-    <kbd
-      className={cx(
-        "inline-flex h-7 min-w-7 items-center justify-center rounded-[8px] border-2 px-1.5 font-sans text-[12px] font-semibold leading-none",
-        tone === "light"
-          ? "border-arcade-ink bg-surface text-arcade-ink shadow-[inset_0_-3px_0_var(--color-line)]"
-          : "border-space-line bg-space text-ink shadow-[inset_0_-3px_0_var(--color-space-line)]",
-      )}
-    >
-      {children}
-    </kbd>
-  );
-}
+/* -------------------------------------------------------------- Board */
 
-/** The canvas frame, with an optional overlay card laid over the board. */
-export function BoardFrame({
-  tone,
+/** The board's frame, with an optional card laid over a dimmed board. */
+export function Stage({
+  ratio,
   overlay,
   children,
 }: {
-  tone: Tone;
+  /** Board width over height. */
+  ratio: number;
   overlay?: ReactNode;
   children: ReactNode;
 }) {
   return (
-    <div className="relative">
-      <div
-        className={cx(
-          "overflow-hidden rounded-[22px] border-[3px] p-1.5",
-          tone === "light" ? "border-arcade-ink bg-white" : "border-space-line bg-space",
-        )}
-      >
-        {children}
-      </div>
-      {overlay && (
-        <div
-          className={cx(
-            "absolute inset-0 z-10 grid place-items-center rounded-[22px] p-4 backdrop-blur-[2px]",
-            tone === "light" ? "bg-white/55" : "bg-space/60",
-          )}
-        >
-          {overlay}
-        </div>
-      )}
+    <div
+      className={cx("game-stage relative rounded-[18px] border-2 bg-surface p-2.5", overlay ? "is-dim" : false)}
+      style={{ "--ratio": ratio } as CSSProperties}
+    >
+      {children}
+      {overlay && <div className="absolute inset-2.5 z-10 grid place-items-center p-3">{overlay}</div>}
     </div>
   );
 }
 
 export function OverlayCard({
-  tone,
-  eyebrow,
+  label,
   title,
+  sub,
   children,
 }: {
-  tone: Tone;
-  eyebrow: string;
+  label: string;
+  /** A headline, or the score in large figures. */
   title: ReactNode;
+  sub?: ReactNode;
   children?: ReactNode;
 }) {
   return (
-    <div aria-live="polite" className={cx("w-full max-w-[290px] rounded-[18px] border-[3px] p-5 text-center", panel[tone])}>
-      <PanelLabel>{eyebrow}</PanelLabel>
-      <div className="mt-2 text-[28px] font-semibold leading-none tracking-[-0.02em] tabular-nums">{title}</div>
+    <div
+      aria-live="polite"
+      className="game-card-edge grid w-full max-w-[260px] gap-3 rounded-[16px] border-2 bg-surface px-4 pb-4 pt-[18px] text-center"
+    >
+      <Label>{label}</Label>
+      <p className="m-0 text-[34px] font-semibold leading-none tracking-[-0.03em] tabular-nums">{title}</p>
+      {sub && <p className="m-0 -mt-1 text-[13px] leading-[1.45] text-muted">{sub}</p>}
       {children}
     </div>
   );
 }
 
-export function StatGrid({ tone, stats }: { tone: Tone; stats: { label: string; value: ReactNode }[] }) {
+/** Keys shown on the ready card; hidden on touch devices. */
+export function OverlayKeys({ items }: { items: readonly Control[] }) {
   return (
-    <div className="grid grid-cols-2 gap-3">
-      {stats.map((stat) => (
-        <ArcadePanel key={stat.label} tone={tone} className="px-4 py-3">
-          <PanelLabel>{stat.label}</PanelLabel>
-          <div className="mt-1.5 text-[22px] font-semibold leading-none tracking-[-0.02em] tabular-nums">
-            {stat.value}
-          </div>
-        </ArcadePanel>
+    <ul className="m-0 grid list-none gap-2 border-y border-line px-0 py-2.5 text-left text-[13px] text-muted pointer-coarse:hidden">
+      {items.map((item) => (
+        <li key={item.label} className="flex items-center justify-between gap-2">
+          {item.label}
+          <span className="inline-flex gap-1">
+            {item.keys.map((k) => (
+              <Kbd key={k}>{k}</Kbd>
+            ))}
+          </span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
-export function Controls({ tone, items }: { tone: Tone; items: readonly Control[] }) {
+export function OverlayHint({ children }: { children: ReactNode }) {
+  return <p className="m-0 -mt-1 text-[12px] text-faint pointer-coarse:hidden">{children}</p>;
+}
+
+/* ------------------------------------------------------------- Panels */
+
+/**
+ * Score first and large, then three smaller figures, then progress
+ * toward the next milestone. On phones it folds into one row of four.
+ */
+export function StatsCard({
+  score,
+  items,
+  progress,
+}: {
+  score: number;
+  items: { label: string; value: ReactNode }[];
+  progress?: { text: string; done: number; total: number };
+}) {
   return (
-    <ArcadePanel tone={tone} className="p-5">
-      <PanelLabel>How to play</PanelLabel>
-      <ul className="m-0 mt-4 grid list-none gap-2.5 p-0">
+    <Card aria-label="Score" className="game-stats">
+      <div className="game-score">
+        <Label>Score</Label>
+        <output className="mt-2.5 block text-[40px] font-semibold leading-[1.05] tracking-[-0.03em] tabular-nums">
+          {fmt(score)}
+        </output>
+      </div>
+      <dl className="game-trio m-0 mt-4 grid grid-cols-3 gap-3 border-t border-line pt-3.5">
         {items.map((item) => (
-          <li key={item.label} className="flex items-center justify-between gap-4 text-[14px]">
-            <span className="text-ink-soft">{item.label}</span>
-            <span className="flex gap-1">
-              {item.keys.map((key) => (
-                <Key key={key} tone={tone}>
-                  {key}
-                </Key>
+          <div key={item.label} className="min-w-0">
+            <dt>
+              <Label>{item.label}</Label>
+            </dt>
+            <dd className="m-0 mt-2 text-[20px] font-semibold leading-[1.1] tabular-nums">{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+      {progress && (
+        <div className="game-progress mt-auto pt-[18px]">
+          <p className="m-0 mb-2 flex justify-between gap-2 text-[13px] text-muted tabular-nums">
+            <span>{progress.text}</span>
+            <span>
+              {progress.done}/{progress.total}
+            </span>
+          </p>
+          <div
+            role="progressbar"
+            aria-label={progress.text}
+            aria-valuemin={0}
+            aria-valuemax={progress.total}
+            aria-valuenow={progress.done}
+            className="h-2 overflow-hidden rounded-full bg-line"
+          >
+            <i
+              className="block h-full rounded-full bg-arcade-yellow transition-[width] duration-300 motion-reduce:transition-none"
+              style={{ width: `${(progress.done / progress.total) * 100}%` }}
+            />
+          </div>
+        </div>
+      )}
+    </Card>
+  );
+}
+
+export function KeysCard({ items }: { items: readonly Control[] }) {
+  return (
+    <section aria-label="Keyboard controls" className="game-keys">
+      <h2 className="m-0 mb-2.5">
+        <Label>Controls</Label>
+      </h2>
+      <ul className="game-key-list m-0 grid list-none grid-cols-2 gap-x-3 gap-y-2.5 p-0">
+        {items.map((item) => (
+          <li key={item.label} className="flex min-w-0 items-center gap-2 whitespace-nowrap text-[13px] text-muted">
+            <span className="inline-flex gap-1">
+              {item.keys.map((k) => (
+                <Kbd key={k}>{k}</Kbd>
               ))}
             </span>
+            {item.label}
           </li>
         ))}
       </ul>
-    </ArcadePanel>
+    </section>
   );
 }
 
-const rankFill = ["bg-arcade-yellow", "bg-arcade-blue", "bg-arcade-orange"];
-
-export function Leaderboard({
-  tone,
-  game,
-  highlightId,
-}: {
-  tone: Tone;
-  game: GameId;
-  highlightId?: string | null;
-}) {
+export function LeaderboardCard({ game, highlightId }: { game: GameId; highlightId?: string | null }) {
   const scores = useScores(game);
   const [confirming, setConfirming] = useState(false);
 
   return (
-    <ArcadePanel tone={tone} className="p-5">
-      <div className="flex items-baseline justify-between gap-3">
-        <PanelLabel>Leaderboard</PanelLabel>
-        <span className="text-[12px] text-faint">Saved in this browser</span>
-      </div>
-
-      {scores.length === 0 ? (
-        <p className="m-0 mt-4 rounded-[14px] border-2 border-dashed border-line px-4 py-6 text-center text-[14px] text-muted">
-          No scores yet. Set the first one.
-        </p>
-      ) : (
-        <ol className="m-0 mt-3 list-none p-0">
-          {scores.map((entry, i) => (
-            <li
-              key={entry.id}
-              className={cx(
-                "grid grid-cols-[1.75rem_minmax(0,1fr)_auto] items-center gap-3 rounded-[12px] px-2 py-2",
-                entry.id === highlightId && (tone === "light" ? "bg-arcade-yellow/30" : "bg-arcade-yellow/15"),
-              )}
-            >
-              <span
+    <Card label="Leaderboard" meta="This browser" className="game-lead">
+      <div className="game-board-wrap relative min-h-[150px] flex-1">
+        {scores.length === 0 ? (
+          <div className="absolute inset-0 grid place-content-center gap-1 rounded-[10px] border-[1.5px] border-dashed border-line p-4 text-center text-[14px] text-muted">
+            <span>No scores yet.</span>
+            <small className="text-[12px] text-faint">Finish a game to set the first one.</small>
+          </div>
+        ) : (
+          <ol className="game-board-list absolute inset-0 m-0 list-none overflow-auto p-0">
+            {scores.map((entry, i) => (
+              <li
+                key={entry.id}
                 className={cx(
-                  "grid size-7 place-items-center rounded-[8px] border-2 text-[12px] font-semibold tabular-nums",
-                  i < 3
-                    ? cx(rankFill[i], "border-arcade-ink text-arcade-ink")
-                    : tone === "light"
-                      ? "border-line text-muted"
-                      : "border-space-line text-muted",
+                  "grid grid-cols-[20px_minmax(0,1fr)_auto_auto] items-baseline gap-2.5 rounded-[8px] p-2 text-[14px] [&+&]:mt-0.5",
+                  entry.id === highlightId && "bg-arcade-yellow/25",
                 )}
               >
-                {i + 1}
-              </span>
-              <span className="min-w-0">
-                <span className="block truncate text-[14px] font-semibold">{entry.name}</span>
-                <span className="block truncate text-[12px] text-muted">{entry.detail}</span>
-              </span>
-              <span className="text-[15px] font-semibold tabular-nums">{entry.score.toLocaleString("en-US")}</span>
-            </li>
-          ))}
-        </ol>
-      )}
+                <span className="text-[12px] font-semibold tabular-nums text-faint">{i + 1}</span>
+                <span className="truncate font-medium">{entry.name}</span>
+                <span className="game-detail truncate text-[12px] text-faint tabular-nums">{entry.detail}</span>
+                <span className="text-right font-semibold tabular-nums">{fmt(entry.score)}</span>
+              </li>
+            ))}
+          </ol>
+        )}
+      </div>
 
       {scores.length > 0 && (
         <div className="mt-3 flex justify-end gap-3 text-[12px]">
@@ -263,20 +316,18 @@ export function Leaderboard({
           )}
         </div>
       )}
-    </ArcadePanel>
+    </Card>
   );
 }
 
-/** Name entry for a score that makes the board. */
+/** Name entry for a score that makes the top ten. */
 export function ScoreForm({
-  tone,
   game,
   score,
   detail,
   onSaved,
   onSkip,
 }: {
-  tone: Tone;
   game: GameId;
   score: number;
   detail: string;
@@ -293,124 +344,40 @@ export function ScoreForm({
   };
 
   return (
-    <form onSubmit={submit} className="mt-4 text-left">
-      <label htmlFor={id} className="block text-[12px] font-semibold text-ink-soft">
-        You made the leaderboard
+    <form onSubmit={submit} className="grid gap-2 border-t border-line pt-3 text-left">
+      <label htmlFor={id} className="text-[13px] font-semibold">
+        You made the top 10
       </label>
-      <div className="mt-2 flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <input
           id={id}
           autoFocus
           value={name}
           onChange={(e) => setName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              e.preventDefault();
+              onSkip();
+            }
+          }}
           maxLength={16}
           placeholder="Your name"
           autoComplete="nickname"
           spellCheck={false}
-          className={cx(
-            "min-w-0 flex-1 rounded-[12px] border-2 px-3 py-2 text-[15px] font-medium",
-            tone === "light"
-              ? "border-arcade-ink bg-surface text-arcade-ink placeholder:text-faint"
-              : "border-space-line bg-space text-ink placeholder:text-faint",
-          )}
+          className="h-11 min-w-0 flex-[1_1_90px] rounded-[12px] border-2 border-line bg-canvas px-3 text-[15px] font-medium text-ink placeholder:text-faint focus:border-ink focus:outline-none"
         />
-        <ArcadeButton tone={tone} type="submit" className="px-4">
+        <Btn type="submit" className="flex-none px-3.5">
           Save
-        </ArcadeButton>
+        </Btn>
       </div>
-      <button type="button" onClick={onSkip} className="mt-2 text-[12px] text-muted hover:text-ink">
+      <button type="button" onClick={onSkip} className="justify-self-start text-[12px] text-muted hover:text-ink">
         Skip
       </button>
     </form>
   );
 }
 
-/**
- * Board and live stats side by side, then how to play and the scores.
- *
- * On a touch device the tall stats column and the key legend give way to
- * a compact score strip above the board and a touch pad below it, sized
- * so all three fit on screen together once play starts.
- */
-export function GameLayout({
-  tone,
-  ratio,
-  board,
-  side,
-  mini,
-  pad,
-  controls,
-  game,
-  highlightId,
-}: {
-  tone: Tone;
-  ratio: number;
-  board: ReactNode;
-  side: ReactNode;
-  mini: ReactNode;
-  pad: ReactNode;
-  controls: readonly Control[];
-  game: GameId;
-  highlightId?: string | null;
-}) {
-  return (
-    <div className="grid gap-5 [--board-min:260px] pointer-coarse:[--board-min:200px]">
-      <div className="grid items-start gap-5 md:grid-cols-[minmax(0,1fr)_280px] pointer-coarse:md:grid-cols-1">
-        <div className="grid gap-3">
-          <div className="hidden pointer-coarse:block">{mini}</div>
-          {/* 13rem is the nav and title on a desktop, or the score strip and
-              pad on a phone once the game has scrolled into view. */}
-          <div
-            className="mx-auto w-full"
-            style={{ maxWidth: `max(var(--board-min), calc((100svh - 13rem) * ${ratio}))` }}
-          >
-            {board}
-          </div>
-          <div className="hidden pointer-coarse:block">{pad}</div>
-        </div>
-        <div className="grid content-start gap-4 pointer-coarse:hidden">{side}</div>
-      </div>
-      <div className="grid items-start gap-5 md:grid-cols-2 pointer-coarse:md:grid-cols-1">
-        <div className="pointer-coarse:hidden">
-          <Controls tone={tone} items={controls} />
-        </div>
-        <Leaderboard tone={tone} game={game} highlightId={highlightId} />
-      </div>
-    </div>
-  );
-}
-
-/** The phone-sized stand-in for the stats column. */
-export function MiniHud({
-  tone,
-  score,
-  detail,
-  children,
-}: {
-  tone: Tone;
-  score: ReactNode;
-  detail: ReactNode;
-  children?: ReactNode;
-}) {
-  return (
-    <div className={cx("flex items-center justify-between gap-3 rounded-[16px] border-[3px] px-3 py-2", panel[tone])}>
-      <div className="min-w-0">
-        <div className="text-[20px] font-semibold leading-none tracking-[-0.02em] tabular-nums">{score}</div>
-        <div className="mt-1 truncate text-[12px] text-muted">{detail}</div>
-      </div>
-      {children && <div className="flex shrink-0 items-center gap-2">{children}</div>}
-    </div>
-  );
-}
-
-export function MiniSlot({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="grid justify-items-center gap-0.5">
-      <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-muted">{label}</span>
-      {children}
-    </div>
-  );
-}
+/* -------------------------------------------------------------- Touch */
 
 /**
  * Wrapper for on-screen controls. Touching it never scrolls, zooms,
@@ -421,9 +388,9 @@ export function TouchPad({ onGesture, children }: { onGesture?: () => void; chil
   return (
     <div
       role="group"
-      aria-label="Touch controls"
+      aria-label="Game controls"
       onPointerDownCapture={onGesture}
-      className="grid select-none gap-2 [-webkit-touch-callout:none] [touch-action:none]"
+      className="game-pad grid w-full max-w-[420px] select-none grid-cols-4 gap-2 justify-self-center [-webkit-touch-callout:none] [touch-action:none]"
     >
       {children}
     </div>
@@ -431,27 +398,23 @@ export function TouchPad({ onGesture, children }: { onGesture?: () => void; chil
 }
 
 /**
- * One arcade button on the touch pad. It fires on touch-down rather than
- * on click, so there is no delay, and reports release too, so holding a
+ * One button on the touch pad. It fires on touch-down rather than on
+ * click, so there is no delay, and reports release too, so holding a
  * direction or fire keeps it going exactly like holding a key.
  */
 export function PadButton({
-  tone,
   label,
-  look = "plain",
-  size = "lg",
+  primary = false,
+  span = 1,
   onPress,
   onRelease,
-  className,
   children,
 }: {
-  tone: Tone;
   label: string;
-  look?: "plain" | "accent" | "primary";
-  size?: "lg" | "sm";
+  primary?: boolean;
+  span?: 1 | 2 | 3 | 4;
   onPress: () => void;
   onRelease?: () => void;
-  className?: string;
   children: ReactNode;
 }) {
   const [held, setHeld] = useState(false);
@@ -459,11 +422,7 @@ export function PadButton({
     setHeld(false);
     onRelease?.();
   };
-  const looks = {
-    plain: tone === "light" ? "border-arcade-ink bg-surface text-arcade-ink" : "border-space-line bg-space-panel text-ink",
-    accent: "border-arcade-ink bg-arcade-blue text-arcade-ink",
-    primary: "border-arcade-ink bg-arcade-yellow text-arcade-ink",
-  } as const;
+  const spans = { 1: "", 2: "col-span-2", 3: "col-span-3", 4: "col-span-4" } as const;
 
   return (
     <button
@@ -492,11 +451,10 @@ export function PadButton({
       }}
       onContextMenu={(e) => e.preventDefault()}
       className={cx(
-        "grid shrink-0 place-items-center border-[3px] font-semibold [touch-action:none]",
-        size === "lg" ? "h-13 min-w-13 rounded-[16px] px-3 text-[15px]" : "h-9 min-w-9 rounded-[12px] px-3 text-[13px]",
-        held ? "translate-y-[2px] shadow-[inset_0_-1px_0_rgb(0_0_0/0.14)]" : "shadow-[inset_0_-4px_0_rgb(0_0_0/0.14)]",
-        looks[look],
-        className,
+        "game-btn grid h-[52px] place-items-center rounded-[12px] border-2 p-0 text-[14px] font-semibold [touch-action:none] [-webkit-tap-highlight-color:transparent]",
+        primary ? "game-btn-primary" : "bg-surface text-ink",
+        held && "is-down",
+        spans[span],
       )}
     >
       {children}
@@ -511,27 +469,83 @@ export function PadIcon({ name }: { name: "left" | "right" | "down" | "rotate" |
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: 3,
+    strokeWidth: 2.2,
     strokeLinecap: "round",
     strokeLinejoin: "round",
     "aria-hidden": true,
   } as const;
-  if (name === "left") return <svg {...common}><path d="M15 5 8 12l7 7" /></svg>;
-  if (name === "right") return <svg {...common}><path d="m9 5 7 7-7 7" /></svg>;
-  if (name === "down") return <svg {...common}><path d="m5 9 7 7 7-7" /></svg>;
+  if (name === "left") return <svg {...common}><path d="M15 6l-6 6 6 6" /></svg>;
+  if (name === "right") return <svg {...common}><path d="M9 6l6 6-6 6" /></svg>;
+  if (name === "down") return <svg {...common}><path d="M6 9l6 6 6-6" /></svg>;
   if (name === "rotate") {
     return (
       <svg {...common}>
-        <path d="M20 11a8 8 0 1 1-2.3-5.6" />
-        <path d="M20 4v5h-5" />
+        <path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3" />
+        <path d="M19.5 4v4h-4" />
       </svg>
     );
   }
   return <svg {...common}><path d="M9 6v12M15 6v12" /></svg>;
 }
 
+/* ------------------------------------------------------------- Layout */
+
+/**
+ * The whole game page below the nav: title and blurb, two small panels
+ * over the score and controls on one side and the leaderboard on the
+ * other, with the board between them. `.game-grid` in globals.css moves
+ * the pieces around at tablet and phone widths.
+ */
+export function GameShell({
+  title,
+  blurb,
+  first,
+  second,
+  stats,
+  controls,
+  board,
+  pad,
+  ratio,
+  game,
+  highlightId,
+}: {
+  title: string;
+  blurb: string;
+  /** Board width over height, which sizes the board on phones. */
+  ratio: number;
+  /** The small panel above the score (Tetrix: Hold). */
+  first: ReactNode;
+  /** The small panel above the leaderboard (Tetrix: Next). */
+  second: ReactNode;
+  stats: ReactNode;
+  controls: readonly Control[];
+  board: ReactNode;
+  pad: ReactNode;
+  game: GameId;
+  highlightId?: string | null;
+}) {
+  return (
+    <div className="game-grid" style={{ "--board-ratio": ratio } as CSSProperties}>
+      <header className="game-head">
+        <h1 className="m-0 text-[clamp(34px,4vw,44px)] font-semibold leading-none tracking-[-0.035em]">
+          {title}
+        </h1>
+      </header>
+      <p className="game-desc m-0 max-w-[40ch] text-[15px] leading-[1.5] text-muted">{blurb}</p>
+
+      <div className="game-first">{first}</div>
+      <div className="game-second">{second}</div>
+      <div className="game-board">{board}</div>
+      {stats}
+      <div className="game-pad-area">{pad}</div>
+      <KeysCard items={controls} />
+      <LeaderboardCard game={game} highlightId={highlightId} />
+    </div>
+  );
+}
+
 /** The top score on a game card, read from this browser. */
 export function BestScore({ game }: { game: GameId }) {
   const top = useScores(game)[0];
-  return <span>{top ? `Best ${top.score.toLocaleString("en-US")} by ${top.name}` : "No score yet"}</span>;
+  return <span>{top ? `Best ${fmt(top.score)} by ${top.name}` : "No score yet"}</span>;
 }

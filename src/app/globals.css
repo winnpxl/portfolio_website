@@ -339,3 +339,163 @@ body:has(.theme-space) {
     transform: none;
   }
 }
+
+/* ------------------------------------------------------------------- Games */
+
+/*
+ * The game page grid (components/games/GameUI.tsx). Desktop: board in the
+ * middle, Hold/score/controls left, Next/leaderboard right. Tablet: board
+ * left, panels right, controls in a strip below. Phone: one column with
+ * the score first so score, board and pad fit a screen together.
+ *
+ * --edge is the arcade outline: near-black on light pages, a lifted
+ * violet on the dark Space Invaders page.
+ */
+.game-grid {
+  --edge: var(--color-arcade-ink);
+  --board-h: clamp(380px, calc(100svh - 230px), 760px);
+  --slot-h: 150px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: auto var(--slot-h) auto 1fr;
+  grid-template-areas:
+    "head  head  desc"
+    "first board second"
+    "stats board lead"
+    "keys  board lead";
+  gap: 16px 24px;
+}
+.theme-space .game-grid {
+  --edge: #4d4668;
+}
+
+.game-head { grid-area: head; align-self: end; margin-bottom: 12px; }
+.game-desc { grid-area: desc; align-self: end; margin-bottom: 12px; text-wrap: pretty; }
+.game-first { grid-area: first; display: grid; min-height: 0; }
+.game-second { grid-area: second; display: grid; min-height: 0; }
+.game-board { grid-area: board; align-self: start; justify-self: center; }
+.game-stats { grid-area: stats; scroll-margin-top: 12px; }
+.game-lead { grid-area: lead; container-type: inline-size; }
+.game-keys {
+  grid-area: keys;
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+  background: var(--color-surface);
+  padding: 14px 16px 16px;
+}
+.game-pad-area { grid-area: keys; display: none; }
+
+.game-stage {
+  border-color: var(--edge);
+  box-shadow: 0 4px 0 var(--edge);
+}
+.game-stage canvas {
+  display: block;
+  height: var(--board-h);
+  width: auto;
+  aspect-ratio: var(--ratio);
+  border-radius: 10px;
+  transition: filter 0.2s, opacity 0.2s;
+}
+.game-stage.is-dim canvas {
+  filter: blur(2px);
+  opacity: 0.5;
+}
+
+.game-card-edge {
+  border-color: var(--edge);
+  box-shadow: 0 4px 0 var(--edge);
+}
+
+.game-btn {
+  border-color: var(--edge);
+  box-shadow: 0 3px 0 var(--edge);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  cursor: pointer;
+}
+.game-btn:active,
+.game-btn.is-down {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--edge);
+}
+.game-btn-primary {
+  background: var(--color-arcade-yellow);
+  color: var(--color-arcade-ink);
+}
+
+@container (max-width: 250px) {
+  .game-board-list li { grid-template-columns: 18px minmax(0, 1fr) auto; }
+  .game-board-list .game-detail { display: none; }
+}
+
+/* Tablet: board left, panels right, controls below. */
+@media (max-width: 999px) {
+  .game-grid {
+    --board-h: clamp(380px, calc(100svh - 300px), 640px);
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto var(--slot-h) auto 1fr auto;
+    grid-template-areas:
+      "head  desc  desc"
+      "board first second"
+      "board stats stats"
+      "board lead  lead"
+      "keys  keys  keys";
+  }
+  .game-keys {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 28px;
+    border-width: 1px 0 0;
+    border-radius: 0;
+    background: none;
+    padding: 20px 0 0;
+    margin-top: 8px;
+  }
+  .game-keys h2 { margin: 0; }
+  .game-key-list { display: flex; flex-wrap: wrap; gap: 10px 24px; }
+  .game-pad-area { margin-top: 8px; }
+}
+
+/* Phone: one column, score strip first. */
+@media (max-width: 767px) {
+  .game-grid {
+    --slot-h: 112px;
+    --board-h: max(300px, min(calc((100vw - 64px) / var(--board-ratio, 0.5)), calc(100svh - 330px)));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-template-areas:
+      "head  head   head"
+      "desc  desc   desc"
+      "stats stats  stats"
+      "first second second"
+      "board board  board"
+      "pad   pad    pad"
+      "lead  lead   lead"
+      "keys  keys   keys";
+    gap: 12px;
+  }
+  .game-head { margin: 0; }
+  .game-desc { align-self: start; margin: 0 0 4px; font-size: 14px; }
+  .game-first, .game-second { height: var(--slot-h); }
+  .game-pad-area { grid-area: pad; margin-top: 0; }
+
+  .game-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 12px; }
+  .game-stats output { margin-top: 8px; font-size: 20px; line-height: 1.1; letter-spacing: -0.01em; }
+  .game-trio { display: contents; }
+  .game-progress { display: none; }
+
+  .game-board-wrap { min-height: 0; }
+  .game-board-list, .game-board-wrap > div { position: static; }
+}
+@media (max-width: 767px) and (pointer: coarse) {
+  .game-grid {
+    --board-h: max(280px, min(calc((100vw - 64px) / var(--board-ratio, 0.5)), calc(100svh - 380px)));
+  }
+}
+
+/* Touch devices get the pad instead of the key legend, at every width. */
+@media (pointer: coarse) {
+  .game-grid .game-pad-area { display: grid; }
+  .game-grid .game-keys { display: none; }
+}
