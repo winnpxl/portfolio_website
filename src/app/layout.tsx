@@ -29,7 +29,7 @@ const mori = localFont({
 export const metadata: Metadata = {
   title: "Samuel Winner, Design Engineer",
   description:
-    "Product designer and design engineer with seven years across UI/UX, product strategy and front end. Marketplaces, fintech and consumer mobile, from 0 to 1.",
+    "Product designer and design engineer with 5+ years across UI/UX, product strategy and front end. Marketplaces, fintech and consumer mobile, from 0 to 1.",
 };
 
 export default function RootLayout({
