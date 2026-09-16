@@ -269,6 +269,17 @@ export class InvadersGame {
     return n;
   }
 
+  /** The formation as rows of "1" (alive) and "0", for the page's mini map. */
+  formation() {
+    const rows: string[] = [];
+    for (let row = 0; row < ROWS; row++) {
+      let line = "";
+      for (let col = 0; col < COLS; col++) line += this.invaders[row * COLS + col]?.alive ? "1" : "0";
+      rows.push(line);
+    }
+    return rows;
+  }
+
   update(dt: number) {
     this.time += dt;
     stepParticles(this.particles, dt, 260);

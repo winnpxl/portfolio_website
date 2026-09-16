@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 
 import { Nav } from "@/components/Nav";
 import { gameNav, socials } from "@/components/navItems";
-import { PageShell, Section } from "@/components/Page";
-import { GameHeader } from "@/components/games/GameHeader";
+import { PageShell } from "@/components/Page";
 import { SpaceInvaders } from "@/components/games/SpaceInvaders";
 
 export const metadata: Metadata = {
@@ -17,13 +16,12 @@ export default function SpaceInvadersPage() {
     <div className="theme-space">
       <PageShell>
         <Nav items={gameNav("Space Invaders")} socials={socials} />
-        <GameHeader
-          title="Space Invaders"
-          blurb="Move, fire and duck behind the bunkers. Each wave marches faster than the last."
-        />
-        <Section width={880} className="pb-[clamp(56px,8vw,104px)]">
-          <SpaceInvaders />
-        </Section>
+        <main className="mx-auto max-w-[1280px] px-[clamp(20px,5vw,72px)] pb-[clamp(40px,6vw,64px)] pt-[clamp(12px,2vw,24px)]">
+          <SpaceInvaders
+            title="Space Invaders"
+            blurb="Move, fire and duck behind the bunkers. Each wave marches faster than the last."
+          />
+        </main>
       </PageShell>
     </div>
   );

@@ -5,18 +5,19 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSoundEnabled } from "@/components/sound";
 
 import {
-  ArcadeButton,
-  ArcadePanel,
-  BoardFrame,
-  GameLayout,
-  MiniHud,
-  MiniSlot,
+  Btn,
+  Card,
+  GameShell,
+  Kbd,
   OverlayCard,
+  OverlayHint,
+  OverlayKeys,
   PadButton,
   PadIcon,
-  PanelLabel,
   ScoreForm,
-  StatGrid,
+  Slot,
+  Stage,
+  StatsCard,
   TouchPad,
   type Control,
 } from "./GameUI";
@@ -28,18 +29,24 @@ import {
   BOARD_W,
   HOLD_H,
   HOLD_W,
-  NEXT_H,
-  NEXT_W,
   TetrisGame,
   renderHold,
-  renderNext,
   renderTetris,
   type Status,
 } from "./tetris-engine";
 
-type Hud = { status: Status; score: number; level: number; lines: number };
+type Hud = { status: Status; score: number; level: number; lines: number; held: boolean };
 /** Matches a freshly constructed game, so no sync is needed on mount. */
-const INITIAL_HUD: Hud = { status: "ready", score: 0, level: 1, lines: 0 };
+const INITIAL_HUD: Hud = { status: "ready", score: 0, level: 1, lines: 0, held: false };
+
+/** The three keys shown on the ready card. */
+const READY_KEYS: readonly Control[] = [
+  { keys: ["←", "→"], label: "Move" },
+  { keys: ["↑"], label: "Rotate" },
+  { keys: ["Space"], label: "Drop" },
+];
+
+const slotCanvas = "absolute inset-0 block h-full w-full object-contain";
 
 const CONTROLS: readonly Control[] = [
   { keys: ["←", "→"], label: "Move" },
@@ -53,14 +60,13 @@ const CONTROLS: readonly Control[] = [
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
-export function Tetris() {
+export function Tetris({ title, blurb }: { title: string; blurb: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const { ref: boardRef, ctx: boardCtx } = useHiDpiCanvas(BOARD_W, BOARD_H);
-  const { ref: nextRef, ctx: nextCtx } = useHiDpiCanvas(NEXT_W, NEXT_H);
   const { ref: holdRef, ctx: holdCtx } = useHiDpiCanvas(HOLD_W, HOLD_H);
-  // Small copies of hold and next for the phone score strip.
-  const { ref: holdMiniRef, ctx: holdMiniCtx } = useHiDpiCanvas(HOLD_W, HOLD_H);
-  const { ref: nextMiniRef, ctx: nextMiniCtx } = useHiDpiCanvas(HOLD_W, HOLD_H);
+  const { ref: next0Ref, ctx: next0Ctx } = useHiDpiCanvas(HOLD_W, HOLD_H);
+  const { ref: next1Ref, ctx: next1Ctx } = useHiDpiCanvas(HOLD_W, HOLD_H);
+  const { ref: next2Ref, ctx: next2Ctx } = useHiDpiCanvas(HOLD_W, HOLD_H);
   const gameRef = useRef<TetrisGame | null>(null);
   const sfxRef = useRef<Sfx | null>(null);
   const soundOn = useSoundEnabled();
@@ -73,7 +79,14 @@ export function Tetris() {
     const sfx = new Sfx();
     const game: TetrisGame = new TetrisGame(
       (event) => tetrisVoice(sfx, event),
-      () => setHud({ status: game.status, score: game.score, level: game.level, lines: game.lines }),
+      () =>
+        setHud({
+          status: game.status,
+          score: game.score,
+          level: game.level,
+          lines: game.lines,
+          held: game.hold !== null,
+        }),
     );
     sfxRef.current = sfx;
     gameRef.current = game;
@@ -99,7 +112,7 @@ export function Tetris() {
     rootRef.current?.focus({ preventScroll: true });
     // On a phone, bring the score strip, board and pad into view together.
     if (window.matchMedia("(pointer: coarse)").matches) {
-      rootRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      rootRef.current?.querySelector(".game-stats")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, []);
 
@@ -194,10 +207,10 @@ export function Tetris() {
     if (!game) return;
     game.update(dt);
     if (boardCtx.current) renderTetris(boardCtx.current, game);
-    if (nextCtx.current) renderNext(nextCtx.current, game.queue);
     if (holdCtx.current) renderHold(holdCtx.current, game.hold, game.canHold);
-    if (holdMiniCtx.current) renderHold(holdMiniCtx.current, game.hold, game.canHold);
-    if (nextMiniCtx.current) renderHold(nextMiniCtx.current, game.queue[0] ?? null, true);
+    [next0Ctx, next1Ctx, next2Ctx].forEach((ctx, i) => {
+      if (ctx.current) renderHold(ctx.current, game.queue[i] ?? null, true);
+    });
   });
 
   /** Touch pad input for the held directions. */
@@ -210,36 +223,32 @@ export function Tetris() {
   let overlay = null;
   if (hud.status === "ready") {
     overlay = (
-      <OverlayCard tone="light" eyebrow="Tetrix" title="Stack it up">
-        <p className="m-0 mt-3 text-[14px] leading-[1.45] text-muted">
-          Fill a row to clear it. Clear four at once for a Tetrix.
-        </p>
-        <ArcadeButton tone="light" onClick={start} className="mt-5 w-full">
+      <OverlayCard label="Tetrix" title="Ready?">
+        <OverlayKeys items={READY_KEYS} />
+        <p className="m-0 hidden text-[13px] text-muted pointer-coarse:block">Use the buttons under the board.</p>
+        <Btn onClick={start} className="w-full">
           Start game
-        </ArcadeButton>
-        <p className="m-0 mt-3 text-[12px] text-faint pointer-coarse:hidden">or press Enter</p>
+        </Btn>
+        <OverlayHint>or press Enter</OverlayHint>
       </OverlayCard>
     );
   } else if (hud.status === "paused") {
     overlay = (
-      <OverlayCard tone="light" eyebrow="Paused" title={fmt(hud.score)}>
-        <p className="m-0 mt-2 text-[13px] text-muted">{detail}</p>
-        <ArcadeButton tone="light" onClick={() => gameRef.current?.togglePause()} className="mt-5 w-full">
+      <OverlayCard label="Paused" title={fmt(hud.score)} sub={detail}>
+        <Btn onClick={() => gameRef.current?.togglePause()} className="w-full">
           Resume
-        </ArcadeButton>
-        <ArcadeButton tone="light" variant="secondary" onClick={start} className="mt-2 w-full">
+        </Btn>
+        <Btn variant="secondary" onClick={start} className="w-full">
           Restart
-        </ArcadeButton>
-        <p className="m-0 mt-3 text-[12px] text-faint pointer-coarse:hidden">P to resume, R to restart</p>
+        </Btn>
+        <OverlayHint>P to resume, R to restart</OverlayHint>
       </OverlayCard>
     );
   } else if (hud.status === "over") {
     overlay = (
-      <OverlayCard tone="light" eyebrow="Game over" title={fmt(hud.score)}>
-        <p className="m-0 mt-2 text-[13px] text-muted">{detail}</p>
+      <OverlayCard label="Game over" title={fmt(hud.score)} sub={detail}>
         {canSave && (
           <ScoreForm
-            tone="light"
             game="tetris"
             score={hud.score}
             detail={detail}
@@ -247,117 +256,102 @@ export function Tetris() {
             onSkip={() => setSkipped(true)}
           />
         )}
-        {savedId && <p className="m-0 mt-3 text-[13px] font-semibold text-ink">Saved to the leaderboard</p>}
-        <ArcadeButton
-          tone="light"
-          variant={canSave ? "secondary" : "primary"}
-          onClick={start}
-          className="mt-4 w-full"
-        >
+        {savedId && <p className="m-0 text-[13px] text-muted">Saved to this browser&rsquo;s top 10.</p>}
+        <Btn variant={canSave ? "secondary" : "primary"} onClick={start} className="w-full">
           Play again
-        </ArcadeButton>
+        </Btn>
       </OverlayCard>
     );
   }
 
+  const intoLevel = hud.lines % 10;
+  const toNext = 10 - intoLevel;
+
   return (
     <div ref={rootRef} tabIndex={-1} className="scroll-mt-3 outline-none">
-      <GameLayout
-        tone="light"
-        mini={
-          <MiniHud
-            tone="light"
-            score={fmt(hud.score)}
-            detail={`Best ${fmt(Math.max(best, hud.score))} · ${detail}`}
+      <GameShell
+        title={title}
+        blurb={blurb}
+        ratio={BOARD_W / BOARD_H}
+        game="tetris"
+        highlightId={savedId}
+        controls={CONTROLS}
+        first={
+          <Card
+            label="Hold"
+            meta={
+              <span className="pointer-coarse:hidden">
+                <Kbd>C</Kbd>
+              </span>
+            }
           >
-            <MiniSlot label="Hold">
-              <canvas ref={holdMiniRef} aria-hidden className="block h-[30px] w-[42px]" />
-            </MiniSlot>
-            <MiniSlot label="Next">
-              <canvas ref={nextMiniRef} aria-hidden className="block h-[30px] w-[42px]" />
-            </MiniSlot>
-          </MiniHud>
+            <Slot className="flex-1">
+              <canvas ref={holdRef} aria-hidden className={slotCanvas} />
+              {!hud.held && (
+                <span className="absolute inset-0 grid place-items-center text-[13px] text-faint">Empty</span>
+              )}
+            </Slot>
+          </Card>
+        }
+        second={
+          <Card label="Next">
+            <div className="grid min-h-0 flex-1 grid-cols-[1.35fr_1fr] grid-rows-2 gap-2 max-md:grid-cols-[1.3fr_1fr_1fr] max-md:grid-rows-1">
+              <Slot className="row-span-2 max-md:row-span-1">
+                <canvas ref={next0Ref} aria-hidden className={slotCanvas} />
+              </Slot>
+              <Slot>
+                <canvas ref={next1Ref} aria-hidden className={slotCanvas} />
+              </Slot>
+              <Slot>
+                <canvas ref={next2Ref} aria-hidden className={slotCanvas} />
+              </Slot>
+            </div>
+          </Card>
+        }
+        stats={
+          <StatsCard
+            score={hud.score}
+            items={[
+              { label: "Best", value: fmt(Math.max(best, hud.score)) },
+              { label: "Level", value: hud.level },
+              { label: "Lines", value: hud.lines },
+            ]}
+            progress={{
+              text: `Level ${hud.level + 1} in ${toNext} ${toNext === 1 ? "line" : "lines"}`,
+              done: intoLevel,
+              total: 10,
+            }}
+          />
+        }
+        board={
+          <Stage ratio={BOARD_W / BOARD_H} overlay={overlay}>
+            <canvas ref={boardRef} role="img" aria-label="Tetrix well" />
+          </Stage>
         }
         pad={
           <TouchPad onGesture={() => sfxRef.current?.unlock()}>
-            <div className="flex items-center justify-between">
-              <PadButton tone="light" size="sm" label="Hold piece" onPress={() => gameRef.current?.holdPiece()}>
-                Hold
-              </PadButton>
-              <PadButton tone="light" size="sm" label="Pause" onPress={() => gameRef.current?.togglePause()}>
-                <PadIcon name="pause" />
-              </PadButton>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex gap-2">
-                <PadButton tone="light" label="Move left" onPress={() => press("left", true)} onRelease={() => press("left", false)}>
-                  <PadIcon name="left" />
-                </PadButton>
-                <PadButton tone="light" label="Soft drop" onPress={() => press("down", true)} onRelease={() => press("down", false)}>
-                  <PadIcon name="down" />
-                </PadButton>
-                <PadButton tone="light" label="Move right" onPress={() => press("right", true)} onRelease={() => press("right", false)}>
-                  <PadIcon name="right" />
-                </PadButton>
-              </div>
-              <div className="flex gap-2">
-                <PadButton tone="light" look="accent" label="Rotate" onPress={() => gameRef.current?.rotate(1)}>
-                  <PadIcon name="rotate" />
-                </PadButton>
-                <PadButton tone="light" look="primary" label="Hard drop" onPress={() => gameRef.current?.hardDrop()} className="px-4">
-                  Drop
-                </PadButton>
-              </div>
-            </div>
+            <PadButton label="Move left" onPress={() => press("left", true)} onRelease={() => press("left", false)}>
+              <PadIcon name="left" />
+            </PadButton>
+            <PadButton label="Soft drop" onPress={() => press("down", true)} onRelease={() => press("down", false)}>
+              <PadIcon name="down" />
+            </PadButton>
+            <PadButton label="Move right" onPress={() => press("right", true)} onRelease={() => press("right", false)}>
+              <PadIcon name="right" />
+            </PadButton>
+            <PadButton label="Rotate" onPress={() => gameRef.current?.rotate(1)}>
+              <PadIcon name="rotate" />
+            </PadButton>
+            <PadButton label="Hold piece" onPress={() => gameRef.current?.holdPiece()}>
+              Hold
+            </PadButton>
+            <PadButton label="Hard drop" primary span={2} onPress={() => gameRef.current?.hardDrop()}>
+              Drop
+            </PadButton>
+            <PadButton label={hud.status === "paused" ? "Resume" : "Pause"} onPress={() => gameRef.current?.togglePause()}>
+              {hud.status === "paused" ? "Resume" : "Pause"}
+            </PadButton>
           </TouchPad>
-        }
-        ratio={BOARD_W / BOARD_H}
-        controls={CONTROLS}
-        game="tetris"
-        highlightId={savedId}
-        board={
-          <BoardFrame tone="light" overlay={overlay}>
-            <canvas
-              ref={boardRef}
-              role="img"
-              aria-label="Tetrix board"
-              className="block h-auto w-full"
-              style={{ aspectRatio: `${BOARD_W} / ${BOARD_H}` }}
-            />
-          </BoardFrame>
-        }
-        side={
-          <>
-            <StatGrid
-              tone="light"
-              stats={[
-                { label: "Score", value: fmt(hud.score) },
-                { label: "Best", value: fmt(Math.max(best, hud.score)) },
-                { label: "Level", value: hud.level },
-                { label: "Lines", value: hud.lines },
-              ]}
-            />
-            <ArcadePanel tone="light" className="grid grid-cols-2 gap-3 p-4">
-              <div>
-                <PanelLabel>Hold</PanelLabel>
-                <canvas
-                  ref={holdRef}
-                  aria-hidden
-                  className="mt-2 block h-auto w-full"
-                  style={{ aspectRatio: `${HOLD_W} / ${HOLD_H}` }}
-                />
-              </div>
-              <div>
-                <PanelLabel>Next</PanelLabel>
-                <canvas
-                  ref={nextRef}
-                  aria-hidden
-                  className="mt-2 block h-auto w-full"
-                  style={{ aspectRatio: `${NEXT_W} / ${NEXT_H}` }}
-                />
-              </div>
-            </ArcadePanel>
-          </>
         }
       />
     </div>
