@@ -173,12 +173,12 @@ export const process = {
     {
       number: "02",
       title: "Research and map",
-      body: "Interviews, public data, competitor teardowns; then information architecture and journeys per user type.",
+      body: "Competitor teardowns to see what already works, then information architecture and journeys for each type of user.",
     },
     {
       number: "03",
       title: "Design the system",
-      body: "Mobile-first flows on a documented component library, not one-off screens.",
+      body: "Desktop first, to capture every piece of information and set the visual style, then stripped down for mobile. All on a documented component library, not one-off screens.",
     },
     {
       number: "04",
