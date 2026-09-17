@@ -20,6 +20,7 @@ import {
   TouchPad,
   type Control,
 } from "./GameUI";
+import { useBoard } from "./globalScores";
 import { keyBelongsToGame, useAnimationFrame, useHiDpiCanvas } from "./hooks";
 import { H, InvadersGame, W, renderInvaders, type InvadersStatus } from "./invaders-engine";
 import { qualifiesFor, useScores } from "./leaderboard";
@@ -106,6 +107,8 @@ export function SpaceInvaders({ title, blurb }: { title: string; blurb: string }
   const fontRef = useRef("system-ui, sans-serif");
   const soundOn = useSoundEnabled();
   const scores = useScores("space-invaders");
+  // Qualifying means making the board on show: everyone's, or this browser's.
+  const board = useBoard("space-invaders");
   const [hud, setHud] = useState<Hud>(INITIAL_HUD);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [skipped, setSkipped] = useState(false);
@@ -235,7 +238,7 @@ export function SpaceInvaders({ title, blurb }: { title: string; blurb: string }
 
   const best = scores[0]?.score ?? 0;
   const detail = `Wave ${hud.wave}`;
-  const canSave = hud.status === "over" && !savedId && !skipped && qualifiesFor(scores, hud.score);
+  const canSave = hud.status === "over" && !savedId && !skipped && qualifiesFor(board.scores, hud.score);
 
   let overlay = null;
   if (hud.status === "ready") {
@@ -269,11 +272,16 @@ export function SpaceInvaders({ title, blurb }: { title: string; blurb: string }
             game="space-invaders"
             score={hud.score}
             detail={detail}
+            shared={board.shared}
             onSaved={setSavedId}
             onSkip={() => setSkipped(true)}
           />
         )}
-        {savedId && <p className="m-0 text-[13px] text-muted">Saved to this browser&rsquo;s top 10.</p>}
+        {savedId && (
+          <p className="m-0 text-[13px] text-muted">
+            {board.shared ? "Saved to the leaderboard." : "Saved on this device."}
+          </p>
+        )}
         <Btn variant={canSave ? "secondary" : "primary"} onClick={start} className="w-full">
           Play again
         </Btn>

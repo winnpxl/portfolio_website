@@ -1,27 +1,19 @@
 import { useSyncExternalStore } from "react";
 
+import { BOARD_SIZE, cleanName, type GameId, type ScoreEntry } from "@/lib/scores";
+
 /**
- * Per-game top ten, kept only in this browser's localStorage. There is no
- * server and nothing leaves the device, so scores are private to the
- * visitor and survive reloads but not a cleared browser.
+ * Per-game history, kept only in this browser's localStorage, which is
+ * where a player's own best comes from. The shared board that everyone
+ * sees lives in globalScores.ts.
  *
  * Exposed through useSyncExternalStore: the server renders an empty
  * board, the client swaps in the stored one without a hydration
  * mismatch, and other tabs stay in step through the storage event.
  */
-export type GameId = "tetris" | "space-invaders";
+export type { GameId, ScoreEntry };
+export { BOARD_SIZE, cleanName };
 
-export type ScoreEntry = {
-  id: string;
-  name: string;
-  score: number;
-  /** Short context shown under the name, e.g. "Level 4 · 32 lines". */
-  detail: string;
-  at: number;
-};
-
-export const BOARD_SIZE = 10;
-const NAME_MAX = 16;
 const PREFIX = "sw:games:";
 const NAME_KEY = `${PREFIX}name`;
 const scoresKey = (game: GameId) => `${PREFIX}${game}:scores`;
@@ -30,19 +22,6 @@ const EMPTY: readonly ScoreEntry[] = Object.freeze([]);
 /** Snapshots must be referentially stable between changes. */
 const cache = new Map<GameId, readonly ScoreEntry[]>();
 const listeners = new Set<() => void>();
-
-/** Strips control characters and runs of whitespace, then trims to length. */
-export function cleanName(raw: string) {
-  return Array.from(raw)
-    .filter((ch) => {
-      const code = ch.codePointAt(0) ?? 0;
-      return code >= 32 && !(code >= 127 && code <= 159);
-    })
-    .join("")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, NAME_MAX);
-}
 
 function isEntry(value: unknown): value is ScoreEntry {
   if (!value || typeof value !== "object") return false;

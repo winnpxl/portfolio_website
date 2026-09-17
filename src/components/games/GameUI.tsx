@@ -4,6 +4,8 @@ import { useId, useState, type CSSProperties, type FormEvent, type ReactNode } f
 
 import { cx } from "@/components/ui";
 
+import { useBoard } from "./globalScores";
+import { submitScore } from "./globalScores";
 import { addScore, clearScores, getSavedName, useScores, type GameId } from "./leaderboard";
 
 /*
@@ -260,11 +262,12 @@ export function KeysCard({ items }: { items: readonly Control[] }) {
 }
 
 export function LeaderboardCard({ game, highlightId }: { game: GameId; highlightId?: string | null }) {
-  const scores = useScores(game);
+  const { scores, shared } = useBoard(game);
+  const mine = useScores(game);
   const [confirming, setConfirming] = useState(false);
 
   return (
-    <Card label="Leaderboard" meta="This browser" className="game-lead">
+    <Card label="Leaderboard" meta={shared ? "Everyone" : "This browser"} className="game-lead">
       <div className="game-board-wrap relative min-h-[150px] flex-1">
         {scores.length === 0 ? (
           <div className="absolute inset-0 grid place-content-center gap-1 rounded-[10px] border-[1.5px] border-dashed border-line p-4 text-center text-[14px] text-muted">
@@ -291,31 +294,36 @@ export function LeaderboardCard({ game, highlightId }: { game: GameId; highlight
         )}
       </div>
 
-      {scores.length > 0 && (
-        <div className="mt-3 flex justify-end gap-3 text-[12px]">
-          {confirming ? (
-            <>
-              <button type="button" onClick={() => setConfirming(false)} className="text-muted hover:text-ink">
-                Keep them
+      <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-line pt-3 text-[13px]">
+        <span className="text-muted">
+          Your best <span className="font-semibold tabular-nums text-ink">{fmt(mine[0]?.score ?? 0)}</span>
+        </span>
+        {mine.length > 0 && (
+          <span className="flex gap-3 text-[12px]">
+            {confirming ? (
+              <>
+                <button type="button" onClick={() => setConfirming(false)} className="text-muted hover:text-ink">
+                  Keep them
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    clearScores(game);
+                    setConfirming(false);
+                  }}
+                  className="font-semibold text-arcade-red"
+                >
+                  Clear mine
+                </button>
+              </>
+            ) : (
+              <button type="button" onClick={() => setConfirming(true)} className="text-muted hover:text-ink">
+                Clear mine
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  clearScores(game);
-                  setConfirming(false);
-                }}
-                className="font-semibold text-arcade-red"
-              >
-                Clear all scores
-              </button>
-            </>
-          ) : (
-            <button type="button" onClick={() => setConfirming(true)} className="text-muted hover:text-ink">
-              Clear
-            </button>
-          )}
-        </div>
-      )}
+            )}
+          </span>
+        )}
+      </div>
     </Card>
   );
 }
@@ -325,22 +333,31 @@ export function ScoreForm({
   game,
   score,
   detail,
+  shared,
   onSaved,
   onSkip,
 }: {
   game: GameId;
   score: number;
   detail: string;
+  /** Whether the score goes to the board everyone sees. */
+  shared: boolean;
   onSaved: (id: string) => void;
   onSkip: () => void;
 }) {
   const id = useId();
   // Only ever mounted after a game ends, so reading storage here is safe.
   const [name, setName] = useState(getSavedName);
+  const [saving, setSaving] = useState(false);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
-    onSaved(addScore(game, name, score, detail));
+    if (saving) return;
+    setSaving(true);
+    // The browser's own history always keeps it; the shared board may not.
+    const localId = addScore(game, name, score, detail);
+    const sharedId = shared ? await submitScore(game, name, score, detail) : null;
+    onSaved(sharedId ?? localId);
   };
 
   return (
@@ -367,7 +384,7 @@ export function ScoreForm({
           className="h-11 min-w-0 flex-[1_1_90px] rounded-[12px] border-2 border-line bg-canvas px-3 text-[15px] font-medium text-ink placeholder:text-faint focus:border-ink focus:outline-none"
         />
         <Btn type="submit" className="flex-none px-3.5">
-          Save
+          {saving ? "Saving" : "Save"}
         </Btn>
       </div>
       <button type="button" onClick={onSkip} className="justify-self-start text-[12px] text-muted hover:text-ink">
