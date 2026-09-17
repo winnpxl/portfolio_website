@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 
 import { SoundToggle } from "./sound";
+import { ThemeToggle } from "./theme";
 import type { NavItem, Social } from "./navItems";
 import { cx } from "./ui";
 
@@ -193,6 +194,7 @@ export function Nav({ items, socials = [] }: { items: NavItem[]; socials?: Socia
               <Icon name={s.icon} />
             </a>
           ))}
+          <ThemeToggle className="ml-1" />
           <SoundToggle />
         </div>
 
@@ -210,7 +212,8 @@ export function Nav({ items, socials = [] }: { items: NavItem[]; socials?: Socia
                   <Icon name={s.icon} />
                 </a>
               ))}
-              <SoundToggle />
+              <ThemeToggle className="ml-1" />
+          <SoundToggle />
             </div>
           </div>
         )}

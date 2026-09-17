@@ -125,6 +125,22 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
    `src/app/work/<slug>/` like `src/app/work/runbeta/page.tsx`, and give the entry
    in `work` an `href`.
 
+## Light and dark
+
+The palette in `globals.css` is one set of tokens. Dark values live once in
+`:root` as `--dark-*`, and two rules point the palette at them: the device
+preference (unless `data-theme="light"` is set) and `data-theme="dark"`.
+A page with no `data-theme` therefore follows the device, which is the
+default. `ThemeToggle` in `src/components/theme.tsx` writes that attribute
+and remembers the choice under `sw:theme`; `themeScript` in the document
+head applies it before the first paint so nothing flashes.
+
+Tiles that stay dark in both themes (the About panels, the gallery card)
+use `--color-on-dark` and `--color-on-light` rather than canvas and ink,
+which flip. Canvases cannot read Tailwind classes, so the Tetrix well takes
+its colours through `useThemeColors`. The Space Invaders page stays dark in
+both themes, since `.theme-space` sets its own palette.
+
 ## Domain and search
 
 The site lives at https://www.canvasofsam.pro (the bare domain redirects to
