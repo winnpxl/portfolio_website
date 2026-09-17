@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import { RevealObserver } from "@/components/RevealObserver";
 import { SoundProvider } from "@/components/sound";
 import { Toaster } from "@/components/toast";
+import { profile, site } from "@/content/site";
 
 import "./globals.css";
 
@@ -28,10 +29,28 @@ const mori = localFont({
   display: "swap",
 });
 
+const description =
+  "Product designer and design engineer with 5+ years across UI/UX, product strategy and front end. Marketplaces, fintech and consumer mobile, from 0 to 1.";
+
 export const metadata: Metadata = {
-  title: "Samuel Winner, Design Engineer",
-  description:
-    "Product designer and design engineer with 5+ years across UI/UX, product strategy and front end. Marketplaces, fintech and consumer mobile, from 0 to 1.",
+  // Every page's canonical and card links hang off this, so previews and
+  // search results name the domain rather than the Vercel URL.
+  metadataBase: new URL(site.url),
+  title: {
+    default: "Samuel Winner, Design Engineer",
+    template: "%s",
+  },
+  description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: profile.name,
+    title: "Samuel Winner, Design Engineer",
+    description,
+    url: "/",
+    locale: "en_GB",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({

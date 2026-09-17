@@ -14,6 +14,11 @@ export type ImageSlot = {
   placeholder: string;
 };
 
+/** Where the site lives, used for canonical links, cards and the sitemap. */
+export const site = {
+  url: "https://www.canvasofsam.pro",
+} as const;
+
 export const profile = {
   name: "Samuel Winner",
   title: "Design Engineer",
