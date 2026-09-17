@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
@@ -44,6 +45,8 @@ export default function RootLayout({
           <Toaster />
           <RevealObserver />
         </SoundProvider>
+        {/* Cookie-free page views, reported only from the deployed site. */}
+        <Analytics />
       </body>
     </html>
   );
