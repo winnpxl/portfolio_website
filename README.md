@@ -125,6 +125,25 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
    `src/app/work/<slug>/` like `src/app/work/runbeta/page.tsx`, and give the entry
    in `work` an `href`.
 
+## Shared game leaderboard
+
+`/games/tetrix` and `/games/space-invaders` show one top ten that every
+visitor sees, served by `src/app/api/scores/route.ts` from an Upstash Redis
+database (one sorted set per game, trimmed to 100 entries). Each browser also
+keeps its own history in `localStorage`, which is where "Your best" comes from.
+
+Connect a database from the Vercel dashboard: Storage, then Upstash Redis.
+The integration sets `KV_REST_API_URL` and `KV_REST_API_TOKEN` for the
+project; `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` work too. To
+run it locally, put the same pair in `.env.local`.
+
+Without those variables the route reports `configured: false` and the pages
+fall back to per-browser boards, which is what local development shows.
+
+Scores are counted in the browser, so the route guards what it can: known
+game, a score within a per-game cap, a cleaned 16-character name, and at most
+12 saves a minute per address. Entries can be deleted in the Upstash console.
+
 ## Notes on the port
 
 - The prototype's `<sc-if>` blocks became empty-array checks, which is what the
