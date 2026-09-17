@@ -125,6 +125,14 @@ The design ships with deliberate gaps. Each is a content edit, not a layout one.
    `src/app/work/<slug>/` like `src/app/work/runbeta/page.tsx`, and give the entry
    in `work` an `href`.
 
+## Domain and search
+
+The site lives at https://www.canvasofsam.pro (the bare domain redirects to
+www); the Vercel URL still works. `site.url` in `src/content/site.ts` is the
+canonical address behind `metadataBase`, `sitemap.ts` and `robots.ts`, so
+changing it there updates every link, card and listing. The link preview card
+is generated at build time by `src/app/opengraph-image.tsx`.
+
 ## Shared game leaderboard
 
 `/games/tetrix` and `/games/space-invaders` show one top ten that every
