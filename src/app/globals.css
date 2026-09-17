@@ -18,6 +18,12 @@
   --color-faint: #a6a6a1;
   --color-line: #e3e3df;
   --color-live: #22c55e;
+  /* A pair that never flips, for dark tiles that stay dark in both
+     themes: light text on them, dark text on a light chip inside them. */
+  --color-on-dark: #f5f5f3;
+  --color-on-light: #111110;
+  /* The arcade outline on the game pages. */
+  --color-edge: #262626;
 
   /* Arcade palette for the games. Mirrors ARCADE and BLOCKS in
      src/components/games/palette.ts, which the canvases read; change
@@ -41,6 +47,70 @@
   --shadow-tile: 0 0 0 1px rgb(17 17 16 / 0.04), 0 1px 2px rgb(17 17 16 / 0.04);
   --shadow-lift: 0 0 0 1px rgb(17 17 16 / 0.05),
     0 12px 32px -16px rgb(17 17 16 / 0.22);
+}
+
+/* ---------------------------------------------------------------
+   Dark theme. The values live once, in :root; the two rules below
+   only point the palette at them: the first when the device asks for
+   dark and the visitor has not chosen light, the second when the
+   toggle has asked for dark outright. A page with no data-theme
+   therefore follows the device, which is the default.
+   --------------------------------------------------------------- */
+:root {
+  /* Scrollbars and form controls follow the theme; the rules below
+     switch this to dark. */
+  color-scheme: light;
+
+  --dark-canvas: #0e0e0d;
+  --dark-surface: #171716;
+  --dark-tile: #1d1d1b;
+  --dark-tile-deep: #232320;
+  --dark-tile-dark: #010101;
+  --dark-ink: #f2f1ed;
+  --dark-ink-soft: #cfcdc6;
+  --dark-muted: #9a9892;
+  --dark-faint: #6e6c66;
+  --dark-line: #2b2b27;
+  --dark-edge: #56544d;
+  --dark-shadow-tile: 0 0 0 1px rgb(255 255 255 / 0.06), 0 1px 2px rgb(0 0 0 / 0.4);
+  --dark-shadow-lift: 0 0 0 1px rgb(255 255 255 / 0.07),
+    0 12px 32px -16px rgb(0 0 0 / 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-canvas: var(--dark-canvas);
+    --color-surface: var(--dark-surface);
+    --color-tile: var(--dark-tile);
+    --color-tile-deep: var(--dark-tile-deep);
+    --color-tile-dark: var(--dark-tile-dark);
+    --color-ink: var(--dark-ink);
+    --color-ink-soft: var(--dark-ink-soft);
+    --color-muted: var(--dark-muted);
+    --color-faint: var(--dark-faint);
+    --color-line: var(--dark-line);
+    --color-edge: var(--dark-edge);
+    --shadow-tile: var(--dark-shadow-tile);
+    --shadow-lift: var(--dark-shadow-lift);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-canvas: var(--dark-canvas);
+  --color-surface: var(--dark-surface);
+  --color-tile: var(--dark-tile);
+  --color-tile-deep: var(--dark-tile-deep);
+  --color-tile-dark: var(--dark-tile-dark);
+  --color-ink: var(--dark-ink);
+  --color-ink-soft: var(--dark-ink-soft);
+  --color-muted: var(--dark-muted);
+  --color-faint: var(--dark-faint);
+  --color-line: var(--dark-line);
+  --color-edge: var(--dark-edge);
+  --shadow-tile: var(--dark-shadow-tile);
+  --shadow-lift: var(--dark-shadow-lift);
 }
 
 @layer base {
@@ -76,7 +146,7 @@
 
   /* Inside dark tiles the ink ring vanishes, so invert it. */
   .on-dark :focus-visible {
-    outline-color: var(--color-canvas);
+    outline-color: var(--color-on-dark);
   }
 }
 
@@ -258,6 +328,70 @@ body:has(.theme-space) {
   }
 }
 
+.site-nav {
+  view-transition-name: site-nav;
+}
+
+/*
+ * Switching theme: the new palette grows out of the toggle as a circle,
+ * so the change reads as one gesture rather than a jump cut. The nav
+ * gives up its name for that one transition, so the sweep passes over
+ * it too, and the sun or moon turns as it swaps.
+ */
+:root.theme-sweeping .site-nav {
+  view-transition-name: none;
+}
+
+:root.theme-sweeping::view-transition-old(root) {
+  animation: none;
+}
+:root.theme-sweeping::view-transition-new(root) {
+  animation: theme-sweep 620ms cubic-bezier(0.32, 0.72, 0.24, 1);
+  /* The incoming theme is painted over the old one, not blended with it. */
+  mix-blend-mode: normal;
+  z-index: 1;
+}
+
+@keyframes theme-sweep {
+  from {
+    clip-path: circle(0 at var(--sweep-x) var(--sweep-y));
+  }
+  to {
+    clip-path: circle(var(--sweep-r) at var(--sweep-x) var(--sweep-y));
+  }
+}
+
+/* Where the sweep cannot run, the palette still crossfades rather than
+   snapping, since every token is a colour that can be interpolated. */
+:root.theme-sweeping body,
+:root.theme-sweeping body * {
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease,
+    color 260ms ease;
+}
+
+@keyframes theme-glyph-turn {
+  from {
+    transform: rotate(-120deg) scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.theme-glyph {
+  animation: theme-glyph-turn 520ms cubic-bezier(0.32, 0.72, 0.24, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-glyph {
+    animation: none;
+  }
+}
+
 ::view-transition-group(site-nav) {
   animation: none;
   z-index: 100;
@@ -352,7 +486,7 @@ body:has(.theme-space) {
  * violet on the dark Space Invaders page.
  */
 .game-grid {
-  --edge: var(--color-arcade-ink);
+  --edge: var(--color-edge);
   --board-h: clamp(380px, calc(100svh - 230px), 760px);
   --slot-h: 150px;
   display: grid;

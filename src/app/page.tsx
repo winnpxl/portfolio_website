@@ -240,10 +240,10 @@ export default function HomePage() {
         <Link
           href="/gallery"
           data-sound
-          className="on-dark group flex flex-wrap items-end justify-between gap-6 rounded-[28px] bg-tile-dark p-8 text-canvas sm:p-12"
+          className="on-dark group flex flex-wrap items-end justify-between gap-6 rounded-[28px] bg-tile-dark p-8 text-on-dark sm:p-12"
         >
           <div>
-            <Eyebrow className="text-canvas/50">{galleryBanner.eyebrow}</Eyebrow>
+            <Eyebrow className="text-on-dark/50">{galleryBanner.eyebrow}</Eyebrow>
             <div className="mt-4 max-w-[20ch] text-[clamp(28px,3.6vw,44px)] font-semibold leading-[1.08] tracking-[-0.02em]">
               {galleryBanner.title}
             </div>

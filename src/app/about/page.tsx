@@ -22,8 +22,8 @@ const experience = work.map((w) => ({
   year: w.year,
 }));
 
-const panel = "rounded-[28px] bg-tile-dark p-[clamp(24px,4vw,48px)] text-canvas";
-const panelLabel = "text-[13px] font-medium tracking-[-0.005em] text-canvas/50";
+const panel = "rounded-[28px] bg-tile-dark p-[clamp(24px,4vw,48px)] text-on-dark";
+const panelLabel = "text-[13px] font-medium tracking-[-0.005em] text-on-dark/50";
 const panelBody = "text-[clamp(17px,1.5vw,21px)] leading-[1.45] tracking-[-0.012em]";
 
 function ListColumn({ label, items }: { label: string; items: readonly string[] }) {
@@ -32,7 +32,7 @@ function ListColumn({ label, items }: { label: string; items: readonly string[] 
       <h3 className={cx(panelLabel, "m-0 font-medium")}>{label}</h3>
       <ul className="m-0 mt-4 list-none p-0">
         {items.map((item) => (
-          <li key={item} className={cx(panelBody, "text-canvas/85")}>
+          <li key={item} className={cx(panelBody, "text-on-dark/85")}>
             {item}
           </li>
         ))}
@@ -84,7 +84,7 @@ export default function AboutPage() {
                   className={cx(
                     panelBody,
                     "m-0 max-w-[48ch]",
-                    i === 0 ? "text-canvas" : "text-canvas/70",
+                    i === 0 ? "text-on-dark" : "text-on-dark/70",
                     i < about.paragraphs.length - 1 && "mb-5",
                   )}
                 >
@@ -132,12 +132,12 @@ export default function AboutPage() {
               {experience.map((row) => (
                 <li
                   key={row.slug}
-                  className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-canvas/10 py-3 last:border-b-0"
+                  className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-on-dark/10 py-3 last:border-b-0"
                 >
-                  <span className={cx(panelBody, "text-canvas")}>
-                    {row.role} <span className="text-canvas/50">at</span> {row.company}
+                  <span className={cx(panelBody, "text-on-dark")}>
+                    {row.role} <span className="text-on-dark/50">at</span> {row.company}
                   </span>
-                  <span className="text-[13px] font-medium tabular-nums text-canvas/50">
+                  <span className="text-[13px] font-medium tabular-nums text-on-dark/50">
                     {row.year}
                   </span>
                 </li>
@@ -149,13 +149,13 @@ export default function AboutPage() {
             <ListColumn label="Industries" items={about.industries} />
           </div>
 
-          <div className="border-t border-canvas/10 pt-8 lg:col-span-2">
+          <div className="border-t border-on-dark/10 pt-8 lg:col-span-2">
             <h2 className={cx(panelLabel, "m-0")}>Toolkit</h2>
             <ul className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0">
               {about.toolkit.map((tool) => (
                 <li
                   key={tool}
-                  className="rounded-full border border-canvas/15 px-[11px] py-[6px] text-[12px] font-medium leading-none text-canvas/80"
+                  className="rounded-full border border-on-dark/15 px-[11px] py-[6px] text-[12px] font-medium leading-none text-on-dark/80"
                 >
                   {tool}
                 </li>

@@ -1,9 +1,10 @@
 import { Analytics } from "@vercel/analytics/next";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
 import { RevealObserver } from "@/components/RevealObserver";
 import { SoundProvider } from "@/components/sound";
+import { themeScript } from "@/components/theme";
 import { Toaster } from "@/components/toast";
 import { profile, site } from "@/content/site";
 
@@ -53,11 +54,23 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
+/** The browser chrome around the page follows the theme too. */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f5f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e0e0d" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={mori.variable}>
+    // The theme script writes data-theme before React hydrates.
+    <html lang="en" className={mori.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <SoundProvider>
           {children}

@@ -458,14 +458,23 @@ export class TetrisGame {
 /* Drawing                                                             */
 /* ------------------------------------------------------------------ */
 
-export function renderTetris(ctx: CanvasRenderingContext2D, g: TetrisGame) {
-  ctx.fillStyle = "#ffffff";
+/** The well's own colours, which follow the page's theme. */
+export type BoardColors = { well: string; dot: string };
+
+const LIGHT_BOARD: BoardColors = { well: "#ffffff", dot: "#e7e7e3" };
+
+export function renderTetris(
+  ctx: CanvasRenderingContext2D,
+  g: TetrisGame,
+  colors: BoardColors = LIGHT_BOARD,
+) {
+  ctx.fillStyle = colors.well;
   ctx.fillRect(0, 0, BOARD_W, BOARD_H);
   ctx.save();
   ctx.translate(PAD, PAD);
 
   // Soft dots at the grid crossings, a guide without a cage.
-  ctx.fillStyle = "#e7e7e3";
+  ctx.fillStyle = colors.dot;
   for (let x = 1; x < COLS; x++) {
     for (let y = 1; y < ROWS; y++) {
       ctx.beginPath();

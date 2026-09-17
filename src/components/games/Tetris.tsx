@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useSoundEnabled } from "@/components/sound";
+import { useThemeColors } from "@/components/theme";
 
 import {
   Btn,
@@ -71,6 +72,8 @@ export function Tetris({ title, blurb }: { title: string; blurb: string }) {
   const gameRef = useRef<TetrisGame | null>(null);
   const sfxRef = useRef<Sfx | null>(null);
   const soundOn = useSoundEnabled();
+  // The well is painted on a canvas, so it reads the tokens itself.
+  const boardColors = useThemeColors({ well: "--color-surface", dot: "--color-line" });
   const scores = useScores("tetris");
   // Qualifying means making the board on show: everyone's, or this browser's.
   const board = useBoard("tetris");
@@ -209,7 +212,7 @@ export function Tetris({ title, blurb }: { title: string; blurb: string }) {
     const game = gameRef.current;
     if (!game) return;
     game.update(dt);
-    if (boardCtx.current) renderTetris(boardCtx.current, game);
+    if (boardCtx.current) renderTetris(boardCtx.current, game, boardColors.current);
     if (holdCtx.current) renderHold(holdCtx.current, game.hold, game.canHold);
     [next0Ctx, next1Ctx, next2Ctx].forEach((ctx, i) => {
       if (ctx.current) renderHold(ctx.current, game.queue[i] ?? null, true);

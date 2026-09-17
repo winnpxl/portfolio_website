@@ -58,7 +58,8 @@ const buttonBase =
 const buttonTones = {
   solid: "bg-ink text-canvas hover:bg-ink-soft",
   ghost: "border border-line bg-transparent text-ink hover:bg-ink/5",
-  light: "bg-canvas text-ink hover:bg-surface",
+  // Sits on a dark tile, so its colours stay put in both themes.
+  light: "bg-on-dark text-on-light hover:opacity-90",
 } as const;
 
 /** ButtonLink's styling on its own, for a real <button> that should match it. */
@@ -292,7 +293,7 @@ export function ImageFrame({
         <span
           className={cx(
             "absolute inset-0 grid place-items-center p-6 text-center text-[13px] font-medium",
-            dark ? "text-canvas/40" : "text-faint",
+            dark ? "text-on-dark/40" : "text-faint",
           )}
         >
           {slot.placeholder}
