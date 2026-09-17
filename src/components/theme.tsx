@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef, useSyncExternalStore, type MouseEvent } from "react";
 
 import { cx } from "./ui";
 
@@ -49,14 +49,40 @@ export function ThemeToggle({ className }: { className?: string }) {
   // hydration, before anyone can click.
   const theme = useSyncExternalStore(subscribe, current, () => "light" as const);
 
-  const toggle = () => {
+  const toggle = (event: MouseEvent<HTMLButtonElement>) => {
     const next = current() === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    try {
-      window.localStorage.setItem(KEY, next);
-    } catch {
-      // Storage unavailable: the choice still holds for this page.
+    const root = document.documentElement;
+    const apply = () => {
+      root.dataset.theme = next;
+      try {
+        window.localStorage.setItem(KEY, next);
+      } catch {
+        // Storage unavailable: the choice still holds for this page.
+      }
+    };
+
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (still || !document.startViewTransition) {
+      apply();
+      return;
     }
+
+    // The new theme grows out of the button, so the change has a source.
+    // A keyboard press reports no coordinates, so fall back to the button.
+    const box = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX || box.left + box.width / 2;
+    const y = event.clientY || box.top + box.height / 2;
+    const reach = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+    root.style.setProperty("--sweep-x", `${x}px`);
+    root.style.setProperty("--sweep-y", `${y}px`);
+    root.style.setProperty("--sweep-r", `${reach}px`);
+    root.classList.add("theme-sweeping");
+
+    const transition = document.startViewTransition(apply);
+    transition.finished.finally(() => root.classList.remove("theme-sweeping"));
   };
 
   const label = theme === "dark" ? "Switch to the light theme" : "Switch to the dark theme";
@@ -70,7 +96,10 @@ export function ThemeToggle({ className }: { className?: string }) {
       title={label}
       className={cx("text-ink-soft transition-colors hover:text-ink", className)}
     >
-      <ThemeIcon dark={theme === "dark"} />
+      {/* Keyed so each change remounts the glyph and replays its turn. */}
+      <span key={theme} className="theme-glyph block">
+        <ThemeIcon dark={theme === "dark"} />
+      </span>
     </button>
   );
 }

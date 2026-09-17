@@ -155,11 +155,10 @@ export function Nav({ items, socials = [] }: { items: NavItem[]; socials?: Socia
   const close = () => setOpen(false);
 
   return (
-    // Named so page transitions leave the bar in place while the page beneath it moves.
-    <div
-      className="mx-auto max-w-[1280px] px-[clamp(20px,5vw,72px)] pt-[clamp(20px,3vw,32px)]"
-      style={{ viewTransitionName: "site-nav" }}
-    >
+    // `site-nav` names it for page transitions, which leave the bar in
+    // place while the page beneath it moves. A theme sweep drops the name
+    // so the bar is part of the picture the circle wipes over.
+    <div className="site-nav mx-auto max-w-[1280px] px-[clamp(20px,5vw,72px)] pt-[clamp(20px,3vw,32px)]">
       <nav className="flex flex-wrap items-center gap-x-7 gap-y-3">
         <div className="flex w-full items-center justify-between md:contents">
           <Item item={lead} onNavigate={close} />

@@ -328,6 +328,70 @@ body:has(.theme-space) {
   }
 }
 
+.site-nav {
+  view-transition-name: site-nav;
+}
+
+/*
+ * Switching theme: the new palette grows out of the toggle as a circle,
+ * so the change reads as one gesture rather than a jump cut. The nav
+ * gives up its name for that one transition, so the sweep passes over
+ * it too, and the sun or moon turns as it swaps.
+ */
+:root.theme-sweeping .site-nav {
+  view-transition-name: none;
+}
+
+:root.theme-sweeping::view-transition-old(root) {
+  animation: none;
+}
+:root.theme-sweeping::view-transition-new(root) {
+  animation: theme-sweep 620ms cubic-bezier(0.32, 0.72, 0.24, 1);
+  /* The incoming theme is painted over the old one, not blended with it. */
+  mix-blend-mode: normal;
+  z-index: 1;
+}
+
+@keyframes theme-sweep {
+  from {
+    clip-path: circle(0 at var(--sweep-x) var(--sweep-y));
+  }
+  to {
+    clip-path: circle(var(--sweep-r) at var(--sweep-x) var(--sweep-y));
+  }
+}
+
+/* Where the sweep cannot run, the palette still crossfades rather than
+   snapping, since every token is a colour that can be interpolated. */
+:root.theme-sweeping body,
+:root.theme-sweeping body * {
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease,
+    color 260ms ease;
+}
+
+@keyframes theme-glyph-turn {
+  from {
+    transform: rotate(-120deg) scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.theme-glyph {
+  animation: theme-glyph-turn 520ms cubic-bezier(0.32, 0.72, 0.24, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-glyph {
+    animation: none;
+  }
+}
+
 ::view-transition-group(site-nav) {
   animation: none;
   z-index: 100;
