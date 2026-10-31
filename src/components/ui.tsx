@@ -85,7 +85,13 @@ export function ButtonLink({
 
   if (external) {
     return (
-      <a href={href} className={cls} data-sound>
+      <a
+        href={href}
+        className={cls}
+        data-sound
+        target={href.startsWith("http") ? "_blank" : undefined}
+        rel={href.startsWith("http") ? "noreferrer" : undefined}
+      >
         {children}
       </a>
     );

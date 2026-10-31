@@ -72,6 +72,8 @@ export type CaseStudy = {
   name: string;
   title: string;
   intro: string[];
+  /** The public product site, shown as an outbound link below the project facts. */
+  website?: { href: string; label: string };
   /** An optional line that closes the intro, set apart from the paragraphs. */
   statement?: string;
   meta: { label: string; value: string; live?: boolean }[];

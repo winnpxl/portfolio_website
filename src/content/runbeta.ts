@@ -12,6 +12,7 @@ export const runbeta: CaseStudy = {
     "RunBeta connects people who need things done with local providers who can do them.",
     "I redesigned both sides of the marketplace in 21 days, rebuilding the experience across 100+ screens and 14+ flows — from onboarding and service discovery to active jobs, trust, payment, and provider workflows.",
   ],
+  website: { href: "https://www.runbeta.io/", label: "Visit RunBeta" },
   meta: [
     { label: "Project", value: "RunBeta" },
     { label: "Role", value: "Senior Product Designer / Founding Product Designer" },

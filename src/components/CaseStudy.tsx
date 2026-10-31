@@ -459,6 +459,14 @@ export function CaseStudyPage({ study }: { study: CaseStudy }) {
             </div>
           ))}
         </dl>
+        {study.website && (
+          <div className="mt-8">
+            <ButtonLink href={study.website.href}>
+              {study.website.label}
+              <ArrowRight />
+            </ButtonLink>
+          </div>
+        )}
       </Section>
 
       <Section className="pb-[clamp(56px,8vw,112px)] pt-[clamp(40px,6vw,72px)]">

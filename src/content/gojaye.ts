@@ -15,6 +15,7 @@ export const gojaye: CaseStudy = {
     "I joined the project from a clean slate and owned the design from the brand and visual language through the product experience, flows, and design system.",
     "The result is a 150+ screen product spanning customer, driver, and administrative experiences.",
   ],
+  website: { href: "https://www.gojaye.com/", label: "Visit GoJaye" },
   statement: "One platform. Two sides of mobility. Designed from the ground up.",
   meta: [
     { label: "Role", value: "Senior Product Designer · Sole Designer" },
