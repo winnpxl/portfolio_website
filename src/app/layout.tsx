@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
 import { RevealObserver } from "@/components/RevealObserver";
+import { RouteTransition } from "@/components/RouteTransition";
 import { SoundProvider } from "@/components/sound";
 import { themeScript } from "@/components/theme";
 import { Toaster } from "@/components/toast";
@@ -73,7 +74,7 @@ export default function RootLayout({
       </head>
       <body>
         <SoundProvider>
-          {children}
+          <RouteTransition>{children}</RouteTransition>
           <Toaster />
           <RevealObserver />
         </SoundProvider>
