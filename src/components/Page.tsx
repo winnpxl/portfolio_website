@@ -4,8 +4,8 @@ import { cx } from "./ui";
 
 /**
  * Soft grey canvas, edge to edge. Every page renders one, so it also
- * carries the page transition: it softens the page swap beneath the
- * Venetian-blind route curtain (see `RouteTransition` and globals.css).
+ * carries the page transition: on any navigation the old page fades out
+ * and the new one eases up into place (see `.page` in globals.css).
  * It lives here rather than in the layout because layouts persist
  * across navigations, so enter and exit would never fire there.
  */
