@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { Nav } from "@/components/Nav";
 import { gamesNav, socials } from "@/components/navItems";
 import { PageShell, Section } from "@/components/Page";
+import { SiteFooter } from "@/components/SiteFooter";
 import { InvadersCover, TetrisCover } from "@/components/games/Covers";
 import { BestScore } from "@/components/games/GameUI";
 import type { GameId } from "@/components/games/leaderboard";
@@ -78,6 +79,8 @@ export default function GamesPage() {
           ))}
         </div>
       </Section>
+
+      <SiteFooter />
     </PageShell>
   );
 }
