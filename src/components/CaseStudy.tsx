@@ -1,12 +1,13 @@
 import { Fragment } from "react";
 
 import type { Block, Callout, CaseStudy, Chapter, Visual } from "@/content/case-study";
-import { profile, work } from "@/content/site";
+import { work } from "@/content/site";
 
 import { Reveal, SplitText, WorkMorph } from "./motion";
 import { Nav } from "./Nav";
 import { caseStudyNav, socials } from "./navItems";
 import { PageShell, Section } from "./Page";
+import { SiteFooter } from "./SiteFooter";
 import {
   BulletList,
   ButtonLink,
@@ -506,12 +507,9 @@ export function CaseStudyPage({ study }: { study: CaseStudy }) {
             </button>
           )}
         </div>
-
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-3 text-[13px] text-muted">
-          <span>{profile.footer}</span>
-          <span>{profile.copyright}</span>
-        </div>
       </Section>
+
+      <SiteFooter />
     </PageShell>
   );
 }
